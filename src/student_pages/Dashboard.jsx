@@ -3,6 +3,7 @@ import "../index.css";
 import Navbar from '../components/General/Navbar';
 
 const SDashboard = () => {
+    
     return (
         <div className="">
             <Navbar />

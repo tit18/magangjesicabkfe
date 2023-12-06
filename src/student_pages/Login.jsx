@@ -1,38 +1,45 @@
 // Assuming your file is named 'config.js'
 import React, { useState } from 'react';
-
+import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import '../index.css';
 import icon from '../components/icon/telkomSchools.png';
 import { BASE_API_URL } from '../global.js'; // Update the import statement
 
 
-const SLogin = () => {
-    const [user, setUser] = useState({
+export default function SLogin() {
+    const navigate = useNavigate()
+    const [student, setstudent] = useState({
         nis: '',
         password: '',
-    });
+    })
 
     const handleChange = (e) => {
-        setUser({
-            ...user,
-            [e.target.name]: e.target.value,
-        });
-    };
+        setstudent(prev => ({ ...prev, [e.target.name]: e.target.value }))
+    }
+
+
 
     const handleLogin = async (e) => {
-        e.preventDefault();
-
-        const loginUrl = `${BASE_API_URL}/student/login`;
-
-        try {
-            const response = await axios.post(loginUrl, user);
-            // Handle the API response
-            console.log('API Response:', response.data);
-        } catch (error) {
-            // Handle errors
-            console.error('API Error:', error);
+        e.preventDefault()
+        let data = {
+            nis: student.nis,
+            password: student.password
         }
+
+        await axios.post(`${BASE_API_URL}/student/login`, data)
+            .then((result) => {
+                if (result.data.status === true ) {
+                    alert('Login Success')
+                    sessionStorage.setItem('student_logged', result.status)
+                    sessionStorage.setItem('student', result.data)
+                    navigate("/dashboard")
+                } else {
+                    alert('Login Failed')
+                }
+                
+            
+            })
     };
 
     return (
@@ -42,7 +49,7 @@ const SLogin = () => {
                 <div className="block mb-10 text-center text-black text-base font-medium font-poppins ">SMK TELKOM MALANG</div>
                 <form className="space-y-6" onSubmit={handleLogin}>
                     <div>
-                        <label htmlFor="NIS" className="block mb-2 text-[#B72024] font-sans">
+                        <label htmlFor="nis" className="block mb-2 text-[#B72024] font-sans">
                             NIS
                         </label>
                         <input
@@ -50,7 +57,7 @@ const SLogin = () => {
                             name="nis"
                             placeholder="Text"
                             id="nis"
-                            value={user.nis}
+                            value={student.nis}
                             onChange={handleChange}
                             className="w-full h-12 px-2 py-3 bg-white border-2 border-neutral-100 justify-start items-center gap-2 inline-flex"
                             required
@@ -65,7 +72,7 @@ const SLogin = () => {
                             name="password"
                             placeholder="Text"
                             id="password"
-                            value={user.password}
+                            value={student.password}
                             onChange={handleChange}
                             className="w-full h-12 px-2 py-3 bg-white border-2 border-neutral-100 justify-start items-center block mb-8 "
                             required
@@ -82,4 +89,4 @@ const SLogin = () => {
     );
 };
 
-export default SLogin;
+

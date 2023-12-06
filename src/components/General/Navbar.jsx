@@ -1,9 +1,19 @@
 import React from "react";
 import { Link, useLocation } from "react-router-dom";
+import { useNavigate } from 'react-router-dom';
 import "../../index.css";
 
 const Navbar = () => {
   const location = useLocation();
+  const navigate = useNavigate()
+  if (sessionStorage.getItem('student_logged') != true) {
+    navigate("/")
+  }
+
+  const Logout = () => {
+    sessionStorage.clear()
+    navigate("/")
+  }
 
   const navItems = [
     { path: "/dashboard", label: "Dashboard" },
@@ -27,6 +37,7 @@ const Navbar = () => {
           </li>
         ))}
       </ul>
+      <button onClick={Logout}>Logout</button>
       <img src="profile.png" alt="profile" width={40} />
     </nav>
   );
