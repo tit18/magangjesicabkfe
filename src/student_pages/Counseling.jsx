@@ -63,7 +63,8 @@ const SCounseling = () => {
 
 
                                 </div>
-                                <img src={teachers.photo ? `${BASE_IMAGE_URL}/${teachers.photo}` : ''}alt="" width={100} className='pr-3' />
+                                
+                                <img src={teachers.photo ? `${BASE_IMAGE_URL}/${teachers.photo}` : ''}alt="" width={100} className='pr-3 object-cover object-center w-24 h-32' />
                                 <div className='flex flex-col w-32'>
                                     <h2 className="text-xl font-medium mb-2 overflow-hidden text-[#B72024] font-poppins">
                                         <span className="truncate">{teachers.teacher_name}</span>
@@ -72,7 +73,7 @@ const SCounseling = () => {
                                     <p className="text-sm font-poppins">counseling teacher</p>
                                 </div>
                                 <button
-                                    onClick={() => navigate(`/student/${teachers}`)} // Sesuaikan rute berdasarkan logika rute aplikasi Anda
+                                    onClick={() => navigate(`/chat/${teachers}`)} // Sesuaikan rute berdasarkan logika rute aplikasi Anda
                                     className='ml-10 mt-auto px-3 py-1 h-fit rounded-md bg-[#B72024] text-white'
                                 >
                                     Start
