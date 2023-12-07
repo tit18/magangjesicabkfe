@@ -3,11 +3,14 @@ import React from 'react';
 import { useLocation } from 'react-router-dom';
 import NavbarTeacher from '../components/General/NavbarTeacher';
 import profileS from '../components/icon/profile-student.png';
+import { BASE_IMAGE_URL } from '../global.js'
+
 
 const TChatPage = () => {
     const location = useLocation();
     const { state } = location;
 
+    console.log(state.photo)
     return (
         <div className="w-full h-full bg-[#F9F9F9] overflow-hidden font-poppins">
             <NavbarTeacher />
@@ -18,13 +21,13 @@ const TChatPage = () => {
                         {state && (
                             <div className='flex gap-4'>
                                 <img
-                                    src={profileS}
+                                    src={`${BASE_IMAGE_URL}/${state.photo}`}
                                     alt="profile student"
                                     className="rounded-full h-16 w-16 object-cover object-center overflow-hidden"
                                 />
                                 <div className='flex flex-col items-start justify-around'>
-                                    <p className='text-xl text-[#B72024] font-semibold'>Name: {state.name}</p>
-                                    <p className='text-base font-normal'>NIS: {state.nis}</p>
+                                    <p className='text-xl text-[#B72024] font-semibold'>{state.name}</p>
+                                    <p className='text-base font-normal'>Counseling Teacher</p>
                                 </div>
                             </div>
                         )}
