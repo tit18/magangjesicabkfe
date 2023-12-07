@@ -73,7 +73,7 @@ const SCounseling = () => {
                                     <p className="text-sm font-poppins">counseling teacher</p>
                                 </div>
                                 <button
-                                    onClick={() => navigate(`/chat/${teachers}`)} // Sesuaikan rute berdasarkan logika rute aplikasi Anda
+                                    onClick={() => navigate(`/counseling/${teachers.id_teacher}`)} // Sesuaikan rute berdasarkan logika rute aplikasi Anda
                                     className='ml-10 mt-auto px-3 py-1 h-fit rounded-md bg-[#B72024] text-white'
                                 >
                                     Start
