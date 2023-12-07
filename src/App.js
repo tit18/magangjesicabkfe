@@ -1,5 +1,5 @@
 import React from 'react';
-import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import './App.css';
 import SLogin from './student_pages/Login';
 import SDashboard from './student_pages/Dashboard';
@@ -9,35 +9,32 @@ import SHistory from './student_pages/History';
 
 import TLogin from './teacher_pages/Login';
 import TDashboard from './teacher_pages/Dashboard';
-import TOnline from './teacher_pages/Online';
+import TCounseling from './teacher_pages/Counseling';
 import TAppointment from './teacher_pages/Appointment';
 import THistory from './teacher_pages/History';
-
 function App() {
   // Check if the user is logged in
 
   return (
-    <Router>
-      <Routes>
-        {/* Route for the login page */}
-        <Route path="/" element={<SLogin />} />
-      
+    <BrowserRouter>
+        <Routes>
+          <Route path="/" element={<SLogin />} />
+          <Route path='/dashboard' element={<SDashboard/>}/>
+          <Route path='/counseling' element={<SCounseling/>}/>
+          <Route path='/appointment' element={<SAppointment/>}/>
+          <Route path='/history' element={<SHistory/>}/>
 
-        {/* Routes for student pages */}
-        <Route path="/dashboard" element={<SDashboard />} />
-        <Route path="/counseling" element={<SCounseling />} />
-        <Route path="/appointment" element={<SAppointment />} />
-        <Route path="/history" element={<SHistory />} />
+          <Route path='/teacher' element={<TLogin/>} />
+          <Route path='/teacher/dashboard' element={<TDashboard/>}/>
+          <Route path='/teacher/counseling' element={<TCounseling/>}/>
+          <Route path='/teacher/appointment' element={<TAppointment/>}/>
+          <Route path='/teacher/history' element={<THistory/>}/>
 
-        {/* Routes for teacher pages */}
-        <Route path="/tlogin" element={<TLogin />} />
-        <Route path="/tdashboard" element={<TDashboard />} />
-        <Route path="/tonline" element={<TOnline />} />
-        <Route path="/tappointment" element={<TAppointment />} />
-        <Route path="/thistory" element={<THistory />} />
-      </Routes>
-    </Router>
+          {/* <Route path='*' element={<NotFound />} /> */}
+        </Routes>
+      </BrowserRouter>
   );
 }
+
 
 export default App;

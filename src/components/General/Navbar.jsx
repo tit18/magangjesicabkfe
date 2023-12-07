@@ -23,7 +23,7 @@ const Navbar = () => {
   ];
 
   return (
-    <nav className="w-full flex px-5 py-3 justify-between items-center shadow-lg bg-white">
+    <nav className="w-full flex px-5 py-3 justify-between items-center shadow-lg bg-white sticky top-0 z-10">
       <h1 className="text-[#B72024] font-bold text-xl font-poppins">CURHApps</h1>
       <ul className="flex items-center justify-center gap-5">
         {navItems.map((item, index) => (

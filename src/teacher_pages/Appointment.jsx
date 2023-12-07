@@ -1,43 +1,74 @@
-import React, { Component } from 'react';
-import Navbar from '../components/General/Navbar';
-import AppointmentsTable from '../components/Appointment/AppointmentTable';
+import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
+import NavbarTeacher from '../components/General/NavbarTeacher';
+import AppointmentsTable from '../components/component-teacher/Appointment/AppointmentTable';
+import axios from 'axios';
+import { BASE_API_URL } from '../global';
+import moment from 'moment';
 
-class TAppointment extends Component {
-    constructor(props) {
-        super(props);
+const TAppointment = () => {
+    const [appointments, setAppointments] = useState([]);
+    const navigate = useNavigate()
+    // Fetch data from the API
+    const fetchData = async () => {
+        try {
+            const response = await axios.get(`${BASE_API_URL}/teacher/appointment`);
 
-        this.state = {
-            currentPage: 0,
-            itemsPerPage: 5,
-            totalItems: 20,
-            appointments: [
-                {
-                    id: 1,
-                    date: '06 December 2023',
-                    student: 'Marsya Timotiandoandoa jaoidjoa djoa poah pioa',
-                    status: 'Waiting',
-                },
+            setAppointments(response.data.data);
+        } catch (error) {
+            console.error('Error fetching appointments:', error);
+        }
+    };
 
-                // Add more data as needed
-            ],
-        };
-    }
+    useEffect(() => {
+        fetchData();
+    }, []);
 
-    handleResultButtonClick = () => {
+    const formatDateOK = (date) => {
+        const momentDate = moment(date);
+        const formattedDate = momentDate.format('DD/MM/YYYY');
+        const formattedTime = momentDate.format('HH:mm:ss');
+        return { formattedDate, formattedTime };
+    };
+
+    const handleApprove = async (idConseling) => {
+        // alert("clicked")
+        try {
+            const response = await axios.put(`${BASE_API_URL}/teacher/approve/${idConseling}`);
+            console.log(response.data.status)
+            if (response.data.status === true) {
+                alert('Approved successfully!')
+                navigate(0)
+            }
+        } catch (error) {
+            console.error('Error approving appointment:', error);
+            // TODO: Handle error if needed
+        }
+    };
+
+    const handleReject = async (idConseling) => {
+        // alert("clicked")
+        try {
+            const response = await axios.put(`${BASE_API_URL}/teacher/reject/${idConseling}`);
+            console.log(response.data.status)
+            if (response.data.status === true) {
+                alert('Rejected successfully!')
+                navigate(0)
+            }
+        } catch (error) {
+            console.error('Error rejecting appointment:', error);
+            // TODO: Handle error if needed
+        }
+    };
+
+    const handleResultButtonClick = () => {
         // Handle the result button click here
     };
 
-    handlePageChange = (selected) => {
-        this.setState({ currentPage: selected.selected });
-        // Fetch data for the new page from the backend
-        // Example: fetchAppointments(selected.selected + 1).then((data) => this.setState({ appointments: data }));
-    };
-
-    renderTableHeader() {
+    const renderTableHeader = () => {
         const columns = [
             { id: 'date', name: 'Date', width: '120px' },
             { id: 'student', name: 'Student', width: '150px' },
-            { id: 'status', name: 'Status', width: '120px' },
             { id: 'action', name: 'Action', width: '80px' },
         ];
 
@@ -56,55 +87,62 @@ class TAppointment extends Component {
                 </tr>
             </thead>
         );
-    }
+    };
 
-    renderTableRow(data) {
+    const renderTableRow = (data) => {
         return (
-            <tr key={data.id}>
-                <td className="pl-4 font-poppins">{data.date}</td>
-                <td className="pl-4 font-poppins">{data.student}</td>
-                <td className="pl-4 font-poppins">{data.status}</td>
+            <tr key={data.id_conseling}>
+                <td className="pl-4 font-poppins">{formatDateOK(data.offline.meeting_date).formattedDate}</td>
+                <td className="pl-4 font-poppins">{data.student.student_name}</td>
                 <td className="px-4 flex items-center justify-center align-middle space-x-2">
-                    <button className="sm:px-1 md:px-3 lg:px-5 py-1 sm:text-xs md:text-sm lg:text-base bg-[#339900] text-white rounded font-poppins">Approve</button>
-                    <button className="sm:px-1 md:px-3 lg:px-5 py-1 sm:text-xs md:text-sm lg:text-base bg-[#B72024] text-white rounded font-poppins">Reject</button>
+                    <button onClick={() => handleApprove(data.id_conseling)} className="sm:px-1 md:px-3 lg:px-5 py-1 sm:text-xs md:text-sm lg:text-base bg-[#339900] text-white rounded font-poppins">Approve</button>
+                    <button onClick={() => handleReject(data.id_conseling)} className="sm:px-1 md:px-3 lg:px-5 py-1 sm:text-xs md:text-sm lg:text-base bg-[#B72024] text-white rounded font-poppins">Reject</button>
                 </td>
             </tr>
         );
-    }
+    };
 
-    renderTable() {
+    const renderTable = () => {
         return (
             <table className="max-w-fit table-auto text-base sticky top-0 z-10 font-poppins">
-                {this.renderTableHeader()}
-                <tbody>{this.state.appointments.map((item) => this.renderTableRow(item))}</tbody>
+                {renderTableHeader()}
+                <tbody>
+                    {appointments && appointments.length > 0 ? (
+                        appointments.map((item) => renderTableRow(item))
+                    ) : (
+                        <tr>
+                            <td colSpan="4" className="pl-4 font-poppins text-center">
+                                No appointments available.
+                            </td>
+                        </tr>
+                    )}
+                </tbody>
             </table>
         );
-    }
+    };
 
-    render() {
-        return (
-            <div className="w-full h-screen bg-[#F9F9F9] overflow-hidden font-poppins">
-                <Navbar />
-                <div className="overflow-x-auto overflow-y-auto flex flex-col items-center justify-center pt-6 sm:px-14 md:px-32 lg:px-60 gap-4 font-poppins">
-                    <div className="w-full h-fit bg-white drop-shadow-lg py-12 gap-4 flex flex-col items-center justify-center">
-                        <h1 className="text-xl font-bold">Appointment Request</h1>
-                        <h1 className="text-base text-center">
-                            The following data is a list of students who have requested appointments for offline counseling.
-                        </h1>
-                        {this.renderTable()}
+    return (
+        <div className="w-full h-full bg-[#F9F9F9] overflow-hidden font-poppins">
+            <NavbarTeacher />
+            <div className="overflow-x-auto overflow-y flex flex-col items-center justify-center pt-28 sm:px-14 md:px-32 lg:px-60 gap-4 font-poppins">
+                <div className="w-full h-fit bg-white drop-shadow-lg py-12 gap-4 flex flex-col items-center justify-center">
+                    <h1 className="text-xl font-bold">Appointment Request</h1>
+                    <h1 className="text-base text-center">
+                        The following data is a list of students who have requested appointments for offline counseling.
+                    </h1>
+                    <div className="table-container max-h-[400px] overflow-y-auto">
+                        {renderTable()}
                     </div>
-                    <AppointmentsTable
-                        appointments={this.state.appointments}
-                        handleResultButtonClick={this.handleResultButtonClick}
-                        handlePageChange={this.handlePageChange}
-                        totalItems={this.state.totalItems}
-                        itemsPerPage={this.state.itemsPerPage}
-                    />
-                    <div></div>
                 </div>
+                <AppointmentsTable
+                    appointments={appointments}
+                    handleResultButtonClick={handleResultButtonClick}
+                />
+                
+                <div></div>
             </div>
-        );
-    }
-}
+        </div>
+    );
+};
 
 export default TAppointment;

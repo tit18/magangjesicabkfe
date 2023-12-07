@@ -1,22 +1,38 @@
 // AppointmentsTable.js
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import ReactPaginate from 'react-paginate';
 import Modal from 'react-modal';
+import axios from 'axios';
+import { BASE_API_URL } from '../../../global';
+import moment from 'moment/moment';
 
 const AppointmentsTable = () => {
     const [currentPage, setCurrentPage] = useState(0);
     const [itemsPerPage] = useState(5);
     const [totalItems, setTotalItems] = useState(20);
-    const [appointments, setAppointments] = useState([
-        {
-            id: 1,
-            date: '06 December 2023',
-            time: '09.00',
-            student: 'Bagus Imansyah',
-        },
-        // Add more data as needed
-    ]);
+    const [appointments, setAppointments] = useState([]);
     const [isModalOpen, setIsModalOpen] = useState(false);
+
+    const fetchDataTable = async () => {
+        try {
+            const response = await axios.get(`${BASE_API_URL}/offline/appointment`);
+
+            setAppointments(response.data.data);
+        } catch (error) {
+            console.error('Error fetching appointments:', error);
+        }
+    };
+
+    useEffect(() => {
+        fetchDataTable();
+    }, []);
+
+    const formatDate = (date) => {
+        const momentDate = moment(date);
+        const formattedDate = momentDate.format('DD/MM/YYYY');
+        const formattedTime = momentDate.format('HH:mm:ss');
+        return { formattedDate, formattedTime };
+    };
 
     const handleResultButtonClick = () => {
         // Handle the result button click here
@@ -61,10 +77,10 @@ const AppointmentsTable = () => {
 
     const renderTableRow = (data) => {
         return (
-            <tr key={data.id}>
-                <td className="pl-4 font-poppins">{data.date}</td>
-                <td className="pl-4 font-poppins">{data.time}</td>
-                <td className="pl-4 font-poppins">{data.student}</td>
+            <tr key={data.id_conseling}>
+                <td className="pl-4 font-poppins">{formatDate(data.offline.meeting_date).formattedDate}</td>
+                <td className="pl-4 font-poppins">{formatDate(data.offline.meeting_date).formattedTime}</td>
+                <td className="pl-4 font-poppins">{data.student.student_name}</td>
                 <td className="px-4 flex items-center space-x-2">
                     <button className="sm:px-1 md:px-3 lg:px-5 py-1 sm:text-xs md:text-sm lg:text-base bg-[#6495ED] text-white rounded font-poppins" onClick={handleResultButtonClick}>
                         Result
@@ -121,10 +137,31 @@ const AppointmentsTable = () => {
                     nextLabel={<i className="fas fa-chevron-right">p</i>}
                 />
             </div>
-            <Modal isOpen={isModalOpen} onRequestClose={closeModal} contentLabel="Result Modal">
-                <h2>Result Modal</h2>
-                <button onClick={closeModal}>Close Modal</button>
+            <Modal
+                isOpen={isModalOpen}
+                onRequestClose={closeModal}
+                contentLabel="Result Modal"
+                style={{
+                    overlay: {
+                        backgroundColor: 'rgba(0, 0, 0, 0.5)',
+                    },
+                    content: {
+                        width: '35%', 
+                        height: '50%',
+                        margin: 'auto',
+                        borderRadius: '20px',
+                    },
+                }}
+            >
+                    <div className='flex flex-col p-6'>
+                        <h1 className='text-2xl font-poppins font-bold'>Conceling Result</h1>
+                        <form action="">
+                            <label htmlFor="Student">Student</label>
+                            <input type="text" />
+                        </form>
+                    </div>
             </Modal>
+
         </div>
     );
 };

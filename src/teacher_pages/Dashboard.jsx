@@ -1,12 +1,12 @@
 // Dashboard.jsx
 import React from 'react';
-import Navbar from '../components/General/Navbar';
+import NavbarTeacher from '../components/General/NavbarTeacher';
 import '../index.css';
 
 const TDashboard = () => {
     return (
         <div className="w-full overflow-hidden">
-            <Navbar /> {/* Include the Navbar component */}
+            <NavbarTeacher /> {/* Include the Navbar component */}
             <div className="flex flex-col items-center justify-center pt-6 sm:px-10 md:px-32 lg:px-52 gap-4">
                 <div className="w-full h-fit bg-white shadow-lg py-12 gap-4 flex flex-col items-center justify-center">
                     <h1 className="text-3xl font-bold font-poppins">Dashboard</h1>
