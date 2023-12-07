@@ -4,10 +4,11 @@ import { useNavigate } from 'react-router-dom';
 import "../../index.css";
 
 const Navbar = () => {
-  const location = useLocation();
+  const location = useLocation()
   const navigate = useNavigate()
-  if (sessionStorage.getItem('student_logged') != true) {
-    navigate("/")
+
+  if (sessionStorage.getItem('student_logged') !== true) {
+    // navigate("/")
   }
 
   const Logout = () => {

@@ -18,8 +18,6 @@ export default function SLogin() {
         setstudent(prev => ({ ...prev, [e.target.name]: e.target.value }))
     }
 
-
-
     const handleLogin = async (e) => {
         e.preventDefault()
         let data = {
@@ -30,9 +28,14 @@ export default function SLogin() {
         await axios.post(`${BASE_API_URL}/student/login`, data)
             .then((result) => {
                 if (result.data.status === true ) {
+                    const idStudent = result.data.data.id_student;
+                    const toke = result.data.data.token;
                     alert('Login Success')
-                    sessionStorage.setItem('student_logged', result.status)
-                    sessionStorage.setItem('student', result.data)
+                    console.log(result.data.data)
+                    sessionStorage.setItem('student_logged', result.data.status)
+                    sessionStorage.setItem('student', JSON.stringify(result.data))
+                    sessionStorage.setItem('id_student', idStudent);
+                    sessionStorage.setItem('tokeen',toke)
                     navigate("/dashboard")
                 } else {
                     alert('Login Failed')
