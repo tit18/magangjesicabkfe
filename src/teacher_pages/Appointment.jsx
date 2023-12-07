@@ -12,7 +12,13 @@ const TAppointment = () => {
     // Fetch data from the API
     const fetchData = async () => {
         try {
-            const response = await axios.get(`${BASE_API_URL}/teacher/appointment`);
+            const token = sessionStorage.getItem('tokeen');
+
+            const response = await axios.get(`${BASE_API_URL}/teacher/appointment`, {
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                },
+            });
 
             setAppointments(response.data.data);
         } catch (error) {
@@ -32,13 +38,24 @@ const TAppointment = () => {
     };
 
     const handleApprove = async (idConseling) => {
-        // alert("clicked")
         try {
-            const response = await axios.put(`${BASE_API_URL}/teacher/approve/${idConseling}`);
-            console.log(response.data.status)
+            const token = sessionStorage.getItem('tokeen');
+
+            const response = await axios.put(
+                `${BASE_API_URL}/teacher/approve/${idConseling}`,
+                null, // Data is set to null since it's a PUT request
+                {
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                    },
+                }
+            );
+
+            console.log(response.data.status);
+
             if (response.data.status === true) {
-                alert('Approved successfully!')
-                navigate(0)
+                alert('Approved successfully!');
+                navigate(0);
             }
         } catch (error) {
             console.error('Error approving appointment:', error);
@@ -47,20 +64,31 @@ const TAppointment = () => {
     };
 
     const handleReject = async (idConseling) => {
-        // alert("clicked")
         try {
-            const response = await axios.put(`${BASE_API_URL}/teacher/reject/${idConseling}`);
-            console.log(response.data.status)
+            const token = sessionStorage.getItem('tokeen');
+
+            const response = await axios.put(
+                `${BASE_API_URL}/teacher/reject/${idConseling}`,
+                null, // Data is set to null since it's a PUT request
+                {
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                    },
+                }
+            );
+
+            console.log(response.data.status);
+
             if (response.data.status === true) {
-                alert('Rejected successfully!')
-                navigate(0)
+                alert('Rejected successfully!');
+                navigate(0);
             }
         } catch (error) {
             console.error('Error rejecting appointment:', error);
             // TODO: Handle error if needed
         }
     };
-
+    
     const handleResultButtonClick = () => {
         // Handle the result button click here
     };
@@ -138,7 +166,7 @@ const TAppointment = () => {
                     appointments={appointments}
                     handleResultButtonClick={handleResultButtonClick}
                 />
-                
+
                 <div></div>
             </div>
         </div>
