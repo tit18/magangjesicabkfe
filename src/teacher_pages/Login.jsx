@@ -28,14 +28,14 @@ export default function SLogin() {
         await axios.post(`${BASE_API_URL}/teacher/login`, data)
             .then((result) => {
                 if (result.data.status === true ) {
-                    const idTeacher = result.data.data.id_student;
-                    const teacherName = result.data.data.student_name
+                    const idTeacher = result.data.data.id_teacher;
+                    const teacherName = result.data.data.teacher_name
                     const token = result.data.data.token;
 
                     alert('Login Success')
                     console.log(result.data.data)
                     sessionStorage.setItem('teacher_logged', result.data.status)
-                    sessionStorage.setItem('student', JSON.stringify(result.data))
+                    sessionStorage.setItem('teacher', JSON.stringify(result.data))
                     sessionStorage.setItem('id_teacher', idTeacher);
                     sessionStorage.setItem('tokeen',token)
                     sessionStorage.setItem('name',teacherName)

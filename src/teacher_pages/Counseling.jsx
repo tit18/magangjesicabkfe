@@ -57,7 +57,7 @@ const TCounseling = () => {
                 </div>
                 <button
                     onClick={() => navigate(`/teacher/counseling/${data.id_student}`, {
-                        state: { name: data.student_name, nis: data.nis },
+                        state: {id: data.id_student, name: data.student_name, nis: data.nis },
                     })}
                     className='ml-10 mt-auto px-3 py-1 h-fit rounded-md bg-[#B72024] text-white'
                 >

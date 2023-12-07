@@ -49,7 +49,7 @@ export default function SLogin() {
     };
 
     return (
-        <div className="flex items-center justify-center h-screen bg-gray-50  sm:px-5 md:px-10 lg:px-15">
+        <div className="flex items-center justify-center h-screen bg-[#F9F9F9] sm:px-5 md:px-10 lg:px-15">
             <div className="w-full max-w-lg p-6  h-fit bg-white rounded-2xl shadow-md pb-20">
                 <img src={icon} alt="Telkom Schools Logo" className="mx-auto w-[50px] h-[50px]" />
                 <div className="block mb-10 text-center text-black text-base font-medium font-poppins ">SMK TELKOM MALANG</div>

@@ -119,7 +119,7 @@ const TAppointment = () => {
 
     const renderTableRow = (data) => {
         return (
-            <tr key={data.id_conseling}>
+            <tr key={data.id_conseling} className='space-y-1'>
                 <td className="pl-4 font-poppins">{formatDateOK(data.offline.meeting_date).formattedDate}</td>
                 <td className="pl-4 font-poppins">{data.student.student_name}</td>
                 <td className="px-4 flex items-center justify-center align-middle space-x-2">
@@ -132,7 +132,7 @@ const TAppointment = () => {
 
     const renderTable = () => {
         return (
-            <table className="max-w-fit table-auto text-base sticky top-0 z-10 font-poppins">
+            <table className="max-w-[800px] table-auto text-base sticky top-0 z-10 font-poppins">
                 {renderTableHeader()}
                 <tbody>
                     {appointments && appointments.length > 0 ? (
@@ -158,7 +158,7 @@ const TAppointment = () => {
                     <h1 className="text-base text-center">
                         The following data is a list of students who have requested appointments for offline counseling.
                     </h1>
-                    <div className="table-container max-h-[400px] overflow-y-auto">
+                    <div className="max-h-[200px] overflow-y-auto">
                         {renderTable()}
                     </div>
                 </div>

@@ -1,10 +1,11 @@
 import React, { useState } from "react";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, Navigate, useNavigate } from "react-router-dom";
 import "../../index.css";
 import icon from '../icon/profile.png';
 
 const Navbar = () => {
     const location = useLocation();
+    const navigate = useNavigate()
     const [isNavOpen, setIsNavOpen] = useState(false);
     const [isProfileDropdownOpen, setIsProfileDropdownOpen] = useState(false);
 
@@ -14,6 +15,15 @@ const Navbar = () => {
         { path: "/teacher/counseling", label: "Counseling" },
         { path: "/teacher/history", label: "History" },
     ];
+
+    if (sessionStorage.getItem('teacher_logged') !== "true") {
+        return <Navigate to="/teacher" state={{ from: location }} replace />
+    }
+
+    const Logout = () => {
+        sessionStorage.clear()
+        navigate("/teacher")
+    }
 
     const toggleNav = () => {
         setIsNavOpen(!isNavOpen);
@@ -68,7 +78,7 @@ const Navbar = () => {
                 <img src={icon} alt="profile" width={40} className="cursor-pointer" onClick={toggleProfileDropdown} />
                 {isProfileDropdownOpen && (
                     <div className="absolute top-10 right-0 z-10 bg-white border border-gray-300 rounded-md shadow-md">
-                        <button className="block w-full text-left p-2 hover:bg-gray-100">
+                        <button className="block w-full text-left p-2 hover:bg-gray-100" onClick={Logout}>
                             Logout
                         </button>
                         {/* Tambahkan link atau fungsi lainnya sesuai kebutuhan */}
