@@ -5,6 +5,7 @@ import Navbar from "../components/General/Navbar";
 import profileS from '../components/icon/profile-student.png';
 import axios from "axios";
 import { BASE_API_URL } from '../global.js';
+import {BASE_IMAGE_URL} from '../global.js'
 
 const SCounseling = () => {
     const [teachers, setTeachers] = useState([]);
@@ -43,6 +44,7 @@ const SCounseling = () => {
     console.log('data teacher', teachers)
     console.log('id', teachers.id_teacher)
     console.log('porfile', tcounseling)
+    console.log('photo',teachers.photo)
 
     return (
         <div className="w-full h-full bg-[#F9F9F9] overflow-hidden font-poppins">
@@ -61,7 +63,7 @@ const SCounseling = () => {
 
 
                                 </div>
-                                <img src={profileS} alt="" width={100} className='pr-3' />
+                                <img src={teachers.photo ? `${BASE_IMAGE_URL}/${teachers.photo}` : ''}alt="" width={100} className='pr-3' />
                                 <div className='flex flex-col w-32'>
                                     <h2 className="text-xl font-medium mb-2 overflow-hidden text-[#B72024] font-poppins">
                                         <span className="truncate">{teachers.teacher_name}</span>
