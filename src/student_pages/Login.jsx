@@ -29,13 +29,16 @@ export default function SLogin() {
             .then((result) => {
                 if (result.data.status === true ) {
                     const idStudent = result.data.data.id_student;
+                    const studentname = result.data.data.student_name
                     const toke = result.data.data.token;
+
                     alert('Login Success')
                     console.log(result.data.data)
                     sessionStorage.setItem('student_logged', result.data.status)
                     sessionStorage.setItem('student', JSON.stringify(result.data))
                     sessionStorage.setItem('id_student', idStudent);
                     sessionStorage.setItem('tokeen',toke)
+                    sessionStorage.setItem('name',studentname)
                     navigate("/dashboard")
                 } else {
                     alert('Login Failed')

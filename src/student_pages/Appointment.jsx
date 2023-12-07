@@ -35,11 +35,12 @@ const SAppointment = () => {
     // State to manage form data
     const data = JSON.parse(sessionStorage.getItem('student'));
     const idStudent = sessionStorage.getItem('id_student');
+    const studentname = sessionStorage.getItem('name')
     //const tokeen = sessionStorage.getItem('tokeen')
 
     const [formData, setFormData] = useState({
         id_student: Number(idStudent),
-        student_name: data.student_name || '',
+        student_name: studentname,
         id_teacher: teachers.id_teacher,
         meeting_date: '',
     });
@@ -49,7 +50,8 @@ const SAppointment = () => {
 
     console.log('data.id_student:', idStudent);
     console.log('data', data.token)
-    console.log('teacher',teachers)
+    console.log('teacher', teachers)
+    console.log('nama', studentname)
 
 
     // Handle input changes
@@ -72,6 +74,8 @@ const SAppointment = () => {
         try {
             // Replace 'YOUR_API_ENDPOINT' with your actual API endpoint
             const response = await axios.post(`${BASE_API_URL}/conseling`, data);
+            // Show success alert
+            alert('Data submitted successfully!');
 
             // Handle the response from the server if needed
             console.log('Server response:', response.data);
@@ -109,6 +113,21 @@ const SAppointment = () => {
                                     readOnly
                                 />
                             </div>
+                            
+                            <div>
+                                <label htmlFor="name" className="text-[#B72024] font-sans">
+                                    Student Name
+                                </label>
+                                <input
+                                    value={studentname}
+                                    type="text"
+                                    name="name"
+                                    id="name"
+                                    className="w-full h-10 px-2 py-3 bg-white border-2 border-neutral-100 justify-start items-center gap-2 inline-flex"
+                                    readOnly
+                                />
+                            </div>
+
                             <div>
                                 <label htmlFor="id_teacher" className="text-[#B72024] font-sans">
                                     Teacher
@@ -123,11 +142,11 @@ const SAppointment = () => {
                                     onChange={handleChange}
                                     required
                                 >
-                                {teachers.map((teacher) => (
-                                    <option key={teacher.id_teacher} value={teacher.id_teacher}>
-                                        {teacher.teacher_name}
-                                    </option>
-                                ))}
+                                    {teachers.map((teacher) => (
+                                        <option key={teacher.id_teacher} value={teacher.id_teacher}>
+                                            {teacher.teacher_name}
+                                        </option>
+                                    ))}
                                 </select>
                             </div>
 
