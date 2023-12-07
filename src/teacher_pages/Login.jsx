@@ -3,13 +3,14 @@ import React, { useState } from 'react';
 
 import axios from 'axios';
 import '../index.css';
+import icon from '../components/icon/telkomSchools.png';
 
 import { BASE_API_URL } from '../global.js'; // Update the import statement
 
 
 const TLogin = () => {
     const [user, setUser] = useState({
-        nis: '',
+        nik: '',
         password: '',
     });
 
@@ -20,37 +21,49 @@ const TLogin = () => {
         });
     };
 
+    
+
     const handleLogin = async (e) => {
         e.preventDefault();
-
-        const loginUrl = `${BASE_API_URL}/student/login`;
-
+    
+        const loginUrl = `${BASE_API_URL}/teacher/login`;
+    
         try {
             const response = await axios.post(loginUrl, user);
             // Handle the API response
             console.log('API Response:', response.data);
+    
+            // Show success alert
+            alert('Login berhasil!');
+    
+            // Redirect to the teacher dashboard page
+            window.location.href = '/teacher/dashboard';
         } catch (error) {
             // Handle errors
             console.error('API Error:', error);
+    
+            // Show error alert
+            alert('Login gagal!');
         }
     };
 
+
     return (
-        <div className="flex items-center justify-center h-screen bg-gray-50  sm:px-5 md:px-10 lg:px-15">
-            <div className="w-full max-w-lg p-6  h-fit bg-white rounded-2xl shadow-md pb-20">
-                {/* <img src={icon} alt="Telkom Schools Logo" className="mx-auto w-[50px] h-[50px]" /> */}
+        <div className="flex items-center justify-center h-screen bg-[#F9F9F9]  sm:px-5 md:px-10 lg:px-15">
+            <div className="w-full max-w-lg p-6  h-fit bg-white rounded-2xl drop-shadow-md pb-20">
+                <img src={icon} alt="Telkom Schools Logo" className="mx-auto w-[50px] h-[50px]" />
                 <div className="block mb-10 text-center text-black text-base font-medium font-poppins ">SMK TELKOM MALANG</div>
                 <form className="space-y-6" onSubmit={handleLogin}>
                     <div>
-                        <label htmlFor="NIS" className="block mb-2 text-[#B72024] font-sans">
-                            NIS
+                        <label htmlFor="nik" className="block mb-2 text-[#B72024] font-sans">
+                            NIK
                         </label>
                         <input
                             type="number" // Corrected type
-                            name="nis"
+                            name="nik"
                             placeholder="Text"
-                            id="nis"
-                            value={user.nis}
+                            id="nik"
+                            value={user.nik}
                             onChange={handleChange}
                             className="w-full h-12 px-2 py-3 bg-white border-2 border-neutral-100 justify-start items-center gap-2 inline-flex"
                             required
@@ -63,7 +76,7 @@ const TLogin = () => {
                         <input
                             type="password"
                             name="password"
-                            placeholder="Text"
+                            placeholder="Password"
                             id="password"
                             value={user.password}
                             onChange={handleChange}
