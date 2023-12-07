@@ -12,6 +12,9 @@ import TDashboard from './teacher_pages/Dashboard';
 import TCounseling from './teacher_pages/Counseling';
 import TAppointment from './teacher_pages/Appointment';
 import THistory from './teacher_pages/History';
+import TChatPage from './teacher_pages/ChatPage';
+
+
 function App() {
   // Check if the user is logged in
 
@@ -29,6 +32,7 @@ function App() {
           <Route path='/teacher/counseling' element={<TCounseling/>}/>
           <Route path='/teacher/appointment' element={<TAppointment/>}/>
           <Route path='/teacher/history' element={<THistory/>}/>
+          <Route path='/teacher/counseling/:id_student' element={<TChatPage />} />
 
           {/* <Route path='*' element={<NotFound />} /> */}
         </Routes>

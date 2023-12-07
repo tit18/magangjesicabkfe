@@ -23,6 +23,8 @@ const Navbar = () => {
         setIsProfileDropdownOpen(!isProfileDropdownOpen);
     };
 
+    const isCounselingPage = location.pathname.includes("/teacher/counseling");
+
     return (
         <nav className="w-full top-0 flex px-5 py-3 justify-between items-center shadow-lg bg-white fixed z-10">
             <h1 className="text-[#B72024] font-bold text-xl font-poppins">CURHApps</h1>
@@ -52,7 +54,7 @@ const Navbar = () => {
                 {navItems.map((item, index) => (
                     <li
                         key={index}
-                        className={`text-center font-poppins ${location.pathname === item.path ? "font-bold" : ""}`}
+                        className={`text-center font-poppins ${location.pathname === item.path || (isCounselingPage && item.path === "/teacher/counseling") ? "font-bold" : ""}`}
                     >
                         <Link to={item.path} onClick={toggleNav}>
                             {item.label}
