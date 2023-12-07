@@ -5,7 +5,7 @@ import Navbar from "../components/General/Navbar";
 import profileS from '../components/icon/profile-student.png';
 import axios from "axios";
 import { BASE_API_URL } from '../global.js';
-import {BASE_IMAGE_URL} from '../global.js'
+import { BASE_IMAGE_URL } from '../global.js'
 
 const SCounseling = () => {
     const [teachers, setTeachers] = useState([]);
@@ -44,7 +44,7 @@ const SCounseling = () => {
     console.log('data teacher', teachers)
     console.log('id', teachers.id_teacher)
     console.log('porfile', tcounseling)
-    console.log('photo',teachers.photo)
+    console.log('photo', teachers.photo)
 
     return (
         <div className="w-full h-full bg-[#F9F9F9] overflow-hidden font-poppins">
@@ -63,8 +63,8 @@ const SCounseling = () => {
 
 
                                 </div>
-                                
-                                <img src={teachers.photo ? `${BASE_IMAGE_URL}/${teachers.photo}` : ''}alt="" width={100} className='pr-3 object-cover object-center w-24 h-32' />
+
+                                <img src={teachers.photo ? `${BASE_IMAGE_URL}/${teachers.photo}` : ''} alt="" width={100} className='pr-3 object-cover object-center w-24 h-32' />
                                 <div className='flex flex-col w-32'>
                                     <h2 className="text-xl font-medium mb-2 overflow-hidden text-[#B72024] font-poppins">
                                         <span className="truncate">{teachers.teacher_name}</span>
@@ -73,9 +73,10 @@ const SCounseling = () => {
                                     <p className="text-sm font-poppins">counseling teacher</p>
                                 </div>
                                 <button
-                                    onClick={() => navigate(`/chat/${teachers}`)} // Sesuaikan rute berdasarkan logika rute aplikasi Anda
-                                    className='ml-10 mt-auto px-3 py-1 h-fit rounded-md bg-[#B72024] text-white'
-                                >
+                                    onClick={() => navigate(`/counseling/${teachers.id_teacher}`, {
+                                        state: { name: teachers.teacher_name, nik: teachers.nik, photo:teachers.photo},
+                                    })} // Sesuaikan rute berdasarkan logika rute aplikasi Anda
+                                    className='ml-10 mt-auto px-3 py-1 h-fit rounded-md bg-[#B72024] text-white'>
                                     Start
                                 </button>
                             </div>
@@ -83,7 +84,7 @@ const SCounseling = () => {
                     </div>
                 </div>
             </div>
-        </div>
+        </div >
 
     )
 }
