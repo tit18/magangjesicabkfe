@@ -50,7 +50,7 @@ const SAppointment = () => {
 
     console.log('data.id_student:', idStudent);
     console.log('data', data.token)
-    console.log('teacher', teachers)
+    console.log('data teacher', teachers)
     console.log('nama', studentname)
 
 
@@ -93,12 +93,9 @@ const SAppointment = () => {
             <div className='flex items-center justify-center h-screen sm:px-5 md:px-10 lg:px-15s'>
                 <div className="w-full max-w-2xl p-4 mx-auto sm:w-full md:w-2/3 lg:w-1/2 xl:w-1/3">
                     <div className="p-2 rounded-md">
-                        <h1 className="text-xl font-bold font-poppins mb-2 text-center">
-                            CURHApps Online Counseling
-                        </h1>
-                        <p className="text-sm font-normal font-poppins mb-2 text-center">
-                            Make an appointment with the guidance and counseling teacher to be able to conduct counseling sessions offline.
-                        </p>
+                    <h1 className="text-3xl font-bold font-poppins mb-3">CURHApps Online Counseling</h1>
+                    <p className="text-base font-poppins text-center mb-5">
+                        Here is a list of teachers available for online counseling; please choose one.</p>
                         <form className="space-y-4" onSubmit={handleSubmit}>
                             <div>
                                 <label htmlFor="id_student" className="text-[#B72024] font-sans">
