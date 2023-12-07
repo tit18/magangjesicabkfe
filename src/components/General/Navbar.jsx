@@ -7,7 +7,7 @@ const Navbar = () => {
   const location = useLocation()
   const navigate = useNavigate()
 
-  if (sessionStorage.getItem('student_logged') != "true") {
+  if (sessionStorage.getItem('student_logged') !== "true") {
     return <Navigate to="/" state={{ from: location}} replace />
   }
 
