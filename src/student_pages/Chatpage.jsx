@@ -133,7 +133,7 @@ const TChatPage = () => {
                                                 {formatDate(teachers.createdAt).formattedDateTime}
                                             </span>
                                         </div>
-                                        <div className="flex flex-col leading-1.5 p-4 border-gray-200 bg-gray-100 rounded-e-xl rounded-es-xl ">
+                                        <div className="flex flex-col leading-1.5 p-4 border-gray-200 bg-gray-100 rounded-e-xl rounded-l-xl ">
                                             <p className="font-poppins text-gray-200 dark:text-black">
                                                 {teachers.counseling}
                                             </p>
