@@ -1,13 +1,11 @@
 // AppointmentsTable.js
 import React, { useState, useEffect } from 'react';
-import ReactPaginate from 'react-paginate';
 import Modal from 'react-modal';
 import axios from 'axios';
 import { BASE_API_URL } from '../../../global';
 import moment from 'moment/moment';
 
 const AppointmentsTable = () => {
-    const [itemsPerPage] = useState(5);
     const [appointments, setAppointments] = useState([]);
     const [isModalOpen, setIsModalOpen] = useState(false);
 
@@ -63,7 +61,7 @@ const AppointmentsTable = () => {
                         <th
                             key={column.id}
                             scope="col"
-                            className={`min-w-[${column.width}] font-poppins text-left pl-4`}
+                            className={`min-w-[${column.width}] font-poppins text-left pl-4 lg:pr-20 sm:pr-0`}
                         >
                             {column.name}
                         </th>
@@ -115,20 +113,48 @@ const AppointmentsTable = () => {
                         backgroundColor: 'rgba(0, 0, 0, 0.5)',
                     },
                     content: {
-                        width: '35%',
-                        height: '50%',
+                        // width: '35%',
+                        // height: '50%',
+                        top: '20%',
+                        right: '20%',
+                        left: '20%',
+                        bottom: '20%',
                         margin: 'auto',
                         borderRadius: '20px',
                     },
                 }}
             >
                 <div className='flex flex-col p-6'>
-                    <h1 className='text-2xl font-poppins font-bold'>Conceling Result</h1>
-                    <form action="">
-                        <label htmlFor="Student">Student</label>
-                        <input type="text" />
+                    <h1 className='text-2xl font-poppins font-bold text-center'>Counseling Result</h1>
+                    <form action="" className='pt-5 h-full'>
+                        <label htmlFor="Student" className='text-[#B72024]'>Student</label>
+                        <input
+                            type="text" // Corrected type
+                            name="nis"
+                            value="Bagus Imanysah"
+                            id="nis"
+                            className="w-full h-12 px-2 py-3 bg-white border-2 focus:border-black justify-start items-center inline-flex"
+                            readOnly
+                        />
+
+                        <label htmlFor="Result" className='text-[#B72024]'>Counseling Result</label>
+                        <textarea
+                            name=""
+                            id=""
+                            placeholder='Text Area'
+                            cols="30"
+                            rows="10"
+                            className='w-full h-32 px-2 py-3 bg-white border-2 focus:border-black justify-start items-center inline-flex'>
+                        </textarea>
+
+                        <div className='mt-auto space-x-2 pt-2 flex'>
+                            <button className='px-4 py-1 bg-[#C0392B] text-white rounded'>Close</button>
+                            <button className='px-4 py-1 bg-[#27AE60] text-white rounded'>Save</button>
+                        </div>
+
                     </form>
                 </div>
+
             </Modal>
 
         </div>
