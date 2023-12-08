@@ -48,7 +48,7 @@ const SCounseling = () => {
             <div>
                 <Navbar />
             </div>
-            <div className="overflow-x-auto overflow-y flex flex-col items-center justify-center pt-28 gap-4 font-poppins">
+            <div className="overflow-x-auto overflow-y flex flex-col items-center justify-center pt-28 gap-4 font-poppins bg-white">
                 <div className="w-full h-fit bg-white shadow-lg py-1 gap-4 flex flex-col items-center justify-center">
                     <h1 className="text-3xl font-bold font-poppins text-center">CURHApps Online Counseling</h1>
                     <p className="text-base font-poppins text-center">

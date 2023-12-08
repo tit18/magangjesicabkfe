@@ -93,7 +93,7 @@ const TChatPage = () => {
     };
 
     return (
-        <div className="w-full h-full bg-[#F9F9F9] overflow-hidden font-poppins">
+        <div className="w-full h-full bg-[#F9F9F9] overflow-hidden font-poppins bg-white">
             <Navbar />
             <div className="overflow-x-auto flex flex-col items-center justify-center pt-28 font-poppins">
                 <div className="w-full h-fit bg-white shadow-lg py-1 gap-4 flex flex-col items-center justify-center">

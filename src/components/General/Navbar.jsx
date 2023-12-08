@@ -5,38 +5,38 @@ import "../../index.css";
 import icon from '../icon/profile.png';
 
 const Navbar = () => {
-  const location = useLocation()
-  const navigate = useNavigate()
-  const [isNavOpen, setIsNavOpen] = useState(false);
-  const [isProfileDropdownOpen, setIsProfileDropdownOpen] = useState(false);  
+    const location = useLocation()
+    const navigate = useNavigate()
+    const [isNavOpen, setIsNavOpen] = useState(false);
+    const [isProfileDropdownOpen, setIsProfileDropdownOpen] = useState(false);
 
-  if (sessionStorage.getItem('student_logged') !== "true") {
-    return <Navigate to="/" state={{ from: location}} replace />
-  }
+    if (sessionStorage.getItem('student_logged') !== "true") {
+        return <Navigate to="/" state={{ from: location }} replace />
+    }
 
-  const Logout = () => {
-    sessionStorage.clear()
-    navigate("/")
-  }
+    const Logout = () => {
+        sessionStorage.clear()
+        navigate("/")
+    }
 
-  const navItems = [
-    { path: "/dashboard", label: "Dashboard" },
-    { path: "/appointment", label: "Appointment" },
-    { path: "/counseling", label: "Counseling" },
-    { path: "/history", label: "History" },
-  ];
+    const navItems = [
+        { path: "/dashboard", label: "Dashboard" },
+        { path: "/appointment", label: "Appointment" },
+        { path: "/counseling", label: "Counseling" },
+        { path: "/history", label: "History" },
+    ];
 
-  const toggleNav = () => {
-    setIsNavOpen(!isNavOpen);
-};
+    const toggleNav = () => {
+        setIsNavOpen(!isNavOpen);
+    };
 
-const toggleProfileDropdown = () => {
-    setIsProfileDropdownOpen(!isProfileDropdownOpen);
-};
+    const toggleProfileDropdown = () => {
+        setIsProfileDropdownOpen(!isProfileDropdownOpen);
+    };
 
 
-  return (
-    <nav className="w-full top-0 flex px-5 py-3 justify-between items-center shadow-lg bg-white fixed z-10">
+    return (
+        <nav className="w-full top-0 flex px-5 py-3 justify-between items-center shadow-lg bg-white fixed z-10">
             <h1 className="text-[#B72024] font-bold text-xl font-poppins">CURHApps</h1>
 
             {/* Hamburger Menu */}
@@ -86,8 +86,8 @@ const toggleProfileDropdown = () => {
                 )}
             </div>
         </nav>
-    
-  );
+
+    );
 };
 
 export default Navbar;
