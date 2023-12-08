@@ -7,15 +7,19 @@ import { BASE_API_URL } from '../../../global';
 import moment from 'moment/moment';
 
 const AppointmentsTable = () => {
-    const [currentPage, setCurrentPage] = useState(0);
     const [itemsPerPage] = useState(5);
-    const [totalItems, setTotalItems] = useState(20);
     const [appointments, setAppointments] = useState([]);
     const [isModalOpen, setIsModalOpen] = useState(false);
 
     const fetchDataTable = async () => {
         try {
-            const response = await axios.get(`${BASE_API_URL}/offline/appointment`);
+            const token = sessionStorage.getItem('tokeen');
+
+            const response = await axios.get(`${BASE_API_URL}/offline/appointment`, {
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                },
+            });
 
             setAppointments(response.data.data);
         } catch (error) {
@@ -38,12 +42,6 @@ const AppointmentsTable = () => {
         // Handle the result button click here
         // For example, open the modal
         setIsModalOpen(true);
-    };
-
-    const handlePageChange = (selected) => {
-        setCurrentPage(selected.selected);
-        // Fetch data for the new page from the backend
-        // Example: fetchAppointments(selected.selected + 1).then((data) => setAppointments(data));
     };
 
     const closeModal = () => {
@@ -77,7 +75,7 @@ const AppointmentsTable = () => {
 
     const renderTableRow = (data) => {
         return (
-            <tr key={data.id_conseling}>
+            <tr key={data.id_conseling} className='space-y-1'>
                 <td className="pl-4 font-poppins">{formatDate(data.offline.meeting_date).formattedDate}</td>
                 <td className="pl-4 font-poppins">{formatDate(data.offline.meeting_date).formattedTime}</td>
                 <td className="pl-4 font-poppins">{data.student.student_name}</td>
@@ -105,37 +103,8 @@ const AppointmentsTable = () => {
             <h1 className="text-base text-center">
                 The following data is a list of students who have requested appointments for offline counseling.
             </h1>
-            {renderTable()}
-            <div className=" max-w-5xl gap-4 flex items-center justify-between font-poppins">
-                {/* Flex Container 1 (Left-aligned) */}
-                <div className="flex gap-2 items-center font-poppins">
-                    <p className="font-medium">View</p>
-                    <select className="font-medium text-sm p-2 bg-gray-50 border border-gray-300 font-poppins">
-                        <option value="1">5</option>
-                        <option value="2">10</option>
-                        <option value="3">20</option>
-                    </select>
-                    <p>data per page</p>
-                </div>
-
-                {/* Flex Container 2 (Center-aligned) */}
-                <div className="flex items-center font-poppins">
-                    <p className="font-medium">
-                        Showing 1 to {Math.min((currentPage + 1) * itemsPerPage, totalItems)} of {totalItems} entries
-                    </p>
-                </div>
-
-                {/* Pagination */}
-                <ReactPaginate
-                    pageCount={Math.ceil(totalItems / itemsPerPage)}
-                    pageRangeDisplayed={5}
-                    marginPagesDisplayed={2}
-                    onPageChange={handlePageChange}
-                    containerClassName="pagination"
-                    activeClassName="active"
-                    previousLabel={<i className="fas fa-chevron-left">o</i>}
-                    nextLabel={<i className="fas fa-chevron-right">p</i>}
-                />
+            <div className="max-h-[200px] overflow-y-auto">
+                {renderTable()}
             </div>
             <Modal
                 isOpen={isModalOpen}
@@ -146,20 +115,20 @@ const AppointmentsTable = () => {
                         backgroundColor: 'rgba(0, 0, 0, 0.5)',
                     },
                     content: {
-                        width: '35%', 
+                        width: '35%',
                         height: '50%',
                         margin: 'auto',
                         borderRadius: '20px',
                     },
                 }}
             >
-                    <div className='flex flex-col p-6'>
-                        <h1 className='text-2xl font-poppins font-bold'>Conceling Result</h1>
-                        <form action="">
-                            <label htmlFor="Student">Student</label>
-                            <input type="text" />
-                        </form>
-                    </div>
+                <div className='flex flex-col p-6'>
+                    <h1 className='text-2xl font-poppins font-bold'>Conceling Result</h1>
+                    <form action="">
+                        <label htmlFor="Student">Student</label>
+                        <input type="text" />
+                    </form>
+                </div>
             </Modal>
 
         </div>

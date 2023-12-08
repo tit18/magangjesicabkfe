@@ -152,7 +152,7 @@ const TAppointment = () => {
     return (
         <div className="w-full h-full bg-[#F9F9F9] overflow-hidden font-poppins">
             <NavbarTeacher />
-            <div className="overflow-x-auto overflow-y flex flex-col items-center justify-center pt-28 sm:px-14 md:px-32 lg:px-60 gap-4 font-poppins">
+            <div className="overflow-x-auto overflow-y flex flex-col items-center justify-center pt-10 sm:px-14 md:px-32 lg:px-60 gap-4 font-poppins">
                 <div className="w-full h-fit bg-white drop-shadow-lg py-12 gap-4 flex flex-col items-center justify-center">
                     <h1 className="text-xl font-bold">Appointment Request</h1>
                     <h1 className="text-base text-center">
@@ -166,7 +166,6 @@ const TAppointment = () => {
                     appointments={appointments}
                     handleResultButtonClick={handleResultButtonClick}
                 />
-
                 <div></div>
             </div>
         </div>
