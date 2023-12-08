@@ -10,9 +10,7 @@ const TCounseling = () => {
     const [chatSiswa, setChatSiswa] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
-    const [selectedPhoto, setSelectedPhoto] = useState(""); // New state for storing the photo
     const navigate = useNavigate();
-
 
     const fetchData = async () => {
         try {
@@ -42,9 +40,6 @@ const TCounseling = () => {
         fetchData();
     }, []);
 
-    if (loading) return <p>Loading...</p>;
-    if (error) return <p>Error: {error.message}</p>;
-
     const cardStudent = (data) => {
         return (
             <div key={data.id_student} className="bg-white flex p-4 rounded drop-shadow-lg relative m-6">
@@ -67,7 +62,7 @@ const TCounseling = () => {
                 </div>
                 <button
                     onClick={() => navigate(`/teacher/counseling/${data.id_student}`, {
-                        state: { id: data.id_student, name: data.student_name, nis: data.nis, foto: data.photo },
+                        state: { id_student: data.id_student, id_counseling: data.id_counseling, name: data.student_name, nis: data.nis, foto: data.photo },
                     })}
                     className='ml-10 mt-auto px-3 py-1 h-fit rounded-md bg-[#B72024] text-white'
                 >
@@ -87,17 +82,21 @@ const TCounseling = () => {
                     <p className="text-base font-poppins text-center">
                         Here is a list of students waiting for online counseling; please respond as soon as possible.
                     </p>
-                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-10 pt-10">
-                        {chatSiswa && chatSiswa.length > 0 ? (
-                            chatSiswa.map((item) => cardStudent(item))
-                        ) : (
-                            <tr>
-                                <td colSpan="4" className="pl-4 font-poppins text-center">
-                                    No appointments available.
-                                </td>
-                            </tr>
-                        )}
-                    </div>
+                    {loading && <p className="text-center">Loading...</p>}
+                    {error && <p className="text-center">Error: {error.message}</p>}
+                    {!loading && !error && (
+                        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-10 pt-10">
+                            {chatSiswa && chatSiswa.length > 0 ? (
+                                chatSiswa.map((item) => cardStudent(item))
+                            ) : (
+                                <tr>
+                                    <td colSpan="4" className="pl-4 font-poppins text-center">
+                                        No appointments available.
+                                    </td>
+                                </tr>
+                            )}
+                        </div>
+                    )}
                 </div>
             </div>
         </div>

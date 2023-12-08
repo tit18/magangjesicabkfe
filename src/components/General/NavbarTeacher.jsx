@@ -2,12 +2,14 @@ import React, { useState } from "react";
 import { Link, useLocation, Navigate, useNavigate } from "react-router-dom";
 import "../../index.css";
 import icon from '../icon/profile.png';
+import { BASE_IMAGE_URL } from "../../global";
 
 const Navbar = () => {
     const location = useLocation();
     const navigate = useNavigate();
     const [isNavOpen, setIsNavOpen] = useState(false);
     const [isProfileDropdownOpen, setIsProfileDropdownOpen] = useState(false);
+    const profilePhotoUrl = `${BASE_IMAGE_URL}/${sessionStorage.getItem('photo')}`
 
     const navItems = [
         { path: "/teacher/dashboard", label: "Dashboard" },
@@ -83,7 +85,7 @@ const Navbar = () => {
                                         className={`${location.pathname === item.path || (isCounselingPage && item.path === "/teacher/counseling")
                                             ? "font-bold text-black"
                                             : "text-black hover:text-black"
-                                            } rounded-md px-3 py-2 text-sm font-medium`}
+                                            } rounded-md px-3 py-2 text-sm `}
                                         onClick={toggleNav}
                                     >
                                         {item.label}
@@ -102,7 +104,7 @@ const Navbar = () => {
                                     <span className="sr-only">Open user menu</span>
                                     <img
                                         className="h-8 w-8 rounded-full"
-                                        src={icon}
+                                        src={profilePhotoUrl}
                                         alt=""
                                     />
                                 </button>

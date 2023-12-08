@@ -1,52 +1,83 @@
-// Assuming your file is named 'config.js'
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import '../index.css';
 import icon from '../components/icon/telkomSchools.png';
-import { BASE_API_URL } from '../global.js'; // Update the import statement
+import { BASE_API_URL, BASE_IMAGE_URL } from '../global.js';
 
-
-export default function SLogin() {
-    const navigate = useNavigate()
-    const [teacher, setteacher] = useState({
+export default function TLogin() {
+    const navigate = useNavigate();
+    const [teacher, setTeacher] = useState({
         nik: '',
         password: '',
-    })
+    });
+
+    const [teacherData, setTeacherData] = useState(null);
+    const [teacherPhotoUrl, setTeacherPhotoUrl] = useState('');
 
     const handleChange = (e) => {
-        setteacher(prev => ({ ...prev, [e.target.name]: e.target.value }))
-    }
+        setTeacher((prev) => ({ ...prev, [e.target.name]: e.target.value }));
+    };
 
     const handleLogin = async (e) => {
-        e.preventDefault()
+        e.preventDefault();
         let data = {
             nik: teacher.nik,
-            password: teacher.password
+            password: teacher.password,
+        };
+
+        try {
+            const result = await axios.post(`${BASE_API_URL}/teacher/login`, data);
+
+            if (result.data.status === true) {
+                const idTeacher = result.data.data.id_teacher;
+                const teacherName = result.data.data.teacher_name;
+                const token = result.data.data.token;
+                const photo = result.data.data.photo;
+
+                alert('Login Success');
+                console.log(result.data.data);
+                sessionStorage.setItem('teacher_logged', result.data.status);
+                sessionStorage.setItem('teacher', JSON.stringify(result.data));
+                sessionStorage.setItem('id_teacher', idTeacher);
+                sessionStorage.setItem('tokeen', token);
+                sessionStorage.setItem('name', teacherName);
+                sessionStorage.setItem('photo', photo)
+                setTeacherData(result.data.data); // Store teacher data
+                navigate("/teacher/dashboard");
+            } else {
+                alert('Login Failed');
+            }
+        } catch (error) {
+            console.error('Error during login:', error);
+            alert('Login Failed');
         }
-
-        await axios.post(`${BASE_API_URL}/teacher/login`, data)
-            .then((result) => {
-                if (result.data.status === true ) {
-                    const idTeacher = result.data.data.id_teacher;
-                    const teacherName = result.data.data.teacher_name
-                    const token = result.data.data.token;
-
-                    alert('Login Success')
-                    console.log(result.data.data)
-                    sessionStorage.setItem('teacher_logged', result.data.status)
-                    sessionStorage.setItem('teacher', JSON.stringify(result.data))
-                    sessionStorage.setItem('id_teacher', idTeacher);
-                    sessionStorage.setItem('tokeen',token)
-                    sessionStorage.setItem('name',teacherName)
-                    navigate("/teacher/dashboard")
-                } else {
-                    alert('Login Failed')
-                }
-                
-            
-            })
     };
+
+
+    useEffect(() => {
+        // Fetch teacher photo data after successful login
+        const fetchTeacherPhoto = async () => {
+            if (teacherData && teacherData.photo) {
+                try {
+                    const photoResponse = await axios.get(`${BASE_IMAGE_URL}/${teacherData.photo}`, {
+                        responseType: 'arraybuffer',
+                    });
+
+                    const photoBlob = new Blob([photoResponse.data], { type: photoResponse.headers['content-type'] });
+                    const photoUrl = URL.createObjectURL(photoBlob);
+
+                    // Set the teacher photo URL in the state
+                    setTeacherPhotoUrl(photoUrl);
+                } catch (photoError) {
+                    console.error('Error fetching teacher photo:', photoError);
+                }
+            }
+        };
+
+        fetchTeacherPhoto();
+    }, [teacherData]);
+
 
     return (
         <div className="flex items-center justify-center h-screen bg-gray-50  sm:px-5 md:px-10 lg:px-15">
@@ -59,7 +90,7 @@ export default function SLogin() {
                             NIK
                         </label>
                         <input
-                            type="number" // Corrected type
+                            type="number"
                             name="nik"
                             placeholder="Text"
                             id="nik"
@@ -76,7 +107,7 @@ export default function SLogin() {
                         <input
                             type="password"
                             name="password"
-                            placeholder="Text"
+                            placeholder="Password"
                             id="password"
                             value={teacher.password}
                             onChange={handleChange}
@@ -90,6 +121,7 @@ export default function SLogin() {
                         Login
                     </button>
                 </form>
+               
             </div>
         </div>
     );

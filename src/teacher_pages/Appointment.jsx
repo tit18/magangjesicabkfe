@@ -95,7 +95,7 @@ const TAppointment = () => {
 
     const renderTableHeader = () => {
         const columns = [
-            { id: 'date', name: 'Date', width: '120px' },
+            { id: 'date', name: 'Date', width: '120px', },
             { id: 'student', name: 'Student', width: '150px' },
             { id: 'action', name: 'Action', width: '80px' },
         ];
@@ -107,7 +107,7 @@ const TAppointment = () => {
                         <th
                             key={column.id}
                             scope="col"
-                            className={`min-w-[${column.width}] font-poppins text-left pl-4`}
+                            className={`min-w-[${column.width}] font-poppins text-left pl-4 lg:pr-20 sm:pr-0`}
                         >
                             {column.name}
                         </th>
