@@ -50,9 +50,10 @@ const SCounseling = () => {
             </div>
             <div className="overflow-x-auto overflow-y flex flex-col items-center justify-center pt-28 gap-4 font-poppins">
                 <div className="w-full h-fit bg-white shadow-lg py-1 gap-4 flex flex-col items-center justify-center">
-                    <h1 className="text-3xl font-bold font-poppins">CURHApps Online Counseling</h1>
+                    <h1 className="text-3xl font-bold font-poppins text-center">CURHApps Online Counseling</h1>
                     <p className="text-base font-poppins text-center">
-                        Here is a list of teachers available for online counseling; please choose one.</p>
+                        Here is a list of teachers available for online counseling; please choose one.
+                    </p>
                     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-10 pt-10">
                         {teachers.map(teachers => (
                             <div key={teachers.id_teacher} className="bg-white flex p-4 rounded drop-shadow-lg relative">
