@@ -1,9 +1,9 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import '../index.css';
 import icon from '../components/icon/telkomSchools.png';
-import { BASE_API_URL, BASE_IMAGE_URL } from '../global.js';
+import { BASE_API_URL } from '../global.js';
 
 export default function TLogin() {
     const navigate = useNavigate();
@@ -11,9 +11,6 @@ export default function TLogin() {
         nik: '',
         password: '',
     });
-
-    const [teacherData, setTeacherData] = useState(null);
-    const [teacherPhotoUrl, setTeacherPhotoUrl] = useState('');
 
     const handleChange = (e) => {
         setTeacher((prev) => ({ ...prev, [e.target.name]: e.target.value }));
@@ -43,7 +40,7 @@ export default function TLogin() {
                 sessionStorage.setItem('tokeen', token);
                 sessionStorage.setItem('name', teacherName);
                 sessionStorage.setItem('photo', photo)
-                setTeacherData(result.data.data); // Store teacher data
+
                 navigate("/teacher/dashboard");
             } else {
                 alert('Login Failed');
@@ -53,31 +50,6 @@ export default function TLogin() {
             alert('Login Failed');
         }
     };
-
-
-    useEffect(() => {
-        // Fetch teacher photo data after successful login
-        const fetchTeacherPhoto = async () => {
-            if (teacherData && teacherData.photo) {
-                try {
-                    const photoResponse = await axios.get(`${BASE_IMAGE_URL}/${teacherData.photo}`, {
-                        responseType: 'arraybuffer',
-                    });
-
-                    const photoBlob = new Blob([photoResponse.data], { type: photoResponse.headers['content-type'] });
-                    const photoUrl = URL.createObjectURL(photoBlob);
-
-                    // Set the teacher photo URL in the state
-                    setTeacherPhotoUrl(photoUrl);
-                } catch (photoError) {
-                    console.error('Error fetching teacher photo:', photoError);
-                }
-            }
-        };
-
-        fetchTeacherPhoto();
-    }, [teacherData]);
-
 
     return (
         <div className="flex items-center justify-center h-screen bg-gray-50  sm:px-5 md:px-10 lg:px-15">

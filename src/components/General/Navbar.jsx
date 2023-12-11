@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { Navigate, useNavigate } from 'react-router-dom';
 import "../../index.css";
-import icon from '../icon/profile.png';
 import { BASE_IMAGE_URL } from "../../global";
 
 const Navbar = () => {

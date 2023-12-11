@@ -1,10 +1,10 @@
 // Assuming your file is named 'config.js'
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import '../index.css';
 import icon from '../components/icon/telkomSchools.png';
-import { BASE_API_URL, BASE_IMAGE_URL } from '../global.js'; // Update the import statement
+import { BASE_API_URL } from '../global.js'; // Update the import statement
 
 
 export default function SLogin() {
@@ -13,9 +13,6 @@ export default function SLogin() {
         nis: '',
         password: '',
     })
-
-    const [studentData, setstudentData] = useState(null);
-    const [studentPhotoUrl, setstudentPhotoUrl] = useState('');
 
     const handleChange = (e) => {
         setstudent(prev => ({ ...prev, [e.target.name]: e.target.value }))
@@ -45,6 +42,7 @@ export default function SLogin() {
                 sessionStorage.setItem('tokeen', toke)
                 sessionStorage.setItem('name', studentname)
                 sessionStorage.setItem('photo', photo)
+
                 navigate("/dashboard")
             } else {
                 alert('Login Failed')
@@ -57,29 +55,6 @@ export default function SLogin() {
         
 
     };
-
-    useEffect(() => {
-        // Fetch student photo data after successful login
-        const fetchstudentPhoto = async () => {
-            if (studentData && studentData.photo) {
-                try {
-                    const photoResponse = await axios.get(`${BASE_IMAGE_URL}/${studentData.photo}`, {
-                        responseType: 'arraybuffer',
-                    });
-
-                    const photoBlob = new Blob([photoResponse.data], { type: photoResponse.headers['content-type'] });
-                    const photoUrl = URL.createObjectURL(photoBlob);
-
-                    // Set the student photo URL in the state
-                    setstudentPhotoUrl(photoUrl);
-                } catch (photoError) {
-                    console.error('Error fetching student photo:', photoError);
-                }
-            }
-        };
-
-        fetchstudentPhoto();
-    }, [studentData]);
 
     return (
         <div className="flex items-center justify-center h-screen bg-[#F9F9F9] sm:px-5 md:px-10 lg:px-15">

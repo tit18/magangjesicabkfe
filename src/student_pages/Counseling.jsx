@@ -9,9 +9,6 @@ import iconNotif from '../components/icon/notification-icon.svg';
 
 const SCounseling = () => {
     const [teachers, setTeachers] = useState([]);
-    const [tcounseling, setTcounseling] = useState([]);
-    const [loading, setLoading] = useState(true);
-    const [error, setError] = useState(null);
     const navigate = useNavigate();
 
 
@@ -27,7 +24,6 @@ const SCounseling = () => {
                     }
                 });
                 setTeachers(response.data.data);
-                setLoading(false);
 
             } catch (error) {
                 console.error('Error fetching teacher data:', error);
@@ -40,7 +36,6 @@ const SCounseling = () => {
 
     console.log('data teacher', teachers)
     console.log('id', teachers.id_teacher)
-    console.log('porfile', tcounseling)
     console.log('photo', teachers.photo)
 
     return (
