@@ -36,7 +36,7 @@ function App() {
           <Route path='/teacher/history' element={<THistory/>}/>
           <Route path='/teacher/counseling/:id_student' element={<TChatPage />} />
 
-          {/* <Route path='*' element={<NotFound />} /> */}
+          <Route path='*' element={<div>NOT FOUND</div>} />
         </Routes>
       </BrowserRouter>
   );
