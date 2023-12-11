@@ -18,6 +18,7 @@ const SHistory = () => {
                     </p>
                 </div>
             </div>
+            
         </div>
             
         

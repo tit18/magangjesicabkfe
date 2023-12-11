@@ -14,6 +14,7 @@ const TChatPage = () => {
     const [message, setMessage] = useState("");
     const [chateacher, setchateacher] = useState([]);
     const messagesEndRef = useRef(null);
+    const [isMessageValid, setIsMessageValid] = useState(true);
 
     useEffect(() => {
         const fetchchateacher = async () => {
@@ -48,6 +49,12 @@ const TChatPage = () => {
 
     const handleFormSubmit = async (e) => {
         e.preventDefault();
+
+        if (message.trim() === '') {
+            setIsMessageValid(false);
+            return;
+        }
+
         const data = {
             // id_student: sessionStorage.getItem('id_student'),
             // id_teacher: state.id_teacher,
@@ -71,6 +78,9 @@ const TChatPage = () => {
             if (response.status === 200) {
                 navigate(0);
                 scrollToBottom();
+                // Reset pesan dan status validasi
+                setMessage('');
+                setIsMessageValid(true);
             }
         } catch (error) {
             console.error('Error:', error);
@@ -97,7 +107,7 @@ const TChatPage = () => {
                     <h1 className="text-3xl font-bold font-poppins text-center">Active Online Session</h1>
                     <div className='sm:w-11/12 md:w-9/12 lg:w-7/12 h-fit bg-white drop-shadow-lg p-4 flex flex-col justify-between'>
                         {state && (
-                            <div className='flex gap-4'>
+                            <div className='flex gap-4 space-x-4'>
                                 <img
                                     src={`${BASE_IMAGE_URL}/${state.photo}`}
                                     alt="profile student"
@@ -138,8 +148,8 @@ const TChatPage = () => {
                                     </div>
                                 </div>
                                 :
-                                <div className="flex items-start gap-2.5 justify-between">
-                                    <div className="flex flex-col gap-1 w-full max-w-[320px] ml-auto">
+                                <div className="flex items-start gap-2.5 justify-between ">
+                                    <div className="flex flex-col gap-3 w-full max-w-[320px] ml-auto">
                                         <div className="flex items-center space-x-2 rtl:space-x-reverse justify-between">
                                             <span className="text-sm font-normal text-gray-500 dark:text-gray-400 ml-auto">
                                                 {formatDate(teachers.createdAt).formattedDateTime}
@@ -170,7 +180,7 @@ const TChatPage = () => {
                                 type="text"
                                 name=""
                                 id="messageInput"
-                                className='w-full bg-gray-200 h-12 p-5'
+                                className={`w-full bg-gray-200 h-12 p-5 ${!isMessageValid ? 'border-red-500' : ''}`}
                                 placeholder='Your message'
                                 onChange={((e) => setMessage(e.target.value))}
                             />

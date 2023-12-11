@@ -88,15 +88,16 @@ const SAppointment = () => {
 
     return (
 
-        <div className="">
+        <div className="w-full h-full bg-[#fefcfc] overflow-hidden font-poppins">
             <Navbar />
-            <div className='flex items-center justify-center h-screen sm:px-5 md:px-10 lg:px-15s'>
-                <div className="w-full max-w-2xl p-4 mx-auto sm:w-full md:w-2/3 lg:w-1/2 xl:w-1/3">
-                    <div className="p-2 rounded-md">
-                    <h1 className="text-3xl font-bold font-poppins mb-3">CURHApps Online Counseling</h1>
-                    <p className="text-base font-poppins text-center mb-5">
-                        Here is a list of teachers available for online counseling; please choose one.</p>
-                        <form className="space-y-4" onSubmit={handleSubmit}>
+            <div className='overflow-x-auto overflow-y flex flex-col items-center justify-center pt-28 gap-4 font-poppins bg-whitef'>
+                <div className="w-full h-fit bg-white shadow-lg py-1 gap-4 flex flex-col items-center justify-center">
+                    <div className="p-2 rounded-md space-y-2">
+                    <h1 className="text-3xl font-bold font-poppins text-center">CURHApps Online Counseling</h1>
+                    <p className="text-base font-poppins text-center">
+                    Make an appointment witcounseling teacher to be able to conduct counseling sessions offline.
+                    </p>
+                        <form className="space-y-3" onSubmit={handleSubmit}>
                             <div>
                                 <label htmlFor="id_student" className="text-[#B72024] font-sans">
                                     Student ID
@@ -171,6 +172,9 @@ const SAppointment = () => {
                         </form>
                     </div>
                 </div>
+            </div>
+            <div className="text-center mt-4 text-xs font-normal text-gray-500 font-Poppins">
+            © {new Date().getFullYear()} Copyright CURHApps All Rights Reserved.
             </div>
         </div>
     );

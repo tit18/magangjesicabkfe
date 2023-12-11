@@ -44,11 +44,11 @@ const SCounseling = () => {
     console.log('photo', teachers.photo)
 
     return (
-        <div className="w-full h-full bg-[#F9F9F9] overflow-hidden font-poppins">
+        <div className="w-full h-full bg-[#ffffff] overflow-hidden font-poppins">
             <div>
                 <Navbar />
             </div>
-            <div className="overflow-x-auto overflow-y flex flex-col items-center justify-center pt-28 gap-4 font-poppins bg-white">
+            <div className="overflow-x-auto overflow-y flex flex-col items-center justify-center pt-28 gap-4 font-poppins bg-whitef">
                 <div className="w-full h-fit bg-white shadow-lg py-1 gap-4 flex flex-col items-center justify-center">
                     <h1 className="text-3xl font-bold font-poppins text-center">CURHApps Online Counseling</h1>
                     <p className="text-base font-poppins text-center">
@@ -85,7 +85,12 @@ const SCounseling = () => {
                     </div>
                 </div>
             </div>
+            {/* Bottom Centered Content */}
+            <div className="text-center mt-4 text-xs font-normal text-gray-500 font-Poppins">
+            © {new Date().getFullYear()} Copyright CURHApps All Rights Reserved.
+            </div>
         </div >
+        
 
     )
 }
