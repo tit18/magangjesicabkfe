@@ -13,8 +13,6 @@ const TChatPage = () => {
     const navigate = useNavigate()
     const [message, setMessage] = useState("");
     const [chateacher, setchateacher] = useState([]);
-    const [error, setError] = useState(null);
-    const [loading, setLoading] = useState(true);
     const messagesEndRef = useRef(null);
 
     useEffect(() => {
@@ -29,7 +27,6 @@ const TChatPage = () => {
                     }
                 });
                 setchateacher(response.data.data);
-                setLoading(false);
                 scrollToBottom();
             } catch (error) {
                 console.error('Error fetching teacher data:', error);
@@ -93,7 +90,7 @@ const TChatPage = () => {
     };
 
     return (
-        <div className="w-full h-full bg-[#F9F9F9] overflow-hidden font-poppins">
+        <div className="w-full h-full  overflow-hidden font-poppins bg-white">
             <Navbar />
             <div className="overflow-x-auto flex flex-col items-center justify-center pt-28 font-poppins">
                 <div className="w-full h-fit bg-white shadow-lg py-1 gap-4 flex flex-col items-center justify-center">
@@ -121,7 +118,7 @@ const TChatPage = () => {
                                     <img
                                         className="w-8 h-8 rounded-full"
                                         src={`${BASE_IMAGE_URL}/${teachers.photo}`}
-                                        alt="Jese image"
+                                        alt={teachers.photo}
                                     />
                                     <div className="flex flex-col gap-1 w-full max-w-[320px]">
                                         <div className="flex items-center space-x-2 rtl:space-x-reverse">
@@ -161,7 +158,7 @@ const TChatPage = () => {
                                     <img
                                         className="w-8 h-8 rounded-full"
                                         src={`${BASE_IMAGE_URL}/${teachers.photo}`}
-                                        alt="Jese image"
+                                        alt={teachers.photo}
                                     />
                                 </div>
 
