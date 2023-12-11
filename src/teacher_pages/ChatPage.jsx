@@ -1,49 +1,53 @@
 // ChatPage.js
-import React, { useEffect, useState } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import NavbarTeacher from '../components/General/NavbarTeacher';
-import profileS from '../components/icon/profile-student.png';
 import send from '../components/icon/send-icon.svg';
-import { BASE_API_URL } from '../global';
+import { BASE_API_URL, BASE_IMAGE_URL } from '../global';
 import axios from 'axios';
+import moment from 'moment/moment';
 
 const TChatPage = () => {
     const location = useLocation();
     const { state } = location;
     const navigate = useNavigate()
     const [message, setMessage] = useState("");
-    const [listChat, setListChat] = useState([]);
-    const teacherName = sessionStorage.getItem('name'); // Replace with actual way to get teacher name
-    const studentName = state ? state.name : '';
+    const [chatStudent, setChatStudent] = useState([]);
 
-    const fetchChat = async (e) => {
-        try {
-            const token = sessionStorage.getItem('tokeen');
-
-            const response = await axios.get(
-                `${BASE_API_URL}/online/getonline/${state.id_counseling}`,
-                {
-                    headers: {
-                        Authorization: `Bearer ${token}`,
-                    },
-                }
-            );
-
-            console.log(response.data.status);
-
-            if (response.data.status === true) {
-                setListChat(response.data.data)
-            }
-        } catch (error) {
-            console.error('Error:', error);
-            // TODO: Handle error if needed
-        }
-    }
+    const messagesEndRef = useRef(null);
 
     useEffect(() => {
-        fetchChat();
-    });
+        const fetchchatstudent = async () => {
+            try {
+                // Ganti dengan URL API sesuai kebutuhan Anda
+                const token = sessionStorage.getItem('tokeen')
 
+                const response = await axios.get(`${BASE_API_URL}/online/getonline/${state.id_conseling}`, {
+                    headers: {
+                        Authorization: `Bearer ${token}`
+                    }
+                });
+                setChatStudent(response.data.data);
+    
+                scrollToBottom();
+            } catch (error) {
+                console.error('Error fetching student data:', error);
+            }
+        };
+
+        // Panggil fungsi untuk mengambil data guru
+        fetchchatstudent();
+
+
+        // Set up interval to fetch data every 5 seconds (adjust the interval as needed)
+        const intervalId = setInterval(() => {
+            fetchchatstudent();
+        }, 5000);
+
+        // Clean up interval on component unmount
+        return () => clearInterval(intervalId);
+    }, [state.id_conseling]);
+    
     const handleFormSubmit = async (e) => {
         e.preventDefault();
         const data = {
@@ -53,7 +57,7 @@ const TChatPage = () => {
             const token = sessionStorage.getItem('tokeen');
 
             const response = await axios.post(
-                `${BASE_API_URL}/online/insertchatguru`,
+                `${BASE_API_URL}/online/insertchatguru/${state.id_conseling}`,
                 data,
                 {
                     headers: {
@@ -62,10 +66,10 @@ const TChatPage = () => {
                 }
             );
 
-            console.log(response.data.status);
 
-            if (response.data.status === true) {
+            if (response.status === 200) {
                 navigate(0);
+                scrollToBottom();
             }
         } catch (error) {
             console.error('Error:', error);
@@ -73,105 +77,114 @@ const TChatPage = () => {
         }
 
     };
+    const scrollToBottom = () => {
+        // Scroll to the bottom of the messages container
+        messagesEndRef.current.scrollIntoView({ behavior: 'smooth' });
+    };
 
-    const chatMessages = [
-        { id: 1, sender: 'teacher', message: 'Hello, how can I help you? kzbsfh ofojssbf obsi bzdibvizsfsdb ibais ia si aihfib  auhwuf ahfabuba   idbijbf aiobaibibdsob isdf iusdbugisiuhisbdvbsibd sdi sidbibdvisubdvbsiudbvsubviubsdi bsudbvsvbsibvsbviusbdi bsdbv sbvd ubdiubv sbdvius iv bsub' },
-        { id: 2, sender: 'student', message: 'I have a question about the assignmen auwhdiasbcu aboua ucbaub coausbcabscb apbdcbaibpibavbapis aib iabs icabut.' },
-        { id: 2, sender: 'student', message: 'I have a question about the assignmen auwhdiasbcu aboua ucbaub coausbcabscb apbdcbaibpibavbapis aib iabs icabut.' },
-        { id: 1, sender: 'teacher', message: 'Hello, how can I help you? kzbsfh ofojssbf obsi bzdibvizsfsdb ibais ia si aihfib  auhwuf ahfabuba   idbijbf aiobaibibdsob isdf iusdbugisiuhisbdvbsibd sdi sidbibdvisubdvbsiudbvsubviubsdi bsudbvsvbsibvsbviusbdi bsdbv sbvd ubdiubv sbdvius iv bsub' },
-        { id: 1, sender: 'teacher', message: 'Hello, how can I help you? kzbsfh ofojssbf obsi bzdibvizsfsdb ibais ia si aihfib  auhwuf ahfabuba   idbijbf aiobaibibdsob isdf iusdbugisiuhisbdvbsibd sdi sidbibdvisubdvbsiudbvsubviubsdi bsudbvsvbsibvsbviusbdi bsdbv sbvd ubdiubv sbdvius iv bsub' },
-        { id: 2, sender: 'student', message: 'I have a question about the assignmen auwhdiasbcu aboua ucbaub coausbcabscb apbdcbaibpibavbapis aib iabs icabut.' },
-        // Add more messages as needed
-    ];
+    const formatDate = (date) => {
+        const momentDate = moment(date);
+        const formattedDateTime = momentDate.format('DD/MM/YYYY HH:mm:ss');
+        return { formattedDateTime };
+    };
 
-        return (
-            <div className="w-full h-full bg-[#F9F9F9] overflow-hidden font-poppins">
-                <NavbarTeacher />
-                <div className="overflow-x-auto flex flex-col items-center justify-center pt-10  font-poppins">
-                    <div className="w-full h-fit bg-white shadow-lg py-1 gap-4 flex flex-col items-center justify-center">
-                        <h1 className="text-3xl font-bold font-poppins text-center">Active Online Session</h1>
-                        <div className='sm:w-11/12 md:w-9/12 lg:w-7/12 h-fit bg-white drop-shadow-lg p-4 flex flex-col justify-between'>
-                            {state && (
-                                <div className='flex gap-4'>
-                                    <img
-                                        src={state.foto}
-                                        alt="profile student"
-                                        className="rounded-full h-16 w-16 object-cover object-center overflow-hidden"
-                                    />
-                                    <div className='flex flex-col items-start justify-around'>
-                                        <p className='text-xl text-[#B72024] font-semibold'>Name: {state.name}</p>
-                                        <p className='text-base font-normal'>NIS: {state.nis}</p>
-                                    </div>
+    return (
+        <div className="w-full h-full bg-[#F9F9F9] overflow-hidden font-poppins">
+            <NavbarTeacher />
+            <div className="overflow-x-auto flex flex-col items-center justify-center pt-10 font-poppins">
+                <div className="w-full h-fit bg-white shadow-lg py-1 gap-4 flex flex-col items-center justify-center">
+                    <h1 className="text-3xl font-bold font-poppins text-center">Active Online Session</h1>
+                    <div className='sm:w-11/12 md:w-9/12 lg:w-7/12 h-fit bg-white drop-shadow-lg p-4 flex flex-col justify-between'>
+                        {state && (
+                            <div className='flex gap-4'>
+                                <img
+                                    src={`${state.photo}`}
+                                    alt={state.photo}
+                                    className="rounded-full h-16 w-16 object-cover object-center overflow-hidden"
+                                />
+                                <div className='flex flex-col items-start justify-around'>
+                                    <p className='text-xl text-[#B72024] font-semibold'>Name: {state.name}</p>
+                                    <p className='text-base font-normal'>NIS: {state.nis}</p>
                                 </div>
-                            )}
-                        </div>
+                            </div>
+                        )}
+                    </div>
+                    <div className='sm:w-11/12 md:w-9/12 lg:w-7/12 max-h-[400px] bg-white drop-shadow-lg p-8 flex flex-col justify-between '>
+                        <div className='overflow-y-scroll'>
+                            {chatStudent.map(students => (
+                                students.tipe_user === "student" ?
+                                    <div className="flex items-start gap-2.5">
+                                        <img
+                                            className="w-8 h-8 rounded-full"
+                                            src={`${BASE_IMAGE_URL}/${students.photo}`}
+                                            alt={students.photo}
+                                        />
+                                        <div className="flex flex-col gap-1 w-full max-w-[320px]">
+                                            <div className="flex items-center space-x-2 rtl:space-x-reverse">
+                                                <span className="text-sm font-semibold text-[#B72024]">
+                                                    {students.nama_user}
 
-                        <div className='sm:w-11/12 md:w-9/12 lg:w-7/12 min-h-[600px] bg-white drop-shadow-lg p-8 flex flex-col justify-between'>
-
-                            {/* Chat Container */}
-                            <div className='min-h-[450px] max-h-[450px] bg-white overflow-y-auto'>
-                                {chatMessages.map((chat) => (
-                                    <div key={chat.id_counseling} className={`flex flex-col items-start mb-4`}>
-                                        <p className={`text-sm text-[#B72024] ${chat.sender === 'teacher' ? 'ml-auto' : 'mr-auto'}`}>
-                                            {chat.sender === 'teacher' ? teacherName : studentName}
-                                        </p>
-                                        <div
-                                            className={`flex ${chat.sender === 'teacher' ? 'justify-end' : 'justify-start'
-                                                } items-center`}
-                                        >
-                                            {chat.sender === 'teacher' ? (
-                                                <>
-                                                    <div
-                                                        className='bg-[#F9F9F9] text-black rounded-lg p-3 max-w-[70%] drop-shadow-lg ml-auto'
-                                                    >
-                                                        {chat.message}
-                                                    </div>
-                                                    <img
-                                                        src={profileS}  // Provide the source for teacher's photo
-                                                        alt="profile teacher"
-                                                        className="rounded-full h-12 w-12 object-cover object-center overflow-hidden ml-4"
-                                                    />
-                                                </>
-                                            ) : (
-                                                <>
-                                                    <img
-                                                        src={state.foto}  // Provide the source for student's photo
-                                                        alt="profile student"
-                                                        className="rounded-full h-12 w-12 object-cover object-center overflow-hidden mr-4"
-                                                    />
-                                                    <div
-                                                        className='bg-[#F9F9F9] text-black rounded-lg p-3 max-w-[70%] drop-shadow-lg'
-                                                    >
-                                                        {chat.message}
-                                                    </div>
-                                                </>
-                                            )}
+                                                </span>
+                                                <span className="text-sm font-normal text-gray-500 dark:text-gray-400">
+                                                    {formatDate(students.createdAt).formattedDateTime}
+                                                </span>
+                                            </div>
+                                            <div className="flex flex-col leading-1.5 p-4 border-gray-200 bg-gray-100 rounded-e-xl rounded-l-xl ">
+                                                <p className="font-poppins  dark:text-black">
+                                                    {students.counseling}
+                                                </p>
+                                            </div>
                                         </div>
                                     </div>
-                                ))}
-                            </div>
+                                    :
+                                    <div className="flex items-start gap-2.5 justify-between">
+                                        <div className="flex flex-col gap-1 w-full max-w-[320px] ml-auto">
+                                            <div className="flex items-center space-x-2 rtl:space-x-reverse justify-between">
+                                                <span className="text-sm font-normal text-gray-500 dark:text-gray-400 ml-auto">
+                                                    {formatDate(students.createdAt).formattedDateTime}
+                                                </span>
+                                                <span className="text-sm font-semibold text-[#B72024]">
+                                                    {students.nama_user}
+                                                </span>
 
-                            <form className='mt-auto flex items-center' onSubmit={handleFormSubmit}>
-                                <input
-                                    type="text"
-                                    name=""
-                                    id="messageInput"
-                                    className='w-full bg-gray-200 h-12 p-5'
-                                    placeholder='Your message'
-                                    onChange={((e) => setMessage(e.target.value))}
-                                />
-                                <button
-                                    type="submit"
-                                    className='bg-gray-200 text-white h-12 px-4'
-                                >
-                                    <img src={send} alt="" />
-                                </button>
-                            </form>
+                                            </div>
+                                            <div className="flex flex-col leading-1.5 p-4 border-gray-200 bg-gray-100  rounded-l-xl  rounded-r-xl     ">
+                                                <p className="text-sm font-poppins  dark:text-black">
+                                                    {students.counseling}
+                                                </p>
+                                            </div>
+                                        </div>
+                                        <img
+                                            className="w-8 h-8 rounded-full"
+                                            src={`${BASE_IMAGE_URL}/${students.photo}`}
+                                            alt={students.photo}
+                                        />
+                                    </div>
+
+                            ))}
+                            <div ref={messagesEndRef}></div>
                         </div>
+                        <form className='mt-auto flex items-center' onSubmit={handleFormSubmit}>
+                            <input
+                                type="text"
+                                name=""
+                                id="messageInput"
+                                className='w-full bg-gray-200 h-12 p-5'
+                                placeholder='Your message'
+                                onChange={((e) => setMessage(e.target.value))}
+                            />
+                            <button
+                                type="submit"
+                                className='bg-gray-200 text-white h-12 px-4'
+                            >
+                                <img src={send} alt="" />
+                            </button>
+                        </form>
                     </div>
                 </div>
             </div>
-        );
+        </div>
+    );
 };
 
 export default TChatPage;

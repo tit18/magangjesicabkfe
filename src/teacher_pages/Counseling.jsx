@@ -62,7 +62,7 @@ const TCounseling = () => {
                 </div>
                 <button
                     onClick={() => navigate(`/teacher/counseling/${data.id_student}`, {
-                        state: { id_student: data.id_student, id_counseling: data.id_counseling, name: data.student_name, nis: data.nis, foto: data.photo },
+                        state: { id_student: data.id_student, id_conseling: data.id_conseling, name: data.student_name, nis: data.nis, photo: data.photo },
                     })}
                     className='ml-10 mt-auto px-3 py-1 h-fit rounded-md bg-[#B72024] text-white'
                 >
