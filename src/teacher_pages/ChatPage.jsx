@@ -65,7 +65,7 @@ const TChatPage = () => {
                 const token = sessionStorage.getItem('tokeen');
 
                 const response = await axios.post(
-                    `${BASE_API_URL}/result/insertresult/${state.id_conseling}`,
+                    `${BASE_API_URL}/result/    /${state.id_conseling}`,
                     data,
                     {
                         headers: {
