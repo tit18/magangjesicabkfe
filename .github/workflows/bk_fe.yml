@@ -17,7 +17,8 @@ jobs:
             cd /home/magangjesicabkfe/magangjesicabkfe
             git pull
             git status
-            cp -r ../magangjesicabkfe /var/www/html/
+            cd /home/magangjesicabkfe
+            cp -r magangjesicabkfe /var/www/html/
             cd /var/www/html/magangjesicabkfe
             npm install
             npm run build
