@@ -7,6 +7,8 @@ import iconNotif from '../components/icon/notification-icon.svg';
 import iconAdd from '../components/icon/plus-circle-fill.svg';
 import Modal from 'react-modal';
 import "../index.css";
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const SCounseling = () => {
     const [teachers, setTeachers] = useState([])
@@ -81,8 +83,11 @@ const SCounseling = () => {
                 }
             });
 
-            if(response.status === 200){
+            if(response.data.status === true){
                 alert("Success Add Counseling Online")
+                fetchSession()
+            } else {
+                alert(response.data.message)
             }
 
         } catch (error) {
@@ -98,6 +103,7 @@ const SCounseling = () => {
             <div>
                 <Navbar />
             </div>
+            <ToastContainer />
             <div className="overflow-x-auto overflow-y flex flex-col items-center justify-center pt-20 gap-4 font-poppins bg-whitef">
                 <div className="w-full h-fit bg-white shadow-lg py-1 gap-4 flex flex-col items-center justify-center">
                     <h1 className="text-3xl font-bold font-poppins text-center">CURHApps Online Counseling</h1>

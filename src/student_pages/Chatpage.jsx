@@ -102,7 +102,7 @@ const TChatPage = () => {
     return (
         <div className="w-full h-full  overflow-hidden font-poppins bg-white">
             <Navbar />
-            <div className="overflow-x-auto flex flex-col items-center justify-center pt-28 font-poppins">
+            <div className="overflow-x-auto flex flex-col items-center justify-center pt-20 font-poppins">
                 <div className="w-full h-fit bg-white shadow-lg py-1 gap-4 flex flex-col items-center justify-center">
                     <h1 className="text-3xl font-bold font-poppins text-center">Active Online Session</h1>
                     <div className='sm:w-11/12 md:w-9/12 lg:w-7/12 h-fit bg-white drop-shadow-lg p-4 flex flex-col justify-between'>

@@ -55,7 +55,7 @@ const TChatPage = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         const data = {
-            konseling: result
+            conseling_result: result
         }
         try {
             const token = sessionStorage.getItem('tokeen');
@@ -85,30 +85,34 @@ const TChatPage = () => {
 
 
     const handleFormSubmit = async (e) => {
-        e.preventDefault();
-        const data = {
-            Chat: message
-        }
-        try {
-            const token = sessionStorage.getItem('tokeen');
-
-            const response = await axios.post(
-                `${BASE_API_URL}/online/insertchatguru/${state.id_conseling}`,
-                data,
-                {
-                    headers: {
-                        Authorization: `Bearer ${token}`,
-                    },
-                }
-            );
-
-            if (response.status === 200) {
-                navigate(0);
-                scrollToBottom();
+        if (message !== "") {
+            e.preventDefault();
+            const data = {
+                Chat: message
             }
-        } catch (error) {
-            console.error('Error:', error);
-            // TODO: Handle error if needed
+            try {
+                const token = sessionStorage.getItem('tokeen');
+
+                const response = await axios.post(
+                    `${BASE_API_URL}/online/insertchatguru/${state.id_conseling}`,
+                    data,
+                    {
+                        headers: {
+                            Authorization: `Bearer ${token}`,
+                        },
+                    }
+                );
+
+                if (response.data.status === true) {
+                    navigate(0);
+                    scrollToBottom();
+                }
+                else {
+                    navigate('/counseling')
+                }
+            } catch (error) {
+                console.error('Error:', error);
+            }
         }
 
     };
