@@ -100,69 +100,71 @@ const THistory = () => {
     return (
         <div className="w-full h-full bg-[#F9F9F9] overflow-hidden font-poppins">
             <NavbarTeacher />
-            <div className="overflow-x-auto overflow-y flex flex-col items-center justify-center pt-10 sm:px-14 md:px-32 lg:px-60 gap-4 font-poppins"></div>
-            <div className="w-full h-fit bg-white drop-shadow-lg py-12 gap-4 flex flex-col items-center justify-center font-poppins">
-                <h1 className="text-xl font-bold">Counseling Data</h1>
-                <h1 className="text-base text-center">
-                    The following data is a list of students who have requested appointments for offline counseling.
-                </h1>
-                <div className="max-h-[200px] overflow-y-auto">
-                    {renderTable()}
-                </div>
-                <Modal
-                    isOpen={isModalOpen}
-                    onRequestClose={closeModal}
-                    contentLabel="Result Modal"
-                    style={{
-                        overlay: {
-                            backgroundColor: 'rgba(0, 0, 0, 0.5)',
-                        },
-                        content: {
-                            // width: '35%',
-                            // height: '50%',
-                            top: '20%',
-                            right: '20%',
-                            left: '20%',
-                            bottom: '20%',
-                            margin: 'auto',
-                            borderRadius: '20px',
-                        },
-                    }}
-                >
-                    <div className='flex flex-col p-6'>
-                        <h1 className='text-2xl font-poppins font-bold text-center'>Counseling Result</h1>
-                        <form action="" className='pt-5 h-full'>
-                            <label htmlFor="Student" className='text-[#B72024]'>Student</label>
-                            <input
-                                type="text" // Corrected type
-                                name="nis"
-                                value="Bagus Imanysah"
-                                id="nis"
-                                className="w-full h-12 px-2 py-3 bg-white border-2 focus:border-black justify-start items-center inline-flex"
-                                readOnly
-                            />
-
-                            <label htmlFor="Result" className='text-[#B72024]'>Counseling Result</label>
-                            <textarea
-                                name=""
-                                id=""
-                                placeholder='Text Area'
-                                cols="30"
-                                rows="10"
-                                className='w-full h-32 px-2 py-3 bg-white border-2 focus:border-black justify-start items-center inline-flex'>
-                            </textarea>
-
-                            <div className='mt-auto space-x-2 pt-2 flex'>
-                                <button className='px-4 py-1 bg-[#C0392B] text-white rounded'>Close</button>
-                                <button className='px-4 py-1 bg-[#27AE60] text-white rounded'>Save</button>
-                            </div>
-
-                        </form>
+            <div className="overflow-x-auto overflow-y flex flex-col items-center justify-center pt-10 py-1 sm:px-14 md:px-32 lg:px-60 gap-4 font-poppins">
+                <div className="w-full h-fit bg-white drop-shadow-lg py-12 gap-4 flex flex-col items-center justify-center font-poppins">
+                    <h1 className="text-xl font-bold">Counseling Data</h1>
+                    <h1 className="text-base text-center">
+                        The following data is a list of students who have requested appointments for offline counseling.
+                    </h1>
+                    <div className="max-h-[200px] overflow-y-auto">
+                        {renderTable()}
                     </div>
+                    <Modal
+                        isOpen={isModalOpen}
+                        onRequestClose={closeModal}
+                        contentLabel="Result Modal"
+                        style={{
+                            overlay: {
+                                backgroundColor: 'rgba(0, 0, 0, 0.5)',
+                            },
+                            content: {
+                                // width: '35%',
+                                // height: '50%',
+                                top: '20%',
+                                right: '20%',
+                                left: '20%',
+                                bottom: '20%',
+                                margin: 'auto',
+                                borderRadius: '20px',
+                            },
+                        }}
+                    >
+                        <div className='flex flex-col p-6'>
+                            <h1 className='text-2xl font-poppins font-bold text-center'>Counseling Result</h1>
+                            <form action="" className='pt-5 h-full'>
+                                <label htmlFor="Student" className='text-[#B72024]'>Student</label>
+                                <input
+                                    type="text" // Corrected type
+                                    name="nis"
+                                    value="Bagus Imanysah"
+                                    id="nis"
+                                    className="w-full h-12 px-2 py-3 bg-white border-2 focus:border-black justify-start items-center inline-flex"
+                                    readOnly
+                                />
 
-                </Modal>
+                                <label htmlFor="Result" className='text-[#B72024]'>Counseling Result</label>
+                                <textarea
+                                    name=""
+                                    id=""
+                                    placeholder='Text Area'
+                                    cols="30"
+                                    rows="10"
+                                    className='w-full h-32 px-2 py-3 bg-white border-2 focus:border-black justify-start items-center inline-flex'>
+                                </textarea>
 
+                                <div className='mt-auto space-x-2 pt-2 flex'>
+                                    <button className='px-4 py-1 bg-[#C0392B] text-white rounded'>Close</button>
+                                    <button className='px-4 py-1 bg-[#27AE60] text-white rounded'>Save</button>
+                                </div>
+
+                            </form>
+                        </div>
+
+                    </Modal>
+
+                </div>
             </div>
+
         </div>
     );
 };
