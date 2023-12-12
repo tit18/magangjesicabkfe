@@ -52,7 +52,6 @@ const SCounseling = () => {
         }
     };
 
-
     useEffect(() => {
         fetchTeachers()
         fetchSession()
@@ -84,14 +83,15 @@ const SCounseling = () => {
             });
 
             if(response.data.status === true){
-                alert("Success Add Counseling Online")
+                toast.success('Add New Counseling Success')
                 fetchSession()
             } else {
                 alert(response.data.message)
             }
 
         } catch (error) {
-            console.error('Error fetching data:', error);
+            toast.error('Something wrong')
+            // console.error('Error fetching data:', error);
         }
         setIsModalOpen(false)
 
