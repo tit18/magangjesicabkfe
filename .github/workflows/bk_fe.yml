@@ -18,6 +18,7 @@ jobs:
             git pull
             git status
             cd /home
+            rm -rf /var/www/html/magangjesicabkfe
             cp -r magangjesicabkfe /var/www/html/
             cd /var/www/html/magangjesicabkfe
             npm install
