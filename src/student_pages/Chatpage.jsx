@@ -36,7 +36,7 @@ const TChatPage = () => {
 
         // Panggil fungsi untuk mengambil data guru
         fetchchateacher();
-        
+
 
         // Set up interval to fetch data every 5 seconds (adjust the interval as needed)
         const intervalId = setInterval(() => {
@@ -117,64 +117,66 @@ const TChatPage = () => {
                                     <p className='text-xl text-[#B72024] font-semibold'>Name: {state.name}</p>
                                     <p className='text-base font-normal'>Nik: {state.nik}</p>
                                 </div>
+                                
+
                             </div>
                         )}
                     </div>
                     <div className='sm:w-11/12 md:w-9/12 lg:w-7/12 max-h-[400px] bg-white drop-shadow-lg p-8 flex flex-col justify-between '>
-                    <div className='overflow-y-scroll'>
-                        {chateacher.map(teachers => (
-                            teachers.tipe_user === "teacher" ?
-                                <div className="flex items-start gap-2.5">
-                                    <img
-                                        className="w-8 h-8 rounded-full"
-                                        src={`${BASE_IMAGE_URL}/${teachers.photo}`}
-                                        alt={teachers.photo}
-                                    />
-                                    <div className="flex flex-col gap-1 w-full max-w-[320px]">
-                                        <div className="flex items-center space-x-2 rtl:space-x-reverse">
-                                            <span className="text-sm font-semibold text-[#B72024]">
-                                                {teachers.nama_user}
+                        <div className='overflow-y-scroll'>
+                            {chateacher.map(teachers => (
+                                teachers.tipe_user === "teacher" ?
+                                    <div className="flex items-start gap-2.5">
+                                        <img
+                                            className="w-8 h-8 rounded-full"
+                                            src={`${BASE_IMAGE_URL}/${teachers.photo}`}
+                                            alt={teachers.photo}
+                                        />
+                                        <div className="flex flex-col gap-1 w-full max-w-[320px]">
+                                            <div className="flex items-center space-x-2 rtl:space-x-reverse">
+                                                <span className="text-sm font-semibold text-[#B72024]">
+                                                    {teachers.nama_user}
 
-                                            </span>
-                                            <span className="text-sm font-normal text-gray-500 dark:text-gray-400">
-                                                {formatDate(teachers.createdAt).formattedDateTime}
-                                            </span>
-                                        </div>
-                                        <div className="flex flex-col leading-1.5 p-4 border-gray-200 bg-gray-100 rounded-e-xl rounded-l-xl ">
-                                            <p className="font-poppins text-gray-200 dark:text-black">
-                                                {teachers.counseling}
-                                            </p>
+                                                </span>
+                                                <span className="text-sm font-normal text-gray-500 dark:text-gray-400">
+                                                    {formatDate(teachers.createdAt).formattedDateTime}
+                                                </span>
+                                            </div>
+                                            <div className="flex flex-col leading-1.5 p-4 border-gray-200 bg-gray-100 rounded-e-xl rounded-l-xl ">
+                                                <p className="font-poppins text-gray-200 dark:text-black">
+                                                    {teachers.counseling}
+                                                </p>
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
-                                :
-                                <div className="flex items-start gap-2.5 justify-between ">
-                                    <div className="flex flex-col gap-3 w-full max-w-[320px] ml-auto">
-                                        <div className="flex items-center space-x-2 rtl:space-x-reverse justify-between">
-                                            <span className="text-sm font-normal text-gray-500 dark:text-gray-400 ml-auto">
-                                                {formatDate(teachers.createdAt).formattedDateTime}
-                                            </span>
-                                            <span className="text-sm font-semibold text-[#B72024]">
-                                                {teachers.nama_user}
-                                            </span>
+                                    :
+                                    <div className="flex items-start gap-2.5 justify-between ">
+                                        <div className="flex flex-col gap-3 w-full max-w-[320px] ml-auto">
+                                            <div className="flex items-center space-x-2 rtl:space-x-reverse justify-between">
+                                                <span className="text-sm font-normal text-gray-500 dark:text-gray-400 ml-auto">
+                                                    {formatDate(teachers.createdAt).formattedDateTime}
+                                                </span>
+                                                <span className="text-sm font-semibold text-[#B72024]">
+                                                    {teachers.nama_user}
+                                                </span>
 
+                                            </div>
+                                            <div className="flex flex-col leading-1.5 p-4 border-gray-200 bg-gray-100  rounded-l-xl  rounded-r-xl     ">
+                                                <p className="text-sm font-poppins text-gray-200 dark:text-black">
+                                                    {teachers.counseling}
+                                                </p>
+                                            </div>
                                         </div>
-                                        <div className="flex flex-col leading-1.5 p-4 border-gray-200 bg-gray-100  rounded-l-xl  rounded-r-xl     ">
-                                            <p className="text-sm font-poppins text-gray-200 dark:text-black">
-                                                {teachers.counseling}
-                                            </p>
-                                        </div>
+                                        <img
+                                            className="w-8 h-8 rounded-full"
+                                            src={`${BASE_IMAGE_URL}/${teachers.photo}`}
+                                            alt={teachers.photo}
+                                        />
                                     </div>
-                                    <img
-                                        className="w-8 h-8 rounded-full"
-                                        src={`${BASE_IMAGE_URL}/${teachers.photo}`}
-                                        alt={teachers.photo}
-                                    />
-                                </div>
 
-                        ))}
+                            ))}
                             <div ref={messagesEndRef}></div>
-                            </div>
+                        </div>
                         <form className='mt-auto flex items-center' onSubmit={handleFormSubmit}>
                             <input
                                 type="text"

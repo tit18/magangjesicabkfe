@@ -6,10 +6,12 @@ import axios from "axios";
 import { BASE_API_URL } from '../global.js';
 import { BASE_IMAGE_URL } from '../global.js'
 import iconNotif from '../components/icon/notification-icon.svg';
+import Modal from 'react-modal';
 
 const SCounseling = () => {
     const [teachers, setTeachers] = useState([]);
     const navigate = useNavigate();
+    const [isModalOpen, setIsModalOpen] = useState(false);
 
 
     useEffect(() => {
@@ -38,6 +40,17 @@ const SCounseling = () => {
     console.log('id', teachers.id_teacher)
     console.log('photo', teachers.photo)
 
+    const handleResultButtonClick = () => {
+        // Handle the result button click here
+        // For example, open the modal
+        setIsModalOpen(true);
+    };
+
+    const closeModal = () => {
+        setIsModalOpen(false);
+    };
+
+    
     return (
         <div className="w-full h-full bg-[#ffffff] overflow-hidden font-poppins">
             <div>
@@ -81,11 +94,70 @@ const SCounseling = () => {
                 </div>
             </div>
             {/* Bottom Centered Content */}
-            <div className="text-center mt-4 text-xs font-normal text-gray-500 font-Poppins">
-            © {new Date().getFullYear()} Copyright CURHApps All Rights Reserved.
+            <div className='fixed bottom-4 right-4'onClick={handleResultButtonClick} >
+                <img src={iconNotif} alt="Notification" width={30} />
             </div>
+            <div className="text-center mt-4 text-xs font-normal text-gray-500 font-Poppins">
+                © {new Date().getFullYear()} Copyright CURHApps All Rights Reserved.
+            </div>
+            <Modal
+                        isOpen={isModalOpen}
+                        //onRequestClose={closeModal}
+                        contentLabel="Result Modal"
+                        style={{
+                            overlay: {
+                                backgroundColor: 'rgba(0, 0, 0, 0.5)',
+                            },
+                            content: {
+                                // width: '35%',
+                                // height: '50%',
+                                top: '20%',
+                                right: '20%',
+                                left: '20%',
+                                bottom: '20%',
+                                margin: 'auto',
+                                borderRadius: '20px',
+                            },
+                        }}
+                    >
+                        <div className='flex flex-col p-6'>
+                            <h1 className='text-2xl font-poppins font-bold text-center'>Counseling Result</h1>
+                            <form action="" className='pt-5 h-full '
+                            //onSubmit={handleSubmit}>
+                            >
+                                <label htmlFor="Student" className='text-[#B72024]'>Student</label>
+                                <input
+                                    type="text" // Corrected type
+                                    name=""
+                                    //value={state.name}
+                                    id=""
+                                    className="w-full h-12 px-2 py-3 bg-white border-2 focus:border-black justify-start items-center inline-flex"
+                                    readOnly
+                                />
+
+
+                                <label htmlFor="Result" className='text-[#B72024]'>Counseling Result</label>
+                                <textarea
+                                    name=""
+                                    id=""
+                                    placeholder='Text Area'
+                                    cols="30"
+                                    rows="10"
+                                    //onChange={(e) => setResult(e.target.value)}
+                                    className='w-full h-32 px-2 py-3 bg-white border-2 focus:border-black justify-start items-center inline-flex'>
+                                </textarea>
+
+                                <div className='mt-auto space-x-2 pt-2 flex'>
+                                    <button className='px-4 py-1 bg-[#C0392B] text-white rounded' onClick={closeModal}>Close</button>
+                                    <button className='px-4 py-1 bg-[#27AE60] text-white rounded' type='submit'>Save</button>
+                                </div>
+
+                            </form>
+                        </div>
+
+                    </Modal>
         </div >
-        
+
 
     )
 }

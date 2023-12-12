@@ -1,18 +1,24 @@
 // ChatPage.js
 import React, { useState, useEffect, useRef } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
+import Modal from 'react-modal';
 import NavbarTeacher from '../components/General/NavbarTeacher';
 import send from '../components/icon/send-icon.svg';
 import { BASE_API_URL, BASE_IMAGE_URL } from '../global';
 import axios from 'axios';
 import moment from 'moment/moment';
 
+
 const TChatPage = () => {
     const location = useLocation();
     const { state } = location;
     const navigate = useNavigate()
     const [message, setMessage] = useState("");
+    const [result,setResult] = useState("")
     const [chatStudent, setChatStudent] = useState([]);
+    const [isModalOpen, setIsModalOpen] = useState(false);
+
+
 
     const messagesEndRef = useRef(null);
 
@@ -20,16 +26,18 @@ const TChatPage = () => {
         const fetchchatstudent = async () => {
             try {
                 // Ganti dengan URL API sesuai kebutuhan Anda
-                const token = sessionStorage.getItem('tokeen')
+                const token = sessionStorage.getItem('tokeen');
 
-                const response = await axios.get(`${BASE_API_URL}/online/getonline/${state.id_conseling}`, {
-                    headers: {
-                        Authorization: `Bearer ${token}`
-                    }
-                });
-                setChatStudent(response.data.data);
-    
-                scrollToBottom();
+                if (state && state.id_conseling) {
+                    const response = await axios.get(`${BASE_API_URL}/online/getonline/${state.id_conseling}`, {
+                        headers: {
+                            Authorization: `Bearer ${token}`
+                        }
+                    });
+
+                    setChatStudent(response.data.data);
+                    scrollToBottom();
+                }
             } catch (error) {
                 console.error('Error fetching student data:', error);
             }
@@ -38,7 +46,6 @@ const TChatPage = () => {
         // Panggil fungsi untuk mengambil data guru
         fetchchatstudent();
 
-
         // Set up interval to fetch data every 5 seconds (adjust the interval as needed)
         const intervalId = setInterval(() => {
             fetchchatstudent();
@@ -46,8 +53,46 @@ const TChatPage = () => {
 
         // Clean up interval on component unmount
         return () => clearInterval(intervalId);
-    }, [state.id_conseling]);
-    
+    }, [state, state?.id_conseling]);  // Use optional chaining to avoid errors if state is null or undefined
+
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        if (message !== "") {
+            const data = {
+                konseling: result
+            }
+            try {
+                const token = sessionStorage.getItem('tokeen');
+
+                const response = await axios.post(
+                    `${BASE_API_URL}/result/insertresult/${state.id_conseling}`,
+                    data,
+                    {
+                        headers: {
+                            Authorization: `Bearer ${token}`,
+                        },
+                    }
+                );
+
+
+                if (response.status === 200) {
+                    navigate(0);
+                    scrollToBottom();
+                    window.alert('Result has been successfully submitted!');
+                    navigate("/teacher/history");
+
+                }
+                
+            } catch (error) {
+                console.error('Error:', error);
+                // TODO: Handle error if needed
+                window.alert('Failed to submit result. Please try again.');
+            }
+        }
+
+    };
+
+
     const handleFormSubmit = async (e) => {
         e.preventDefault();
         const data = {
@@ -88,6 +133,15 @@ const TChatPage = () => {
         return { formattedDateTime };
     };
 
+    const handleResultButtonClick = () => {
+        // Handle the result button click here
+        // For example, open the modal
+        setIsModalOpen(true);
+    };
+
+    const closeModal = () => {
+        setIsModalOpen(false);
+    };
     return (
         <div className="w-full h-full bg-[#F9F9F9] overflow-hidden font-poppins">
             <NavbarTeacher />
@@ -106,6 +160,13 @@ const TChatPage = () => {
                                     <p className='text-xl text-[#B72024] font-semibold'>Name: {state.name}</p>
                                     <p className='text-base font-normal'>NIS: {state.nis}</p>
                                 </div>
+                                <div class="absolute top-0 right-0 mt-4">
+                                    <button type="button" class="text-red-700 hover:text-white border border-red-700 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2 dark:border-red-500 dark:text-red-500 dark:hover:text-white dark:hover:bg-red-600 dark:focus:ring-red-900 relative" onClick={handleResultButtonClick}>
+                                        <span class="block">Close</span>
+                                        <span class="block">Session</span>
+                                    </button>
+                                </div>
+
                             </div>
                         )}
                     </div>
@@ -180,7 +241,62 @@ const TChatPage = () => {
                                 <img src={send} alt="" />
                             </button>
                         </form>
+
                     </div>
+                    <Modal
+                        isOpen={isModalOpen}
+                        //onRequestClose={closeModal}
+                        contentLabel="Result Modal"
+                        style={{
+                            overlay: {
+                                backgroundColor: 'rgba(0, 0, 0, 0.5)',
+                            },
+                            content: {
+                                // width: '35%',
+                                // height: '50%',
+                                top: '20%',
+                                right: '20%',
+                                left: '20%',
+                                bottom: '20%',
+                                margin: 'auto',
+                                borderRadius: '20px',
+                            },
+                        }}
+                    >
+                        <div className='flex flex-col p-6'>
+                            <h1 className='text-2xl font-poppins font-bold text-center'>Counseling Result</h1>
+                            <form action="" className='pt-5 h-full 'onSubmit={handleSubmit}>
+                                <label htmlFor="Student" className='text-[#B72024]'>Student</label>
+                                <input
+                                    type="text" // Corrected type
+                                    name=""
+                                    value={state.name}
+                                    id=""
+                                    className="w-full h-12 px-2 py-3 bg-white border-2 focus:border-black justify-start items-center inline-flex"
+                                    readOnly
+                                />
+
+
+                                <label htmlFor="Result" className='text-[#B72024]'>Counseling Result</label>
+                                <textarea
+                                    name=""
+                                    id=""
+                                    placeholder='Text Area'
+                                    cols="30"
+                                    rows="10"
+                                    onChange={(e) => setResult(e.target.value)}
+                                    className='w-full h-32 px-2 py-3 bg-white border-2 focus:border-black justify-start items-center inline-flex'>
+                                </textarea>
+
+                                <div className='mt-auto space-x-2 pt-2 flex'>
+                                    <button className='px-4 py-1 bg-[#C0392B] text-white rounded' onClick={closeModal}>Close</button>
+                                    <button className='px-4 py-1 bg-[#27AE60] text-white rounded' type='submit'>Save</button>
+                                </div>
+
+                            </form>
+                        </div>
+
+                    </Modal>
                 </div>
             </div>
         </div>

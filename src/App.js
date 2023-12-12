@@ -1,5 +1,5 @@
 import React from 'react';
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { HashRouter, Routes, Route } from 'react-router-dom';
 import './App.css';
 import SLogin from './student_pages/Login';
 import SDashboard from './student_pages/Dashboard';
@@ -20,7 +20,7 @@ function App() {
   // Check if the user is logged in
 
   return (
-    <BrowserRouter>
+    <HashRouter>
         <Routes>
           <Route path="/" element={<SLogin />} />
           <Route path='/dashboard' element={<SDashboard/>}/>
@@ -36,9 +36,9 @@ function App() {
           <Route path='/teacher/history' element={<THistory/>}/>
           <Route path='/teacher/counseling/:id_student' element={<TChatPage />} />
 
-          {/* <Route path='*' element={<NotFound />} /> */}
+          <Route path='*' element={<div>NOT FOUND</div>} />
         </Routes>
-      </BrowserRouter>
+      </HashRouter>
   );
 }
 
