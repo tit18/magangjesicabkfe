@@ -52,7 +52,7 @@ const AppointmentsTable = () => {
 
                 const response = await axios.post(
                     `${BASE_API_URL}/result/insertresult/${selectedAppointment.id_conseling}`,
-                    { conseling_result: result }, // Updated property name
+                    { conseling_result: result },
                     {
                         headers: {
                             Authorization: `Bearer ${token}`,
@@ -61,13 +61,11 @@ const AppointmentsTable = () => {
                 );
 
                 if (response.status === 200) {
-                    //const newData = response.data.data;
-                    // Update state with the new data, if needed
-                    // For example, if you have a state for results, you can do:
-                    // setResults([...results, newData.conseling_result]);
-
                     closeModal();
                     window.alert('Result has been successfully submitted!');
+
+                    // Fetch the updated table data after successful submission
+                    fetchDataTable();
                 }
             } catch (error) {
                 console.error('Error:', error);
