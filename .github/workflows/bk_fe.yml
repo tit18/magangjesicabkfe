@@ -17,5 +17,7 @@ jobs:
             cd /home/magangjesicabkfe/magangjesicabkfe
             git pull origin master
             git status
+            cp -r ../magangjesicabkfe /var/www/html/
+            cd /var/www/html/magangjesicabkfe
             npm install
-            pm2 reload server
+            npm run build
