@@ -73,7 +73,18 @@ const SAppointment = () => {
 
         try {
             // Replace 'YOUR_API_ENDPOINT' with your actual API endpoint
-            const response = await axios.post(`${BASE_API_URL}/conseling`, data);
+            const token = sessionStorage.getItem('tokeen');
+
+            const response = await axios.post(
+                `${BASE_API_URL}/conseling`,
+                data,
+                {
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                    },
+                }
+            );
+
             // Show success alert
             alert('Data submitted successfully!');
 
@@ -83,6 +94,7 @@ const SAppointment = () => {
             // Handle errors
             console.error('Error submitting form:', error);
         }
+
     };
     console.log('formData:', formData);
 
@@ -93,10 +105,10 @@ const SAppointment = () => {
             <div className='overflow-x-auto overflow-y flex flex-col items-center justify-center pt-28 gap-4 font-poppins bg-whitef'>
                 <div className="w-full h-fit bg-white shadow-lg py-1 gap-4 flex flex-col items-center justify-center">
                     <div className="p-2 rounded-md space-y-2">
-                    <h1 className="text-3xl font-bold font-poppins text-center">CURHApps Online Counseling</h1>
-                    <p className="text-base font-poppins text-center">
-                    Make an appointment witcounseling teacher to be able to conduct counseling sessions offline.
-                    </p>
+                        <h1 className="text-3xl font-bold font-poppins text-center">CURHApps Online Counseling</h1>
+                        <p className="text-base font-poppins text-center">
+                            Make an appointment witcounseling teacher to be able to conduct counseling sessions offline.
+                        </p>
                         <form className="space-y-3" onSubmit={handleSubmit}>
                             <div>
                                 <label htmlFor="id_student" className="text-[#B72024] font-sans">
@@ -111,7 +123,7 @@ const SAppointment = () => {
                                     readOnly
                                 />
                             </div>
-                            
+
                             <div>
                                 <label htmlFor="name" className="text-[#B72024] font-sans">
                                     Student Name
@@ -174,7 +186,7 @@ const SAppointment = () => {
                 </div>
             </div>
             <div className="text-center mt-4 text-xs font-normal text-gray-500 font-Poppins">
-            © {new Date().getFullYear()} Copyright CURHApps All Rights Reserved.
+                © {new Date().getFullYear()} Copyright CURHApps All Rights Reserved.
             </div>
         </div>
     );
