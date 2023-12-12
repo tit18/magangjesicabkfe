@@ -80,8 +80,10 @@ const SCounseling = () => {
                     Authorization: `Bearer ${token}`
                 }
             });
-            
-            alert(response.data.message)
+
+            if(response.status === 200){
+                alert("Success Add Counseling Online")
+            }
 
         } catch (error) {
             console.error('Error fetching data:', error);

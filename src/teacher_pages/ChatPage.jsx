@@ -17,9 +17,6 @@ const TChatPage = () => {
     const [result,setResult] = useState("")
     const [chatStudent, setChatStudent] = useState([]);
     const [isModalOpen, setIsModalOpen] = useState(false);
-
-
-
     const messagesEndRef = useRef(null);
 
     useEffect(() => {
@@ -57,37 +54,31 @@ const TChatPage = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        if (message !== "") {
-            const data = {
-                konseling: result
-            }
-            try {
-                const token = sessionStorage.getItem('tokeen');
+        const data = {
+            konseling: result
+        }
+        try {
+            const token = sessionStorage.getItem('tokeen');
 
-                const response = await axios.post(
-                    `${BASE_API_URL}/result/    /${state.id_conseling}`,
-                    data,
-                    {
-                        headers: {
-                            Authorization: `Bearer ${token}`,
-                        },
-                    }
-                );
-
-
-                if (response.status === 200) {
-                    navigate(0);
-                    scrollToBottom();
-                    window.alert('Result has been successfully submitted!');
-                    navigate("/teacher/history");
-
+            const response = await axios.post(
+                `${BASE_API_URL}/result/insertresult/${state.id_conseling}`,
+                data,
+                {
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                    },
                 }
-                
-            } catch (error) {
-                console.error('Error:', error);
-                // TODO: Handle error if needed
-                window.alert('Failed to submit result. Please try again.');
+            );
+
+            if (response.status === 200) {
+                window.alert('Result has been successfully submitted!');
+                navigate("/teacher/counseling");
             }
+            
+        } catch (error) {
+            console.error('Error:', error);
+            // TODO: Handle error if needed
+            window.alert('Failed to submit result. Please try again.');
         }
 
     };
@@ -110,7 +101,6 @@ const TChatPage = () => {
                     },
                 }
             );
-
 
             if (response.status === 200) {
                 navigate(0);
