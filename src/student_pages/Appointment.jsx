@@ -105,9 +105,9 @@ const SAppointment = () => {
             <div className='overflow-x-auto overflow-y flex flex-col items-center justify-center pt-20 gap-4 font-poppins bg-whitef'>
                 <div className="w-full h-fit bg-white shadow-lg py-1 gap-4 flex flex-col items-center justify-center">
                     <div className="p-2 rounded-md space-y-2">
-                        <h1 className="text-3xl font-bold font-poppins text-center">CURHApps Counseling Appointment</h1>
-                        <p className="text-base font-poppins text-center pb-5">
-                            Make an appointment with counseling teacher to be able to conduct counseling sessions offline.
+                        <h1 className="text-3xl font-bold font-poppins text-center">CURHApps Online Counseling</h1>
+                        <p className="text-base font-poppins text-center">
+                            Make an appointment witcounseling teacher to be able to conduct counseling sessions offline.
                         </p>
                         <form className="space-y-3" onSubmit={handleSubmit}>
                             <div>
@@ -152,7 +152,6 @@ const SAppointment = () => {
                                     onChange={handleChange}
                                     required
                                 >
-                                    <option value="">~~Choose Teacher~~</option>
                                     {teachers.map((teacher) => (
                                         <option key={teacher.id_teacher} value={teacher.id_teacher}>
                                             {teacher.teacher_name}
@@ -163,7 +162,7 @@ const SAppointment = () => {
 
                             <div>
                                 <label htmlFor="date" className="text-[#B72024] font-sans">
-                                    Counseling Date
+                                    Meeting Date
                                 </label>
                                 <input
                                     value={formData.meeting_date}
