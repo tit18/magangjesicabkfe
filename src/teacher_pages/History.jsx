@@ -50,19 +50,20 @@ const THistory = () => {
     const renderTableHeader = () => {
         const columns = [
             { id: 'date', name: 'Date', width: '120px' },
-            { id: 'time', name: 'Time', width: '150px' },
             { id: 'student', name: 'Student', width: '120px' },
-            { id: 'action', name: 'Action', width: '80px' },
+            { id: 'category', name: 'Category', width: '150px' },
+            { id: 'status', name: 'Status', width: '150px' },
+            { id: 'result', name: 'Counseling Result', width: '80px' },
         ];
 
         return (
-            <thead className="">
-                <tr>
+            <thead className="flex-wrap">
+                <tr className="flex">
                     {columns.map((column) => (
                         <th
                             key={column.id}
                             scope="col"
-                            className={`min-w-[${column.width}] font-poppins text-left pl-4 lg:pr-20 sm:pr-0`}
+                            className={`min-w-[${column.width}] flex-shrink-0 font-poppins text-left pl-4 lg:pr-20 sm:pr-0`}
                         >
                             {column.name}
                         </th>
@@ -102,9 +103,9 @@ const THistory = () => {
             <NavbarTeacher />
             <div className="overflow-x-auto overflow-y flex flex-col items-center justify-center pt-10 py-1 sm:px-14 md:px-32 lg:px-60 gap-4 font-poppins">
                 <div className="w-full h-fit bg-white drop-shadow-lg py-12 gap-4 flex flex-col items-center justify-center font-poppins">
-                    <h1 className="text-xl font-bold">Counseling Data</h1>
+                    <h1 className="text-xl font-bold">Counseling History</h1>
                     <h1 className="text-base text-center">
-                        The following data is a list of students who have requested appointments for offline counseling.
+                        Here your last counseing history, don’t forget to give review.
                     </h1>
                     <div className="max-h-[200px] overflow-y-auto">
                         {renderTable()}

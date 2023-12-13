@@ -4,6 +4,8 @@ import axios from 'axios';
 import '../index.css';
 import icon from '../components/icon/telkomSchools.png';
 import { BASE_API_URL } from '../global.js';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 export default function TLogin() {
     const navigate = useNavigate();
@@ -32,7 +34,8 @@ export default function TLogin() {
                 const token = result.data.data.token;
                 const photo = result.data.data.photo;
 
-                alert('Login Success');
+                toast.success('Login Success');
+
                 console.log(result.data.data);
                 sessionStorage.setItem('teacher_logged', result.data.status);
                 sessionStorage.setItem('teacher', JSON.stringify(result.data));
@@ -41,18 +44,21 @@ export default function TLogin() {
                 sessionStorage.setItem('name', teacherName);
                 sessionStorage.setItem('photo', photo)
 
-                navigate("/teacher/dashboard");
+                setTimeout(() => {
+                    navigate("/teacher/dashboard");
+                }, 3000);
             } else {
-                alert('Login Failed');
+                toast.error('Login Failed, NIK or Password is wrong');
             }
         } catch (error) {
             console.error('Error during login:', error);
-            alert('Login Failed');
+            toast.error('Login Error');
         }
     };
 
     return (
         <div className="flex items-center justify-center h-screen bg-gray-50  sm:px-5 md:px-10 lg:px-15">
+            <ToastContainer />
             <div className="w-full max-w-lg p-6  h-fit bg-white rounded-2xl shadow-md pb-20">
                 <img src={icon} alt="Telkom Schools Logo" className="mx-auto w-[50px] h-[50px]" />
                 <div className="block mb-10 text-center text-black text-base font-medium font-poppins ">SMK TELKOM MALANG</div>
