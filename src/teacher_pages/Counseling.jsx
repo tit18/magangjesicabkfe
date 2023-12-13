@@ -15,7 +15,7 @@ const TCounseling = () => {
     const fetchData = async () => {
         try {
             const token = sessionStorage.getItem('tokeen');
-            const response = await axios.get(`${BASE_API_URL}/online/getchatsiswa`, {
+            const response = await axios.get(`${BASE_API_URL}/online/getchatguru`, {
                 headers: {
                     Authorization: `Bearer ${token}`,
                 },
