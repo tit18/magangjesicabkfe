@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import axios from 'axios';
 import '../index.css';
 import icon from '../components/icon/telkomSchools.png';
@@ -64,7 +64,7 @@ export default function TLogin() {
                         <input
                             type="number"
                             name="nik"
-                            placeholder="Text"
+                            placeholder="NIK"
                             id="nik"
                             value={teacher.nik}
                             onChange={handleChange}
@@ -93,7 +93,13 @@ export default function TLogin() {
                         Login
                     </button>
                 </form>
-               
+                <div className='text-center mt-2 hover:text-[#B72024]'>
+                    <Link
+                        to="/"
+                    >
+                        Are you student? Login here
+                    </Link>
+                </div>
             </div>
         </div>
     );

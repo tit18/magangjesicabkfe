@@ -15,6 +15,8 @@ import TAppointment from './teacher_pages/Appointment';
 import THistory from './teacher_pages/History';
 import TChatPage from './teacher_pages/ChatPage';
 
+import NotFound from './components/General/NotFound';
+
 
 function App() {
   // Check if the user is logged in
@@ -36,7 +38,7 @@ function App() {
           <Route path='/teacher/history' element={<THistory/>}/>
           <Route path='/teacher/counseling/:id_student' element={<TChatPage />} />
 
-          <Route path='*' element={<div>NOT FOUND</div>} />
+          <Route path='*' element={<NotFound/>} />
         </Routes>
       </HashRouter>
   );

@@ -1,6 +1,6 @@
 // Assuming your file is named 'config.js'
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import '../index.css';
 import icon from '../components/icon/telkomSchools.png';
@@ -52,7 +52,7 @@ export default function SLogin() {
             alert('Login Failed');
         }
 
-        
+
 
     };
 
@@ -69,7 +69,7 @@ export default function SLogin() {
                         <input
                             type="number" // Corrected type
                             name="nis"
-                            placeholder="Text"
+                            placeholder="NIS"
                             id="nis"
                             value={student.nis}
                             onChange={handleChange}
@@ -84,7 +84,7 @@ export default function SLogin() {
                         <input
                             type="password"
                             name="password"
-                            placeholder="Text"
+                            placeholder="Password"
                             id="password"
                             value={student.password}
                             onChange={handleChange}
@@ -98,6 +98,13 @@ export default function SLogin() {
                         Login
                     </button>
                 </form>
+                <div className='text-center mt-2 hover:text-[#B72024]'>
+                    <Link
+                        to="/teacher"
+                    >
+                        Are you teacher? Login here
+                    </Link>
+                </div>
             </div>
         </div>
     );
