@@ -86,7 +86,7 @@ const SCounseling = () => {
                 toast.success('Add New Counseling Success')
                 fetchSession()
             } else {
-                alert(response.data.message)
+                toast.error(response.data.message)
             }
 
         } catch (error) {

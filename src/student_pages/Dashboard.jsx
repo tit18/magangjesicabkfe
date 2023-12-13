@@ -7,9 +7,9 @@ import axios from 'axios';
 import moment from 'moment/moment';
 
 const SDashboard = () => {
-    const [upcoming, setupcoming] = useState([]);
-    const [last, setLast] = useState([]);
-    const [teacher, setTeacher] = useState([])
+    const [upcoming, setupcoming] = useState(null);
+    const [last, setLast] = useState(null);
+
 
     const fetchupcoming = async () => {
         try {
@@ -20,7 +20,7 @@ const SDashboard = () => {
                 }
             });
 
-            console.log(response.data.data); // Log the response data
+            // console.log(response.data.data); // Log the response data
 
             setupcoming(response.data.data);
         } catch (error) {
@@ -37,7 +37,7 @@ const SDashboard = () => {
                 }
             });
 
-            console.log(response.data.data); // Log the response data
+            // console.log(response.data.data); // Log the response data
 
             setLast(response.data.data);
         } catch (error) {
@@ -45,27 +45,10 @@ const SDashboard = () => {
         }
     };
 
-    const fetchteacher = async () => {
-        try {
-            const token = sessionStorage.getItem('tokeen')
-            const response = await axios.get(`${BASE_API_URL}/teacher/getteacher`, {
-                headers: {
-                    Authorization: `Bearer ${token}`
-                }
-            });
-
-            console.log(response.data.data); // Log the response data
-
-            setTeacher(response.data.data);
-        } catch (error) {
-            console.error('Error fetching teacher data:', error);
-        }
-    };
 
     useEffect(() => {
         fetchupcoming();
         fetchlast();
-        fetchteacher();
     }, []);
 
     const formatDate = (date) => {
@@ -73,7 +56,6 @@ const SDashboard = () => {
         const formattedDateTime = momentDate.format('DD/MM/YYYY HH:mm:ss');
         return { formattedDateTime };
     };
-
 
     return (
         <div className="flex flex-col justify-between h-screen">
@@ -106,7 +88,7 @@ const SDashboard = () => {
                                             {formatDate(upcoming.meeting_date).formattedDateTime}
                                         </p>
                                         <p className="text-base font-normal text-gray-700 dark:text-black-400">
-                                            {upcoming && upcoming.teacher && upcoming.teacher.teacher_name}
+                                            {upcoming.teacher_name}
                                         </p>
                                         <button
                                             type="button"
@@ -131,10 +113,10 @@ const SDashboard = () => {
                                             Last Counseling
                                         </h5>
                                         <p className="mt-2 text-base font-normal text-gray-700 dark:text-black-400">
-                                            23 December 2023 - 09.00
+                                            {formatDate(last.meeting_date).formattedDateTime}
                                         </p>
                                         <p className="text-base font-normal text-gray-700 dark:text-black-400">
-                                            {last}
+                                            {last.teacher_name}
                                         </p>
                                         <button
                                             type="button"

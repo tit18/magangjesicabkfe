@@ -3,7 +3,8 @@ import axios from 'axios';
 import '../index.css';
 import Navbar from '../components/General/Navbar';
 import { BASE_API_URL } from '../global.js';
-
+import 'react-toastify/dist/ReactToastify.css';
+import { ToastContainer, toast } from 'react-toastify';
 
 
 const SAppointment = () => {
@@ -86,7 +87,11 @@ const SAppointment = () => {
             );
 
             // Show success alert
-            alert('Data submitted successfully!');
+            if (response.data.status === true){
+            toast.success('Appoinment submitted successfully!');
+            } else {
+                toast.error('you already have an appointment')
+            }
 
             // Handle the response from the server if needed
             console.log('Server response:', response.data);
@@ -102,6 +107,7 @@ const SAppointment = () => {
 
         <div className="w-full h-full bg-[#fefcfc] overflow-hidden font-poppins">
             <Navbar />
+            <ToastContainer/>
             <div className='overflow-x-auto overflow-y flex flex-col items-center justify-center pt-20 gap-4 font-poppins bg-whitef'>
                 <div className="w-full h-fit bg-white shadow-lg py-1 gap-4 flex flex-col items-center justify-center">
                     <div className="p-2 rounded-md space-y-2">

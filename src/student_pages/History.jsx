@@ -5,16 +5,19 @@ import axios from 'axios';
 import { BASE_API_URL } from '../global.js';
 import moment from 'moment/moment';
 import Modal from 'react-modal';
+import StarRatings from 'react-star-ratings';
+
 
 const SHistory = () => {
     const [history, setHistory] = useState([])
     const [isModalOpen, setIsModalOpen] = useState(false);
+    const [tempRating, setTempRating] = useState(0);
 
 
     const fetchhistory = async () => {
         try {
             const token = sessionStorage.getItem('tokeen')
-            const response = await axios.get(`${BASE_API_URL}/dashboard/upcomingonline`, {
+            const response = await axios.get(`${BASE_API_URL}/teacher/conseling_history_student`, {
                 headers: {
                     Authorization: `Bearer ${token}`
                 }
@@ -56,7 +59,7 @@ const SHistory = () => {
             { id: 'time', name: 'Time', width: '150px' },
             { id: 'teacher', name: 'Teacher', width: '120px' },
             { id: 'category', name: 'category', width: '120px' },
-            {id: 'status', name:'Status', width: '120px'},
+            { id: 'status', name: 'Status', width: '120px' },
             { id: 'action', name: 'Action', width: '80px' },
         ];
 
@@ -80,10 +83,12 @@ const SHistory = () => {
 
     const renderTableRow = (data) => {
         return (
-            <tr key={data.id_conseling} className='space-y-1'>
-                <td className="pl-4 font-poppins">{formatDate(data.offline.meeting_date).formattedDate}</td>
-                <td className="pl-4 font-poppins">{formatDate(data.offline.meeting_date).formattedTime}</td>
-                <td className="pl-4 font-poppins">{data.student.student_name}</td>
+            <tr key={data} className='space-y-1'>
+                <td className="pl-4 font-poppins">{formatDate(data.date).formattedDate}</td>
+                <td className="pl-4 font-poppins">{formatDate(data.date).formattedTime}</td>
+                <td className="pl-4 font-poppins">{data.teacher_name}</td>
+                <td className="pl-4 font-poppins">{data.category}</td>
+                <td className="pl-4 font-poppins">{data.isclosed === 1 ? 'Closed' : 'ClosedApproved'}</td>
                 <td className="px-4 flex items-center space-x-2">
                     <button className="sm:px-1 md:px-3 lg:px-5 py-1 sm:text-xs md:text-sm lg:text-base bg-[#6495ED] text-white rounded font-poppins" onClick={handleResultButtonClick}>
                         Result
@@ -97,7 +102,7 @@ const SHistory = () => {
         return (
             <table className="max-w-fit table-auto text-base sticky top-0 z-10 font-poppins">
                 {renderTableHeader()}
-                {/* <tbody>{history.map((item) => renderTableRow(item))}</tbody> */}
+                <tbody>{history.map((item) => renderTableRow(item))}</tbody>
             </table>
         );
     };
@@ -109,7 +114,7 @@ const SHistory = () => {
                 <div className="w-full h-fit bg-white drop-shadow-lg py-12 gap-4 flex flex-col items-center justify-center font-poppins">
                     <h1 className="text-xl font-bold">Counseling History</h1>
                     <h1 className="text-base text-center">
-                    Here your last counseing history, don’t forget to give review.
+                        Here your last counseing history, don’t forget to give review.
                     </h1>
                     <div className="max-h-[200px] overflow-y-auto">
                         {renderTable()}
@@ -136,8 +141,8 @@ const SHistory = () => {
                     >
                         <div className='flex flex-col p-6'>
                             <h1 className='text-2xl font-poppins font-bold text-center'>Counseling Result</h1>
-                            <form action="" className='pt-5 h-full'>
-                                <label htmlFor="Student" className='text-[#B72024]'>Student</label>
+                            <form action="" className='pt-10 h-full'>
+                                <label htmlFor="teacher" className='text-[#B72024]'>Name Teacher</label>
                                 <input
                                     type="text" // Corrected type
                                     name="nis"
@@ -147,18 +152,20 @@ const SHistory = () => {
                                     readOnly
                                 />
 
-                                <label htmlFor="Result" className='text-[#B72024]'>Counseling Result</label>
-                                <textarea
-                                    name=""
-                                    id=""
-                                    placeholder='Text Area'
-                                    cols="30"
-                                    rows="10"
-                                    className='w-full h-32 px-2 py-3 bg-white border-2 focus:border-black justify-start items-center inline-flex'>
-                                </textarea>
+                                <label htmlFor="Result" className='text-[#B72024] '>Please Submit Rating</label> <br />
+                                <StarRatings
+                                    rating={tempRating}
+                                    starRatedColor="#FFD700"
+                                    starHoverColor="#FFD700"
+                                    changeRating={(newRating) => setTempRating(newRating)}
+                                    numberOfStars={5}
+                                    name='rating'
+                                    starDimension= "40px"
+                                    className=""
+                                />
 
                                 <div className='mt-auto space-x-2 pt-2 flex'>
-                                    <button className='px-4 py-1 bg-[#C0392B] text-white rounded'>Close</button>
+                                    <button className='px-4 py-1 bg-[#C0392B] text-white rounded' onClick={closeModal}>Close</button>
                                     <button className='px-4 py-1 bg-[#27AE60] text-white rounded'>Save</button>
                                 </div>
 
