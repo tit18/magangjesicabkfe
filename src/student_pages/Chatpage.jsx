@@ -86,6 +86,7 @@ const TChatPage = () => {
             console.error('Error:', error);
             // TODO: Handle error if needed
         }
+        
 
     };
     const scrollToBottom = () => {

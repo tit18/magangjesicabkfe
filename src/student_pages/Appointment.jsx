@@ -37,6 +37,7 @@ const SAppointment = () => {
     const data = JSON.parse(sessionStorage.getItem('student'));
     const idStudent = sessionStorage.getItem('id_student');
     const studentname = sessionStorage.getItem('name')
+    const nis = sessionStorage.getItem('nis')
     //const tokeen = sessionStorage.getItem('tokeen')
 
     const [formData, setFormData] = useState({
@@ -127,6 +128,7 @@ const SAppointment = () => {
                                     id="id_student"
                                     className="w-full h-10 px-2 py-3 bg-white border-2 border-neutral-100 justify-start items-center gap-2 inline-flex"
                                     readOnly
+                                    disabled
                                 />
                             </div>
 

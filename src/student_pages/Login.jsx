@@ -35,6 +35,7 @@ export default function SLogin() {
                 const studentname = result.data.data.student_name
                 const toke = result.data.data.token;
                 const photo = result.data.data.photo;
+                const nis = result.data.data.nis
 
                 toast.success('Login Success');
                 
@@ -45,6 +46,7 @@ export default function SLogin() {
                 sessionStorage.setItem('tokeen', toke)
                 sessionStorage.setItem('name', studentname)
                 sessionStorage.setItem('photo', photo)
+                sessionStorage.setItem('nis',nis)
 
                 setTimeout(() => {
                     navigate("/dashboard");
@@ -66,7 +68,8 @@ export default function SLogin() {
             <ToastContainer/>
             <div className="w-full max-w-lg p-6  h-fit bg-white rounded-2xl shadow-md pb-20">
                 <img src={icon} alt="Telkom Schools Logo" className="mx-auto w-[50px] h-[50px]" />
-                <div className="block mb-10 text-center text-black text-base font-medium font-poppins ">SMK TELKOM MALANG</div>
+                <div className="block mb-3 text-center text-black text-base font-medium font-poppins ">SMK TELKOM MALANG</div>
+                <div className="block mb-2 text-center text-black text-base font-medium font-poppins ">CURHApps student</div>
                 <form className="space-y-6" onSubmit={handleLogin}>
                     <div>
                         <label htmlFor="nis" className="block mb-2 text-[#B72024] font-sans">

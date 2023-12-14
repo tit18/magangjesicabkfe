@@ -10,6 +10,7 @@ const Navbar = () => {
     const [isNavOpen, setIsNavOpen] = useState(false);
     const [isProfileDropdownOpen, setIsProfileDropdownOpen] = useState(false);
     const profilePhotoUrl = `${BASE_IMAGE_URL}/${sessionStorage.getItem('photo')}`
+    const studentname = sessionStorage.getItem('name')
 
     if (sessionStorage.getItem('student_logged') !== "true") {
         return <Navigate to="/" state={{ from: location }} replace />
@@ -94,6 +95,10 @@ const Navbar = () => {
                             </div>
                         </div>
                         <div className="absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
+                            <div className={`hidden sm:block ${isNavOpen ? "hidden" : ""}`}>
+                                {/* Tambahkan style={{ textTransform: 'uppercase' }} untuk membuat huruf kapital */}
+                                <span className="font-semibold" style={{ textTransform: 'capitalize' }}>{studentname}</span>
+                            </div>
                             <div className="relative ml-3">
                                 <button
                                     type="button"
@@ -112,8 +117,8 @@ const Navbar = () => {
                                 {isProfileDropdownOpen && (
                                     <div className="absolute right-0 z-10 mt-2 w-48 origin-top-right rounded-md bg-white py-1 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
                                         <div className="absolute right-0 z-10 mt-2 w-48 origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none cursor-pointer px-4 py-2" onClick={Logout}>
-                                        Sign out
-                                    </div>
+                                            Sign out
+                                        </div>
                                     </div>
                                 )}
                             </div>

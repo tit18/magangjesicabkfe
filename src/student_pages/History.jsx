@@ -8,6 +8,7 @@ import Modal from 'react-modal';
 import StarRatings from 'react-star-ratings';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import {  useNavigate } from 'react-router-dom';
 
 const SHistory = () => {
     const [history, setHistory] = useState([]);
@@ -15,6 +16,7 @@ const SHistory = () => {
     const [selectedTeacher, setSelectedTeacher] = useState(null);
     const [rating, setRating] = useState();
     const [selectedConselingId, setSelectedConselingId] = useState(null); // New state
+    const navigate = useNavigate()
 
     const fetchhistory = async () => {
         try {
@@ -57,8 +59,8 @@ const SHistory = () => {
 
     const formatDate = (date) => {
         const momentDate = moment(date);
-        const formattedDate = momentDate.format('DD/MM/YYYY');
-        const formattedTime = momentDate.format('HH:mm:ss');
+        const formattedDate = momentDate.format('DD/MM');
+        const formattedTime = momentDate.format('HH:mm');
         return { formattedDate, formattedTime };
     };
 
@@ -67,7 +69,7 @@ const SHistory = () => {
         setSelectedTeacher(data);
         setSelectedConselingId(data.id_conseling); // Set the id_conseling in the state
     };
-    
+
 
     const closeModal = () => {
         setIsModalOpen(false);
@@ -79,7 +81,7 @@ const SHistory = () => {
             // Ganti dengan URL API sesuai kebutuhan Anda
             const token = sessionStorage.getItem('tokeen')
             const data = {
-            
+
                 rating: rating
             }
 
@@ -91,8 +93,10 @@ const SHistory = () => {
             });
 
             if (response.data.status === true) {
-                toast.success('Add New Counseling Success')
+                toast.success('Add New Rating')
                 // fetchSession()
+                navigate(0);
+
             } else {
                 toast.error(response.data.message)
             }
@@ -107,13 +111,13 @@ const SHistory = () => {
 
     const renderTableHeader = () => {
         const columns = [
-            { id: 'date', name: 'Date', width: '120px' },
-            { id: 'time', name: 'Time', width: '150px' },
-            { id: 'teacher', name: 'Teacher', width: '120px' },
-            { id: 'category', name: 'category', width: '120px' },
-            { id: 'rating', name: 'rating', width: '120px' },
-            { id: 'status', name: 'Status', width: '120px' },
-            { id: 'action', name: 'Action', width: '80px' },
+            { id: 'date', name: 'Date', width: '20%' },
+            { id: 'time', name: 'Time', width: '20%' },
+            { id: 'teacher', name: 'Teacher', width: '20%x' },
+            { id: 'category', name: 'category', width: '20%' },
+            { id: 'rating', name: 'rating', width: '5%' },
+            { id: 'status', name: 'Status', width: '20%' },
+            { id: 'action', name: 'Action', width: '20%' },
         ];
 
         return (
@@ -136,19 +140,23 @@ const SHistory = () => {
     const renderTableRow = (data) => {
         return (
             <tr key={data} className='space-y-1'>
-                <td className="pl-4 font-poppins">{formatDate(data.date).formattedDate}</td>
-                <td className="pl-4 font-poppins">{formatDate(data.date).formattedTime}</td>
-                <td className="pl-4 font-poppins">{data.teacher_name}</td>
-                <td className="pl-4 font-poppins">{data.category}</td>
-                <td className="pl-4 font-poppins">{data.rating || "-"}</td>
-                <td className="pl-4 font-poppins">{data.isclosed === 1 ? 'Closed' : 'Approved'}</td>
-                <td className="px-4 flex items-center space-x-2">
+                <td className="pl-2 font-poppins">{formatDate(data.date).formattedDate}</td>
+                <td className="pl-2 font-poppins">{formatDate(data.date).formattedTime}</td>
+                <td className="pl-2 font-poppins">{data.teacher_name}</td>
+                <td className="pl-2 font-poppins">{data.category}</td>
+                <td className="pl-2 font-poppins">{data.rating || "-"}</td>
+                <td className="pl-2 font-poppins">{data.isclosed === 1 ? 'Closed' : 'Approved'}</td>
+                <td className="px-2 flex items-center space-x-2">
                     <button
-                        className="sm:px-1 md:px-3 lg:px-5 py-1 sm:text-xs md:text-sm lg:text-base bg-[#6495ED] text-white rounded font-poppins"
+                        className={`sm:px-1 md:px-3 lg:px-5 py-1 sm:text-xs md:text-sm lg:text-base ${data.rating ? 'bg-green-500 cursor-not-allowed' : 'bg-[#6495ED]'
+                            } text-white rounded font-poppins`}
                         onClick={() => handleResultButtonClick(data)}
+                        disabled={data.rating ? true : false}
                     >
-                        Details
+                        {data.rating ? 'Done' : 'Submit'}
                     </button>
+
+
                 </td>
             </tr>
         );
@@ -166,7 +174,7 @@ const SHistory = () => {
     return (
         <div className="w-full h-screen bg-[#F9F9F9] overflow-hidden font-poppins">
             <Navbar />
-            <ToastContainer/>
+            <ToastContainer />
             <div className="overflow-x-auto overflow-y flex flex-col items-center justify-center pt-10 py-1 sm:px-14 md:px-32 lg:px-60 gap-4 font-poppins">
                 <div className="w-full h-fit bg-white drop-shadow-lg py-12 gap-4 flex flex-col items-center justify-center font-poppins">
                     <h1 className="text-xl font-bold">Counseling History</h1>
