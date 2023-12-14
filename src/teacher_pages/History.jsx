@@ -153,7 +153,7 @@ const THistory = () => {
         <div className="w-full h-full bg-[#F9F9F9] overflow-hidden font-poppins">
             <NavbarTeacher />
             <div className="overflow-y flex flex-col pt-10 py-1 sm:px-14 md:px-32 lg:px-60 gap-4 font-poppins">
-                <div className="w-full h-[800px] bg-white drop-shadow-lg xl:px-32 lg:px-0 py-12 gap-4 flex flex-col font-poppins">
+                <div className="w-full h-fit bg-white drop-shadow-lg xl:px-20 lg:px-0 py-12 gap-4 flex flex-col font-poppins">
                     <h1 className="text-xl font-bold text-center">Counseling History</h1>
                     <h1 className="text-base text-center">
                         Here your last counseing history, don’t forget to give review.
