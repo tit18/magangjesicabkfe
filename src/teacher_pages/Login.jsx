@@ -7,7 +7,7 @@ import { BASE_API_URL } from '../global.js';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
-export default function TLogin() {
+const TLogin = () => {
     const navigate = useNavigate();
     const [teacher, setTeacher] = useState({
         nik: '',
@@ -29,24 +29,16 @@ export default function TLogin() {
             const result = await axios.post(`${BASE_API_URL}/teacher/login`, data);
 
             if (result.data.status === true) {
-                const idTeacher = result.data.data.id_teacher;
-                const teacherName = result.data.data.teacher_name;
-                const token = result.data.data.token;
-                const photo = result.data.data.photo;
+                const { id_teacher, teacher_name, token, photo } = result.data.data;
 
                 toast.success('Login Success');
 
-                console.log(result.data.data);
-                sessionStorage.setItem('teacher_logged', result.data.status);
+                // Simpan informasi pengguna di sessionStorage
                 sessionStorage.setItem('teacher', JSON.stringify(result.data));
-                sessionStorage.setItem('id_teacher', idTeacher);
                 sessionStorage.setItem('tokeen', token);
-                sessionStorage.setItem('name', teacherName);
-                sessionStorage.setItem('photo', photo)
 
-                setTimeout(() => {
-                    navigate("/teacher/dashboard");
-                }, 3000);
+                // Redirect ke dashboard
+                navigate("/teacher/dashboard");
             } else {
                 toast.error('Login Failed, NIK or Password is wrong');
             }
@@ -55,6 +47,12 @@ export default function TLogin() {
             toast.error('Login Error');
         }
     };
+
+    // Cek apakah pengguna sudah login, jika ya redirect ke dashboard
+    // if (sessionStorage.getItem('tokeen')) {
+    //     navigate("/teacher/dashboard");
+    //     return null; // Pastikan untuk menghentikan render komponen setelah redirect
+    // }
 
     return (
         <div className="flex items-center justify-center h-screen bg-gray-50  sm:px-5 md:px-10 lg:px-15">
@@ -100,11 +98,7 @@ export default function TLogin() {
                     </button>
                 </form>
                 <div className='text-center mt-2 hover:text-[#B72024]'>
-                    <Link
-                        to="/"
-                    >
-                        Are you student? Login here
-                    </Link>
+                    <Link to="/">Are you a student? Login here</Link>
                 </div>
             </div>
         </div>
@@ -112,3 +106,4 @@ export default function TLogin() {
 };
 
 
+export default TLogin;

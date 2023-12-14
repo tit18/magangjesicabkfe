@@ -1,4 +1,3 @@
-// Dashboard.jsx
 import React, { useState, useEffect } from 'react';
 import icon from '../components/icon/dashboard.png';
 import NavbarTeacher from '../components/General/NavbarTeacher';
@@ -12,65 +11,78 @@ const TDashboard = () => {
     const [upcoming, setUpcoming] = useState([]);
     const [online, setOnline] = useState([]);
     const [state] = useState({
-        id_teacher: 0, // Initialize with the appropriate default value
+        id_teacher: sessionStorage.getItem('id_teacher') || 0,
+        token: sessionStorage.getItem('tokeen'),
     });
 
-    const fetchCountoffline = async () => {
+    const fetchCountOffline = async () => {
         try {
-            // Get token from sessionStorage
-            const token = sessionStorage.getItem('tokeen');
-
-            // Make GET request to /dashboard/countoffline with Authorization header
+            
             const response = await axios.get(`${BASE_API_URL}/dashboard/countoffline`, {
                 headers: {
-                    Authorization: `Bearer ${token}`
+                    Authorization: `Bearer ${state.token}`
                 }
             });
 
-            // Set upcoming state with the received data
             setUpcoming(response.data.data_count);
         } catch (error) {
             console.error('Error fetching upcoming data:', error);
         }
     };
 
-    useEffect(() => {
-        // Fetch upcoming data when the component mounts
-        fetchCountoffline();
-    }, [state.id_teacher]);
-
-    const fetchCountonline = async () => {
+    const fetchCountOnline = async () => {
         try {
-            // Get token from sessionStorage
-            const token = sessionStorage.getItem('tokeen');
-
-            // Make GET request to /dashboard/countoffline with Authorization header
             const response = await axios.get(`${BASE_API_URL}/dashboard/countonline`, {
                 headers: {
-                    Authorization: `Bearer ${token}`
+                    Authorization: `Bearer ${state.token}`
                 }
             });
 
-            // Set upcoming state with the received data
             setOnline(response.data.data_count);
         } catch (error) {
-            console.error('Error fetching upcoming data:', error);
+            console.error('Error fetching online data:', error);
         }
     };
 
     useEffect(() => {
-        // Fetch upcoming data when the component mounts
-        fetchCountonline();
-    }, [state.id_teacher]);
+        fetchCountOffline();
+    }, [state.id_teacher, state.token]);
+
+    useEffect(() => {
+        fetchCountOnline();
+    }, [state.id_teacher, state.token]);
 
     const handleOfflineClick = () => {
-        // Navigasi ke halaman "/counseling" saat tombol diklik
         navigate('/teacher/appointment');
     };
 
     const handleOnlineClick = () => {
-        // Navigasi ke halaman "/counseling" saat tombol diklik
         navigate('/teacher/counseling');
+    };
+
+    useEffect(() => {
+        const tokenChangeHandler = () => {
+            const newToken = sessionStorage.getItem('tokeen');
+            const newIdTeacher = sessionStorage.getItem('id_teacher');
+
+            if (newToken !== state.token || newIdTeacher !== state.id_teacher) {
+                // Token changed, perform logout
+                handleLogout();
+            }
+        };
+
+        // Add listener for token changes
+        window.addEventListener('storage', tokenChangeHandler);
+
+        // Cleanup listener on component unmount
+        return () => {
+            window.removeEventListener('storage', tokenChangeHandler);
+        };
+    }, [state.token, state.id_teacher]);
+
+    const handleLogout = () => {
+        sessionStorage.clear();
+        navigate('/teacher');
     };
 
     return (

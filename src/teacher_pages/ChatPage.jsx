@@ -7,6 +7,7 @@ import send from '../components/icon/send-icon.svg';
 import { BASE_API_URL, BASE_IMAGE_URL } from '../global';
 import axios from 'axios';
 import moment from 'moment/moment';
+import { ToastContainer, toast } from 'react-toastify';
 
 
 const TChatPage = () => {
@@ -71,14 +72,14 @@ const TChatPage = () => {
             );
 
             if (response.status === 200) {
-                window.alert('Result has been successfully submitted!');
+                toast.success('Result has been successfully submitted!');
                 navigate("/teacher/counseling");
             }
             
         } catch (error) {
             console.error('Error:', error);
             // TODO: Handle error if needed
-            window.alert('Failed to submit result. Please try again.');
+            toast.error('Failed to submit result. Please try again.');
         }
 
     };
@@ -141,6 +142,7 @@ const TChatPage = () => {
             <NavbarTeacher />
             <div className="overflow-x-auto flex flex-col items-center justify-center pt-10 font-poppins">
                 <div className="w-full h-fit bg-white shadow-lg py-1 gap-4 flex flex-col items-center justify-center">
+                    <ToastContainer/>
                     <h1 className="text-3xl font-bold font-poppins text-center">Active Online Session</h1>
                     <div className='sm:w-11/12 md:w-9/12 lg:w-7/12 h-fit bg-white drop-shadow-lg p-4 flex flex-col justify-between'>
                         {state && (

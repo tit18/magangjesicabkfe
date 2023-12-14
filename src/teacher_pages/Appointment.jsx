@@ -5,18 +5,23 @@ import AppointmentsTable from '../components/component-teacher/Appointment/Appoi
 import axios from 'axios';
 import { BASE_API_URL } from '../global';
 import moment from 'moment';
+import { ToastContainer, toast } from 'react-toastify';
 
 const TAppointment = () => {
     const [appointments, setAppointments] = useState([]);
-    const navigate = useNavigate()
+    const navigate = useNavigate();
+    const [state] = useState({
+        id_teacher: sessionStorage.getItem('id_teacher') || 0,
+        token: sessionStorage.getItem('tokeen'),
+    });
+
+
     // Fetch data from the API
     const fetchData = async () => {
         try {
-            const token = sessionStorage.getItem('tokeen');
-
             const response = await axios.get(`${BASE_API_URL}/teacher/appointment`, {
                 headers: {
-                    Authorization: `Bearer ${token}`,
+                    Authorization: `Bearer ${state.token}`,
                 },
             });
 
@@ -28,7 +33,7 @@ const TAppointment = () => {
 
     useEffect(() => {
         fetchData();
-    }, []);
+    }, [state.id_teacher, state.token]);
 
     const formatDateOK = (date) => {
         const momentDate = moment(date);
@@ -39,14 +44,13 @@ const TAppointment = () => {
 
     const handleApprove = async (idConseling) => {
         try {
-            const token = sessionStorage.getItem('tokeen');
 
             const response = await axios.put(
                 `${BASE_API_URL}/teacher/approve/${idConseling}`,
                 null, // Data is set to null since it's a PUT request
                 {
                     headers: {
-                        Authorization: `Bearer ${token}`,
+                        Authorization: `Bearer ${state.token}`,
                     },
                 }
             );
@@ -54,7 +58,7 @@ const TAppointment = () => {
             console.log(response.data.status);
 
             if (response.data.status === true) {
-                alert('Approved successfully!');
+                toast.success('Approved successfully!');
                 navigate(0);
             }
         } catch (error) {
@@ -65,14 +69,12 @@ const TAppointment = () => {
 
     const handleReject = async (idConseling) => {
         try {
-            const token = sessionStorage.getItem('tokeen');
-
             const response = await axios.put(
                 `${BASE_API_URL}/teacher/reject/${idConseling}`,
                 null, // Data is set to null since it's a PUT request
                 {
                     headers: {
-                        Authorization: `Bearer ${token}`,
+                        Authorization: `Bearer ${state.token}`,
                     },
                 }
             );
@@ -80,17 +82,13 @@ const TAppointment = () => {
             console.log(response.data.status);
 
             if (response.data.status === true) {
-                alert('Rejected successfully!');
+                toast.success('Rejected successfully!');
                 navigate(0);
             }
         } catch (error) {
             console.error('Error rejecting appointment:', error);
             // TODO: Handle error if needed
         }
-    };
-    
-    const handleResultButtonClick = () => {
-        // Handle the result button click here
     };
 
     const renderTableHeader = () => {
@@ -149,11 +147,39 @@ const TAppointment = () => {
         );
     };
 
+
+    useEffect(() => {
+        const tokenChangeHandler = () => {
+            const newToken = sessionStorage.getItem('tokeen');
+            const newIdTeacher = sessionStorage.getItem('id_teacher');
+
+            if (newToken !== state.token || newIdTeacher !== state.id_teacher) {
+                // Token changed, perform logout
+                handleLogout();
+            }
+        };
+
+        // Add listener for token changes
+        window.addEventListener('storage', tokenChangeHandler);
+
+        // Cleanup listener on component unmount
+        return () => {
+            window.removeEventListener('storage', tokenChangeHandler);
+        };
+    }, [state.token, state.id_teacher]);
+
+    const handleLogout = () => {
+        sessionStorage.clear();
+        navigate('/teacher');
+    };
+
+
     return (
         <div className="w-full h-full bg-[#F9F9F9] overflow-hidden font-poppins">
             <NavbarTeacher />
             <div className="overflow-x-auto overflow-y flex flex-col items-center justify-center pt-10 sm:px-14 md:px-32 lg:px-60 gap-4 font-poppins">
                 <div className="w-full h-fit bg-white drop-shadow-lg py-12 gap-4 flex flex-col items-center justify-center">
+                    <ToastContainer />
                     <h1 className="text-xl font-bold">Appointment Request</h1>
                     <h1 className="text-base text-center">
                         The following data is a list of students who have requested appointments for offline counseling.
@@ -162,10 +188,7 @@ const TAppointment = () => {
                         {renderTable()}
                     </div>
                 </div>
-                <AppointmentsTable
-                    appointments={appointments}
-                    handleResultButtonClick={handleResultButtonClick}
-                />
+                <AppointmentsTable />
                 <div></div>
             </div>
         </div>

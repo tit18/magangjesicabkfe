@@ -65,7 +65,7 @@ const SCounseling = () => {
         setIsModalOpen(false)
     };
 
-    const handleSubmit = async (e) => {
+    const handleSubmit = async(e) => {
         e.preventDefault()
         try {
             // Ganti dengan URL API sesuai kebutuhan Anda
@@ -76,13 +76,13 @@ const SCounseling = () => {
             }
 
             const response = await axios.post(`${BASE_API_URL}/online/addstudent`,
-                data, {
+            data, {
                 headers: {
                     Authorization: `Bearer ${token}`
                 }
             });
 
-            if (response.data.status === true) {
+            if(response.data.status === true){
                 toast.success('Add New Counseling Success')
                 fetchSession()
             } else {
@@ -97,7 +97,7 @@ const SCounseling = () => {
 
     }
 
-
+    
     return (
         <div className="w-full h-full bg-[#ffffff] overflow-hidden font-poppins">
             <div>
@@ -110,9 +110,9 @@ const SCounseling = () => {
                     <p className="text-base font-poppins text-center">
                         Here is a list of teachers available for online counseling; please choose one.
                     </p>
-                    <div className="grid grid-cols-1  gap-10 pt-10">
+                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-10 pt-10">
                         {session.map(teachers => (
-                            <div key={teachers.id_teacher} className="bg-white flex p-4 rounded drop-shadow-lg relative ">
+                            <div key={teachers.id_teacher} className="bg-white flex p-4 rounded drop-shadow-lg relative">
                                 <div className="absolute top-[-30px] right-[-30px] p-2">
                                     <div className='w-16 h-16 p-2 bg-white drop-shadow-md rounded-full flex items-center justify-center'>
                                         <img src={iconNotif} alt="Notification" width={30} />
@@ -128,15 +128,6 @@ const SCounseling = () => {
 
                                     </h2>
                                     <p className="text-sm font-poppins">counseling teacher</p>
-                                    <div class="flex items-center pt-2 ">
-                                        <svg class="w-4 h-4 text-yellow-300 me-1" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 22 20">
-                                            <path d="M20.924 7.625a1.523 1.523 0 0 0-1.238-1.044l-5.051-.734-2.259-4.577a1.534 1.534 0 0 0-2.752 0L7.365 5.847l-5.051.734A1.535 1.535 0 0 0 1.463 9.2l3.656 3.563-.863 5.031a1.532 1.532 0 0 0 2.226 1.616L11 17.033l4.518 2.375a1.534 1.534 0 0 0 2.226-1.617l-.863-5.03L20.537 9.2a1.523 1.523 0 0 0 .387-1.575Z" />
-                                        </svg>
-                                        <p class="ms-2 text-sm font-bold text-gray-900 dark:text-black">4.95</p>
-                                        
-                                        
-                                    </div>
-
                                 </div>
                                 <button
                                     onClick={() => navigate(`/counseling/${teachers.id_teacher}`, {
@@ -151,74 +142,74 @@ const SCounseling = () => {
                 </div>
             </div>
             {/* Bottom Centered Content */}
-            <button className='fixed bottom-5 right-5' onClick={openModal} >
+            <button className='fixed bottom-5 right-5'onClick={openModal} >
                 <img src={iconAdd} alt="Add" style={{ fill: 'green' }} width={50} />
             </button>
             <div className="text-center mt-4 text-xs font-normal text-gray-500 font-Poppins">
                 © {new Date().getFullYear()} Copyright CURHApps All Rights Reserved.
             </div>
             <Modal
-                isOpen={isModalOpen}
-                //onRequestClose={closeModal}
-                contentLabel="Result Modal"
-                style={{
-                    overlay: {
-                        backgroundColor: 'rgba(0, 0, 0, 0.5)',
-                    },
-                    content: {
-                        // width: '35%',
-                        // height: '50%',
-                        top: '20%',
-                        right: '20%',
-                        left: '20%',
-                        bottom: '20%',
-                        margin: 'auto',
-                        borderRadius: '20px',
-                    },
-                }}
-            >
-                <div className='flex flex-col p-6'>
-                    <h1 className='text-2xl font-poppins font-bold text-center'>Add New Counseling</h1>
-                    <p className='text-sm font-poppins font-light text-center'>you only can have one online session with the same teacher</p>
-                    <form action="" className='pt-5 h-full' onSubmit={handleSubmit}>
+                        isOpen={isModalOpen}
+                        //onRequestClose={closeModal}
+                        contentLabel="Result Modal"
+                        style={{
+                            overlay: {
+                                backgroundColor: 'rgba(0, 0, 0, 0.5)',
+                            },
+                            content: {
+                                // width: '35%',
+                                // height: '50%',
+                                top: '20%',
+                                right: '20%',
+                                left: '20%',
+                                bottom: '20%',
+                                margin: 'auto',
+                                borderRadius: '20px',
+                            },
+                        }}
+                    >
+                        <div className='flex flex-col p-6'>
+                            <h1 className='text-2xl font-poppins font-bold text-center'>Add New Counseling</h1>
+                            <p className='text-sm font-poppins font-light text-center'>you only can have one online session with the same teacher</p>
+                            <form action="" className='pt-5 h-full' onSubmit={handleSubmit}>
 
-                        <label className='text-[#B72024]'>Teacher</label>
-                        <select
-                            value={selectedTeacher}
-                            type="text"
-                            name="id_teacher"
-                            placeholder="JOHN DOE"
-                            id="id_teacher"
-                            className="w-full h-13 px-2 py-3 bg-white border-2 border-neutral-100 justify-start items-center gap-2 inline-flex"
-                            onChange={(e) => { setSelectedTeacher(e.target.value) }}
-                            required
-                        >
-                            <option value="">~~Choose Teacher~~</option>
-                            {teachers.map((teacher) => (
-                                <option key={teacher.id_teacher} value={teacher.id_teacher}>
-                                    {teacher.teacher_name}
-                                </option>
-                            ))}
-                        </select>
+                                <label className='text-[#B72024]'>Teacher</label>
+                                <select
+                                    value={selectedTeacher}
+                                    type="text"
+                                    name="id_teacher"
+                                    placeholder="JOHN DOE"
+                                    id="id_teacher"
+                                    className="w-full h-13 px-2 py-3 bg-white border-2 border-neutral-100 justify-start items-center gap-2 inline-flex"
+                                    onChange={(e) => {setSelectedTeacher(e.target.value)}}
+                                    required
+                                >
+                                    <option value="">~~Choose Teacher~~</option>
+                                    {teachers.map((teacher) => (
+                                        <option key={teacher.id_teacher} value={teacher.id_teacher}>
+                                            {teacher.teacher_name}
+                                        </option>
+                                    ))}
+                                </select>
 
-                        <label htmlFor="Result" className='text-[#B72024]'>Counseling Message</label>
-                        <textarea
-                            placeholder='Text Area'
-                            cols="30"
-                            rows="10"
-                            onChange={(e) => setCounseling(e.target.value)}
-                            className='w-full h-32 px-2 py-3 bg-white border-2 focus:border-black justify-start items-center inline-flex'>
-                        </textarea>
+                                <label htmlFor="Result" className='text-[#B72024]'>Counseling Message</label>
+                                <textarea
+                                    placeholder='Text Area'
+                                    cols="30"
+                                    rows="10"
+                                    onChange={(e) => setCounseling(e.target.value)}
+                                    className='w-full h-32 px-2 py-3 bg-white border-2 focus:border-black justify-start items-center inline-flex'>
+                                </textarea>
 
-                        <div className='mt-auto space-x-2 pt-2 flex'>
-                            <button className='px-4 py-1 bg-[#C0392B] text-white rounded' onClick={closeModal}>Close</button>
-                            <button className='px-4 py-1 bg-[#27AE60] text-white rounded' type='submit'>Save</button>
+                                <div className='mt-auto space-x-2 pt-2 flex'>
+                                    <button className='px-4 py-1 bg-[#C0392B] text-white rounded' onClick={closeModal}>Close</button>
+                                    <button className='px-4 py-1 bg-[#27AE60] text-white rounded' type='submit'>Save</button>
+                                </div>
+
+                            </form>
                         </div>
 
-                    </form>
-                </div>
-
-            </Modal>
+                    </Modal>
         </div >
 
 

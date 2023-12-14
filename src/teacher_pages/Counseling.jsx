@@ -31,14 +31,25 @@ const TCounseling = () => {
             setLoading(false);
         } catch (error) {
             console.error('Error fetching students:', error);
-            setError(error);
-            setLoading(false);
+
+            // Handle invalid token or other errors causing logout
+            if (error.response && error.response.status === 401) {
+                handleLogout();
+            } else {
+                setError(error);
+                setLoading(false);
+            }
         }
     };
 
     useEffect(() => {
         fetchData();
     }, []);
+
+    const handleLogout = () => {
+        sessionStorage.clear();
+        navigate("/teacher");
+    };
 
     const cardStudent = (data) => {
         return (
@@ -71,7 +82,6 @@ const TCounseling = () => {
             </div>
         )
     }
-
 
     return (
         <div className="w-full h-full bg-[#F9F9F9] overflow-hidden font-poppins">

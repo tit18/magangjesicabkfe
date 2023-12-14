@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Link, useLocation, Navigate, useNavigate } from "react-router-dom";
 import "../../index.css";
 import { BASE_IMAGE_URL } from "../../global";
@@ -8,7 +8,25 @@ const Navbar = () => {
     const navigate = useNavigate();
     const [isNavOpen, setIsNavOpen] = useState(false);
     const [isProfileDropdownOpen, setIsProfileDropdownOpen] = useState(false);
-    const profilePhotoUrl = `${BASE_IMAGE_URL}/${sessionStorage.getItem('photo')}`
+    const [token, setToken] = useState(sessionStorage.getItem('tokeen')); // Assuming tokeen is the token property
+
+    const [teacherInfo, setTeacherInfo] = useState({
+        idTeacher: '',
+        teacherName: '',
+        photo: '',
+    });
+
+    useEffect(() => {
+        const storedTeacherInfo = sessionStorage.getItem('teacher');
+        if (storedTeacherInfo) {
+            const { id_teacher, teacher_name, photo } = JSON.parse(storedTeacherInfo).data;
+            setTeacherInfo({
+                idTeacher: id_teacher,
+                teacherName: teacher_name,
+                photo,
+            });
+        }
+    }, []);
 
     const navItems = [
         { path: "/teacher/dashboard", label: "Dashboard" },
@@ -17,11 +35,7 @@ const Navbar = () => {
         { path: "/teacher/history", label: "History" },
     ];
 
-    if (sessionStorage.getItem('teacher_logged') !== "true") {
-        return <Navigate to="/teacher" state={{ from: location }} replace />;
-    }
-
-    const Logout = () => {
+    const handleLogout = () => {
         sessionStorage.clear();
         navigate("/teacher");
     };
@@ -35,6 +49,14 @@ const Navbar = () => {
     };
 
     const isCounselingPage = location.pathname.includes("/teacher/counseling");
+
+    useEffect(() => {
+        const newToken = sessionStorage.getItem('tokeen');
+        setToken(newToken);
+        if (!newToken || newToken !== token) {
+            handleLogout();
+        }
+    }, [token]);
 
     return (
         <nav className="bg-white drop-shadow-md">
@@ -92,7 +114,7 @@ const Navbar = () => {
                                 ))}
                             </div>
                         </div>
-                        <div className="flex items-center">
+                        <div className="absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
                             <div className="relative ml-3">
                                 <button
                                     type="button"
@@ -101,16 +123,25 @@ const Navbar = () => {
                                 >
                                     <span className="absolute -inset-1.5"></span>
                                     <span className="sr-only">Open user menu</span>
-                                    <img
-                                        className="h-8 w-8 rounded-full"
-                                        src={profilePhotoUrl}
-                                        alt=""
-                                    />
+                                    {teacherInfo.photo ? (
+                                        <img
+                                            className="h-8 w-8 rounded-full"
+                                            src={`${BASE_IMAGE_URL}/${teacherInfo.photo}`}
+                                            alt=""
+                                        />
+                                    ) : (
+                                        <div className="h-8 w-8 bg-gray-500 rounded-full"></div>
+                                    )}
                                 </button>
 
                                 {isProfileDropdownOpen && (
                                     <div className="absolute right-0 z-10 mt-2 w-48 origin-top-right rounded-md bg-white py-1 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
-                                        <button className="block px-4 py-2 text-sm text-black" role="menuitem" tabIndex="-1" onClick={Logout}>
+                                        <button
+                                            className="block px-4 py-2 text-sm text-black"
+                                            role="menuitem"
+                                            tabIndex="-1"
+                                            onClick={handleLogout}
+                                        >
                                             Sign out
                                         </button>
                                     </div>

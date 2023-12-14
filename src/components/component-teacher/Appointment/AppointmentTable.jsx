@@ -4,21 +4,28 @@ import Modal from 'react-modal';
 import axios from 'axios';
 import { BASE_API_URL } from '../../../global';
 import moment from 'moment/moment';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import { useNavigate } from 'react-router-dom';
+
 
 const AppointmentsTable = () => {
+    const navigate = useNavigate();
     const [appointments, setAppointments] = useState([]); // Added appointments state
     const [selectedAppointment, setSelectedAppointment] = useState(null);
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [result, setResult] = useState("");
+    const [state] = useState({
+        id_teacher: sessionStorage.getItem('id_teacher') || 0,
+        token: sessionStorage.getItem('tokeen'),
+    });
 
 
     const fetchDataTable = async () => {
         try {
-            const token = sessionStorage.getItem('tokeen');
-
             const response = await axios.get(`${BASE_API_URL}/offline/appointment`, {
                 headers: {
-                    Authorization: `Bearer ${token}`,
+                    Authorization: `Bearer ${state.token}`,
                 },
             });
 
@@ -30,7 +37,7 @@ const AppointmentsTable = () => {
 
     useEffect(() => {
         fetchDataTable();
-    }, []);
+    }, [state.id_teacher, state.token]);
 
     const formatDate = (date) => {
         const momentDate = moment(date);
@@ -48,28 +55,26 @@ const AppointmentsTable = () => {
         e.preventDefault();
         if (result !== "") {
             try {
-                const token = sessionStorage.getItem('tokeen');
-
                 const response = await axios.post(
                     `${BASE_API_URL}/result/insertresult/${selectedAppointment.id_conseling}`,
                     { conseling_result: result },
                     {
                         headers: {
-                            Authorization: `Bearer ${token}`,
+                            Authorization: `Bearer ${state.token}`,
                         },
                     }
                 );
 
                 if (response.status === 200) {
                     closeModal();
-                    window.alert('Result has been successfully submitted!');
+                    toast.success('Result has been successfully submitted!')
 
                     // Fetch the updated table data after successful submission
                     fetchDataTable();
                 }
             } catch (error) {
                 console.error('Error:', error);
-                window.alert('Failed to submit result. Please try again.');
+                toast.error('Failed to submit result. Please try again.')
             }
         }
     };
@@ -133,8 +138,36 @@ const AppointmentsTable = () => {
         );
     };
 
+    
+    useEffect(() => {
+        const tokenChangeHandler = () => {
+            const newToken = sessionStorage.getItem('tokeen');
+            const newIdTeacher = sessionStorage.getItem('id_teacher');
+
+            if (newToken !== state.token || newIdTeacher !== state.id_teacher) {
+                // Token changed, perform logout
+                handleLogout();
+            }
+        };
+
+        // Add listener for token changes
+        window.addEventListener('storage', tokenChangeHandler);
+
+        // Cleanup listener on component unmount
+        return () => {
+            window.removeEventListener('storage', tokenChangeHandler);
+        };
+    }, [state.token, state.id_teacher]);
+
+    const handleLogout = () => {
+        sessionStorage.clear();
+        navigate('/teacher');
+    };
+
+
     return (
         <div className="w-full h-fit bg-white drop-shadow-lg py-12 gap-4 flex flex-col items-center justify-center font-poppins">
+            <ToastContainer />
             <h1 className="text-xl font-bold">Counseling Data</h1>
             <h1 className="text-base text-center">
                 The following data is a list of students who have requested appointments for offline counseling.
