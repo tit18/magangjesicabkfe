@@ -175,9 +175,9 @@ const TAppointment = () => {
 
 
     return (
-        <div className="w-full h-screen bg-[#F9F9F9] overflow-hidden font-poppins">
+        <div className="w-full h-screen bg-[#F9F9F9] overflow-y-auto font-poppins">
             <NavbarTeacher />
-            <div className="overflow-x-auto overflow-y flex flex-col items-center justify-center pt-10 sm:px-14 md:px-32 lg:px-60 gap-4 font-poppins">
+            <div className="overflow-x-auto flex flex-col items-center justify-center pt-10 sm:px-14 md:px-32 lg:px-60 gap-4 font-poppins">
                 <div className="w-full h-fit bg-white drop-shadow-lg py-12 gap-4 flex flex-col items-center justify-center">
                     <ToastContainer />
                     <h1 className="text-xl font-bold">Appointment Request</h1>
@@ -192,6 +192,7 @@ const TAppointment = () => {
                 <div></div>
             </div>
         </div>
+
     );
 };
 

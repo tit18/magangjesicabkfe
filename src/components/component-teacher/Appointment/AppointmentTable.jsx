@@ -117,10 +117,12 @@ const AppointmentsTable = () => {
                 <td className="pl-4 font-poppins">{data.student.student_name}</td>
                 <td className="px-4 flex items-center space-x-2">
                     <button
-                        className="sm:px-1 md:px-3 lg:px-5 py-1 sm:text-xs md:text-sm lg:text-base bg-[#6495ED] text-white rounded font-poppins"
+                        className="sm:px-1 md:px-3 lg:px-5 sm:py-0 lg:py-1 bg-[#6495ED] text-white rounded font-poppins"
                         onClick={() => handleResultButtonClick(data)}
                     >
-                        Result
+                        <h1 className='sm:text-xs md:text-sm lg:text-base'>
+                            Result
+                        </h1>
                     </button>
                 </td>
             </tr>
@@ -138,7 +140,7 @@ const AppointmentsTable = () => {
         );
     };
 
-    
+
     useEffect(() => {
         const tokenChangeHandler = () => {
             const newToken = sessionStorage.getItem('tokeen');

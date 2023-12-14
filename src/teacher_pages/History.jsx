@@ -53,11 +53,12 @@ const THistory = () => {
 
     const renderTableHeader = () => {
         const columns = [
-            { id: 'date', name: 'Date', width: '25%' },
-            { id: 'student', name: 'Student', width: '25%' },
-            { id: 'category', name: 'Category', width: '25%' },
-            { id: 'status', name: 'Status', width: '25%' },
-            { id: 'result', name: 'Counseling Result', width: '30%' },
+            { id: 'date', name: 'Date', width: '20%' },
+            { id: 'time', name: 'Time', width: '20%' },
+            { id: 'student', name: 'Student', width: '20%' },
+            { id: 'category', name: 'Category', width: '20%' },
+            { id: 'status', name: 'Status', width: '20%' },
+            { id: 'result', name: 'Result', width: '20%' },
         ];
 
         return (
@@ -67,10 +68,10 @@ const THistory = () => {
                         <th
                             key={column.id}
                             scope="col"
-                            className={`font-poppins text-left pl-4 lg:pr-20 sm:pr-0`}
+                            className={`font-poppins text-left pl-4  sm:pr-0`}
                             style={{ width: column.width }}
                         >
-                            <span className='whitespace-nowrap'>
+                            <span className='whitespace-nowrap md:text-base xs:text-sm'>
                                 {column.name}
                             </span>
                         </th>
@@ -83,10 +84,11 @@ const THistory = () => {
     const renderTableRow = (data) => {
         return (
             <tr key={data.id_conseling} className='space-y-1'>
-                <td className="pl-4 font-poppins">{formatDate(data.date).formattedDate}</td>
-                <td className="pl-4 font-poppins">{data.student_name}</td>
-                <td className="pl-4 font-poppins">{data.category}</td>
-                <td className="pl-4 font-poppins">
+                <td className="pl-4 font-poppins md:text-base xs:text-sm">{formatDate(data.date).formattedDate}</td>
+                <td className="pl-4 font-poppins md:text-base xs:text-sm">{formatDate(data.date).formattedTime}</td>
+                <td className="pl-4 font-poppins md:text-base xs:text-sm">{data.student_name}</td>
+                <td className="pl-4 font-poppins md:text-base xs:text-sm">{data.category}</td>
+                <td className="pl-4 font-poppins md:text-base xs:text-sm">
                     {data.isclosed === 1 ? (
                         <span className="text-[#C0392B]">Closed</span>
                     ) : data.aproval === 1 ? (
@@ -97,10 +99,12 @@ const THistory = () => {
                 </td>
                 <td className="px-4 flex items-center space-x-2">
                     <button
-                        className="sm:px-1 md:px-3 lg:px-5 py-1 sm:text-xs md:text-sm lg:text-base bg-[#6495ED] text-white rounded font-poppins"
+                        className="xs:px-1 xs:py-1 sm:px-1 md:px-3 lg:px-5 py-0 bg-[#6495ED] text-white rounded font-poppins"
                         onClick={() => handleResultButtonClick(data)}
                     >
-                        Details
+                        <h1 className='xs:text-xs md:text-sm lg:text-base'>
+                            Details
+                        </h1>
                     </button>
                 </td>
             </tr>
@@ -110,7 +114,7 @@ const THistory = () => {
     const renderTable = () => {
         return (
             <div className="table-responsive max-w-full">
-                <table className="table text-base sticky top-0 z-10 font-poppins">
+                <table className="table table-auto text-base sticky top-0 z-10 font-poppins">
                     {renderTableHeader()}
                     <tbody>{appointments.map((item) => renderTableRow(item))}</tbody>
                 </table>
@@ -150,10 +154,10 @@ const THistory = () => {
     };
 
     return (
-        <div className="w-full h-full bg-[#F9F9F9] overflow-hidden font-poppins">
+        <div className="w-full h-screen bg-[#F9F9F9] overflow-hidden font-poppins">
             <NavbarTeacher />
-            <div className="overflow-y flex flex-col pt-10 py-1 sm:px-14 md:px-32 lg:px-60 gap-4 font-poppins">
-                <div className="w-full h-fit bg-white drop-shadow-lg xl:px-20 lg:px-0 py-12 gap-4 flex flex-col font-poppins">
+            <div className="overflow-y flex flex-col pt-10 py-1 sm:px-14 md:px-32 lg:px-52 gap-4 font-poppins">
+                <div className="w-full h-fit bg-white drop-shadow-lg lg:px-20 md:px-14 sm:px-0 py-12 gap-4 flex flex-col font-poppins">
                     <h1 className="text-xl font-bold text-center">Counseling History</h1>
                     <h1 className="text-base text-center">
                         Here your last counseing history, don’t forget to give review.
