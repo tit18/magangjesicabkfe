@@ -6,21 +6,23 @@ import { BASE_API_URL } from '../global.js';
 import moment from 'moment/moment';
 import Modal from 'react-modal';
 import StarRatings from 'react-star-ratings';
-
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const SHistory = () => {
-    const [history, setHistory] = useState([])
+    const [history, setHistory] = useState([]);
     const [isModalOpen, setIsModalOpen] = useState(false);
-    const [tempRating, setTempRating] = useState(0);
-
+    const [selectedTeacher, setSelectedTeacher] = useState(null);
+    const [rating, setRating] = useState();
+    const [selectedConselingId, setSelectedConselingId] = useState(null); // New state
 
     const fetchhistory = async () => {
         try {
-            const token = sessionStorage.getItem('tokeen')
+            const token = sessionStorage.getItem('tokeen');
             const response = await axios.get(`${BASE_API_URL}/teacher/conseling_history_student`, {
                 headers: {
-                    Authorization: `Bearer ${token}`
-                }
+                    Authorization: `Bearer ${token}`,
+                },
             });
 
             console.log(response.data.data); // Log the response data
@@ -31,9 +33,26 @@ const SHistory = () => {
         }
     };
 
+    const fetchrating = async () => {
+        try {
+            const token = sessionStorage.getItem('tokeen');
+            const response = await axios.post(`${BASE_API_URL}/student/conseling_rating/`, {
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                },
+            });
+
+            console.log(response.data.data); // Log the response data
+
+            setRating(response.data.data);
+        } catch (error) {
+            console.error('Error fetching teacher data:', error);
+        }
+    };
+
     useEffect(() => {
         fetchhistory();
-
+        fetchrating();
     }, []);
 
     const formatDate = (date) => {
@@ -43,15 +62,48 @@ const SHistory = () => {
         return { formattedDate, formattedTime };
     };
 
-    const handleResultButtonClick = () => {
-        // Handle the result button click here
-        // For example, open the modal
+    const handleResultButtonClick = (data) => {
         setIsModalOpen(true);
+        setSelectedTeacher(data);
+        setSelectedConselingId(data.id_conseling); // Set the id_conseling in the state
     };
+    
 
     const closeModal = () => {
         setIsModalOpen(false);
     };
+
+    const handleSubmit = async (e) => {
+        e.preventDefault()
+        try {
+            // Ganti dengan URL API sesuai kebutuhan Anda
+            const token = sessionStorage.getItem('tokeen')
+            const data = {
+            
+                rating: rating
+            }
+
+            const response = await axios.post(`${BASE_API_URL}/student/conseling_rating/${selectedConselingId}`,
+                data, {
+                headers: {
+                    Authorization: `Bearer ${token}`
+                }
+            });
+
+            if (response.data.status === true) {
+                toast.success('Add New Counseling Success')
+                // fetchSession()
+            } else {
+                toast.error(response.data.message)
+            }
+
+        } catch (error) {
+            toast.error('Something wrong')
+            // console.error('Error fetching data:', error);
+        }
+        setIsModalOpen(false)
+
+    }
 
     const renderTableHeader = () => {
         const columns = [
@@ -80,7 +132,6 @@ const SHistory = () => {
         );
     };
 
-
     const renderTableRow = (data) => {
         return (
             <tr key={data} className='space-y-1'>
@@ -88,10 +139,13 @@ const SHistory = () => {
                 <td className="pl-4 font-poppins">{formatDate(data.date).formattedTime}</td>
                 <td className="pl-4 font-poppins">{data.teacher_name}</td>
                 <td className="pl-4 font-poppins">{data.category}</td>
-                <td className="pl-4 font-poppins">{data.isclosed === 1 ? 'Closed' : 'ClosedApproved'}</td>
+                <td className="pl-4 font-poppins">{data.isclosed === 1 ? 'Closed' : 'Approved'}</td>
                 <td className="px-4 flex items-center space-x-2">
-                    <button className="sm:px-1 md:px-3 lg:px-5 py-1 sm:text-xs md:text-sm lg:text-base bg-[#6495ED] text-white rounded font-poppins" onClick={handleResultButtonClick}>
-                        Result
+                    <button
+                        className="sm:px-1 md:px-3 lg:px-5 py-1 sm:text-xs md:text-sm lg:text-base bg-[#6495ED] text-white rounded font-poppins"
+                        onClick={() => handleResultButtonClick(data)}
+                    >
+                        Details
                     </button>
                 </td>
             </tr>
@@ -108,13 +162,14 @@ const SHistory = () => {
     };
 
     return (
-        <div className="w-full h-full bg-[#F9F9F9] overflow-hidden font-poppins">
+        <div className="w-full h-screen bg-[#F9F9F9] overflow-hidden font-poppins">
             <Navbar />
+            <ToastContainer/>
             <div className="overflow-x-auto overflow-y flex flex-col items-center justify-center pt-10 py-1 sm:px-14 md:px-32 lg:px-60 gap-4 font-poppins">
                 <div className="w-full h-fit bg-white drop-shadow-lg py-12 gap-4 flex flex-col items-center justify-center font-poppins">
                     <h1 className="text-xl font-bold">Counseling History</h1>
                     <h1 className="text-base text-center">
-                        Here your last counseing history, don’t forget to give review.
+                        Here your last counseling history, don’t forget to give a review.
                     </h1>
                     <div className="max-h-[200px] overflow-y-auto">
                         {renderTable()}
@@ -128,8 +183,6 @@ const SHistory = () => {
                                 backgroundColor: 'rgba(0, 0, 0, 0.5)',
                             },
                             content: {
-                                // width: '35%',
-                                // height: '50%',
                                 top: '20%',
                                 right: '20%',
                                 left: '20%',
@@ -144,44 +197,48 @@ const SHistory = () => {
                             <form action="" className='pt-10 h-full'>
                                 <label htmlFor="teacher" className='text-[#B72024]'>Name Teacher</label>
                                 <input
-                                    type="text" // Corrected type
+                                    type="text"
                                     name="nis"
-                                    value="Bagus Imanysah"
+                                    value={selectedTeacher?.teacher_name}
                                     id="nis"
                                     className="w-full h-12 px-2 py-3 bg-white border-2 focus:border-black justify-start items-center inline-flex"
                                     readOnly
+                                    disabled
                                 />
 
-                                <label htmlFor="Result" className='text-[#B72024] '>Please Submit Rating</label> <br />
+                                <label htmlFor="rating" className='text-[#B72024] '>Please Submit Rating</label> <br />
                                 <StarRatings
-                                    rating={tempRating}
+                                    rating={rating}
                                     starRatedColor="#FFD700"
                                     starHoverColor="#FFD700"
-                                    changeRating={(newRating) => setTempRating(newRating)}
+                                    changeRating={(newRating) => setRating(newRating)}
                                     numberOfStars={5}
                                     name='rating'
-                                    starDimension= "40px"
+                                    starDimension="60px"
                                     className=""
                                 />
 
+                                {/* <label htmlFor="id_conseling" className='text-[#B72024]'>ID Counseling</label>
+                                <input
+                                    type="text"
+                                    name="id_conseling"
+                                    value={selectedConselingId}
+                                    id="id_conseling"
+                                    className="w-full h-12 px-2 py-3 bg-white border-2 focus:border-black justify-start items-center inline-flex"
+                                    readOnly
+                                /> */}
+
                                 <div className='mt-auto space-x-2 pt-2 flex'>
                                     <button className='px-4 py-1 bg-[#C0392B] text-white rounded' onClick={closeModal}>Close</button>
-                                    <button className='px-4 py-1 bg-[#27AE60] text-white rounded'>Save</button>
+                                    <button className='px-4 py-1 bg-[#27AE60] text-white rounded' onClick={handleSubmit}>Submit</button>
                                 </div>
-
                             </form>
                         </div>
-
                     </Modal>
-
                 </div>
             </div>
-
         </div>
-
-
-
-    )
+    );
 }
 
-export default SHistory
+export default SHistory;

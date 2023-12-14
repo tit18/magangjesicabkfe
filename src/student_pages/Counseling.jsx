@@ -17,7 +17,8 @@ const SCounseling = () => {
     const [counseling, setCounseling] = useState("")
     const navigate = useNavigate()
     const [isModalOpen, setIsModalOpen] = useState(false)
-
+    
+    
     const fetchTeachers = async () => {
         try {
             // Ganti dengan URL API sesuai kebutuhan Anda
@@ -35,12 +36,14 @@ const SCounseling = () => {
         }
     };
 
+    
+
     const fetchSession = async () => {
         try {
             // Ganti dengan URL API sesuai kebutuhan Anda
             const token = sessionStorage.getItem('tokeen')
 
-            const response = await axios.get(`${BASE_API_URL}/online/getchatguru`, {
+            const response = await axios.get(`${BASE_API_URL}/online/getchatsiswa/${selectedTeacher}`, {
                 headers: {
                     Authorization: `Bearer ${token}`
                 }
@@ -56,6 +59,11 @@ const SCounseling = () => {
         fetchTeachers()
         fetchSession()
     }, []);
+    useEffect(() => {
+        if (selectedTeacher !== "") {
+            fetchSession();
+        }
+    }, [selectedTeacher]);
 
     const openModal = () => {
         setIsModalOpen(true);
@@ -68,6 +76,7 @@ const SCounseling = () => {
     const handleSubmit = async(e) => {
         e.preventDefault()
         try {
+            console.log(selectedTeacher);
             // Ganti dengan URL API sesuai kebutuhan Anda
             const token = sessionStorage.getItem('tokeen')
             const data = {
@@ -86,6 +95,7 @@ const SCounseling = () => {
                 toast.success('Add New Counseling Success')
                 fetchSession()
             } else {
+                
                 toast.error(response.data.message)
             }
 
@@ -110,28 +120,37 @@ const SCounseling = () => {
                     <p className="text-base font-poppins text-center">
                         Here is a list of teachers available for online counseling; please choose one.
                     </p>
-                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-10 pt-10">
+                    <div className=" gap-10 pt-10">
                         {session.map(teachers => (
-                            <div key={teachers.id_teacher} className="bg-white flex p-4 rounded drop-shadow-lg relative">
+                            <div key={teachers.conseling.id_teacher} className="bg-white flex p-4 rounded drop-shadow-lg relative">
                                 <div className="absolute top-[-30px] right-[-30px] p-2">
                                     <div className='w-16 h-16 p-2 bg-white drop-shadow-md rounded-full flex items-center justify-center'>
                                         <img src={iconNotif} alt="Notification" width={30} />
                                     </div>
                                     <span className="bg-[#B72024] drop-shadow-sm rounded-full text-white px-2 py-1 text-xs absolute top-4 right-4">
-                                        {teachers.jumlah_chat}
+                                        {teachers.conseling.jumlah_chat}
                                     </span>
                                 </div>
-                                <img src={teachers.photo ? `${BASE_IMAGE_URL}/${teachers.photo}` : ''} alt="" width={100} className='pr-3 object-cover object-center w-24 h-32' />
+                                <img src={teachers.conseling.photo_teacher ? `${BASE_IMAGE_URL}/${teachers.conseling.photo_teacher}` : ''} alt="" width={100} className='pr-3 object-cover object-center w-24 h-32' />
                                 <div className='flex flex-col w-32'>
                                     <h2 className="text-xl font-medium mb-2 overflow-hidden text-[#B72024] font-poppins">
-                                        <span className="truncate">{teachers.teacher_name}</span>
+                                        <span className="truncate">{teachers.conseling.teacher_name}</span>
 
                                     </h2>
                                     <p className="text-sm font-poppins">counseling teacher</p>
+                                    <div class="flex items-center pt-2 ">
+                                        <svg class="w-4 h-4 text-yellow-300 me-1" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 22 20">
+                                            <path d="M20.924 7.625a1.523 1.523 0 0 0-1.238-1.044l-5.051-.734-2.259-4.577a1.534 1.534 0 0 0-2.752 0L7.365 5.847l-5.051.734A1.535 1.535 0 0 0 1.463 9.2l3.656 3.563-.863 5.031a1.532 1.532 0 0 0 2.226 1.616L11 17.033l4.518 2.375a1.534 1.534 0 0 0 2.226-1.617l-.863-5.03L20.537 9.2a1.523 1.523 0 0 0 .387-1.575Z" />
+                                        </svg>
+                                        <p class="ms-2 text-sm font-bold text-gray-900 dark:text-black">
+                                        {teachers.rating.rating}
+                                        </p>
+                                            
+                                    </div>
                                 </div>
                                 <button
                                     onClick={() => navigate(`/counseling/${teachers.id_teacher}`, {
-                                        state: { id_teacher: teachers.id_teacher, name: teachers.teacher_name, nik: teachers.nik, photo: teachers.photo, id_conseling: teachers.id_conseling, },
+                                        state: { id_teacher: teachers.conseling.id_teacher, name: teachers.conseling.teacher_name, nik: teachers.conseling.nik, photo: teachers.conseling.photo_teacher, id_conseling: teachers.conseling.id_conseling, },
                                     })} // Sesuaikan rute berdasarkan logika rute aplikasi Anda
                                     className='ml-10 mt-auto px-3 py-1 h-fit rounded-md bg-[#B72024] text-white'>
                                     Start
@@ -203,7 +222,7 @@ const SCounseling = () => {
 
                                 <div className='mt-auto space-x-2 pt-2 flex'>
                                     <button className='px-4 py-1 bg-[#C0392B] text-white rounded' onClick={closeModal}>Close</button>
-                                    <button className='px-4 py-1 bg-[#27AE60] text-white rounded' type='submit'>Save</button>
+                                    <button className='px-4 py-1 bg-[#27AE60] text-white rounded' onClick={closeModal} type='submit'>Save</button>
                                 </div>
 
                             </form>

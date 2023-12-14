@@ -5,10 +5,12 @@ import icon from '../components/icon/dashboard.png';
 import { BASE_API_URL } from '../global.js';
 import axios from 'axios';
 import moment from 'moment/moment';
+import { useNavigate } from 'react-router-dom';
 
 const SDashboard = () => {
     const [upcoming, setupcoming] = useState(null);
     const [last, setLast] = useState(null);
+    const navigate = useNavigate();
 
 
     const fetchupcoming = async () => {
@@ -57,6 +59,14 @@ const SDashboard = () => {
         return { formattedDateTime };
     };
 
+    
+
+    const handleReview= () => {
+        // Navigasi ke halaman "/counseling" saat tombol diklik
+        navigate('/history');
+        
+    }
+
     return (
         <div className="flex flex-col justify-between h-screen">
             <div>
@@ -78,7 +88,7 @@ const SDashboard = () => {
                         {/* {upcoming && upcoming.length > 0 ? ( */}
 
                         {upcoming ? (
-                            <a key={upcoming.id} href="/counseling" className="max-w-sm block">
+                            <a key={upcoming.id}  className="max-w-sm block">
                                 <div className="bg-white shadow-lg rounded-lg overflow-hidden">
                                     <div className="px-6 py-4">
                                         <h5 className="text-1xl font-bold tracking-tight text-red-600">
@@ -90,23 +100,23 @@ const SDashboard = () => {
                                         <p className="text-base font-normal text-gray-700 dark:text-black-400">
                                             {upcoming.teacher_name}
                                         </p>
-                                        <button
+                                        <b
                                             type="button"
-                                            className="ml-40 mx-auto mt-2 text-orange-700 hover:text-white border border-orange-400 hover:bg-orange-800 focus:ring-4 focus:outline-none focus:ring-orange-300 font-medium rounded-lg text-sm px-10 py-2.5 text-center me-2 mb- dark:border-orange-500 dark:text-orange-500 dark:hover:text-white dark:hover:bg-orange-600 dark:focus:ring-orange-900"
+                                            className="ml-40 mx-auto mt-2    focus:ring-orange-300 font-medium rounded-lg text-sm px-10 py-2.5 text-center me-2 mb- d text-white bg-orange-600 dark:focus:ring-orange-900"
                                         >
-                                            waiting
-                                        </button>
+                                            {upcoming?.aproval === "1" ? "Approved" : upcoming?.aproval === "0" ? "Not Approved" : "Waiting"}
+                                        </b>
                                     </div>
                                 </div>
                             </a>
                         ) : (
-                            <p className="ml-11 mr-11 mt-4 text-base font-normal text-gray-700 dark:text-black-400">
+                            <p className="ml-11 mr-11 mt-4 text-base font-normal text-gray-700 dark:text-black-400" >
                                 No upcoming appointments.
                             </p>
                         )}
 
                         {last ? (
-                            <a href="/history" className="max-w-sm block">
+                            <a className="max-w-sm block">
                                 <div className="bg-white shadow-lg rounded-lg overflow-hidden">
                                     <div className="px-6 py-4">
                                         <h5 className="text-1xl font-bold tracking-tight text-red-600">
@@ -120,6 +130,7 @@ const SDashboard = () => {
                                         </p>
                                         <button
                                             type="button"
+                                            onClick={handleReview}
                                             className="ml-44 mx-auto mt-2 text-red-700 hover:text-white border border-red-700 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-lg text-sm px-10 py-2.5 text-center me-2 mb- dark:border-red-500 dark:text-red-500 dark:hover:text-white dark:hover:bg-red-600 dark:focus:ring-red-900"
                                         >
                                             review

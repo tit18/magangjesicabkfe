@@ -110,7 +110,7 @@ const TChatPage = () => {
                             <div className='flex gap-4 space-x-4'>
                                 <img
                                     src={`${BASE_IMAGE_URL}/${state.photo}`}
-                                    alt="profile student"
+                                    alt={state.photo}
                                     className="rounded-full h-16 w-16 object-cover object-center overflow-hidden"
                                 />
                                 <div className='flex flex-col items-start justify-around'>
