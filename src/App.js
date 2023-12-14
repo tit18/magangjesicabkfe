@@ -1,5 +1,5 @@
-import React from 'react';
-import { HashRouter, Routes, Route } from 'react-router-dom';
+import React, {useState, useEffect} from 'react';
+import { HashRouter, Routes, Route, Navigate } from 'react-router-dom';
 import './App.css';
 import SLogin from './student_pages/Login';
 import SDashboard from './student_pages/Dashboard';
@@ -21,6 +21,24 @@ import NotFound from './components/General/NotFound';
 function App() {
   // Check if the user is logged in
 
+  const [counselingChatError, setCounselingChatError] = useState(false);
+
+  // Check if the user is logged in
+
+  useEffect(() => {
+    // Simulate an error in /counseling/chat
+    // You should replace this with your actual error-checking logic
+    // For example, you might check if data fetching fails or other conditions
+    // that indicate an error in the /counseling/chat page.
+    const simulateError = () => {
+      // Set the error state to true to simulate an error
+      setCounselingChatError(true);
+    };
+
+    // Call the function to simulate an error
+    simulateError();
+  }, []);
+
   return (
     <HashRouter>
         <Routes>
@@ -36,7 +54,17 @@ function App() {
           <Route path='/teacher/counseling' element={<TCounseling/>}/>
           <Route path='/teacher/appointment' element={<TAppointment/>}/>
           <Route path='/teacher/history' element={<THistory/>}/>
-          <Route path='/teacher/counseling/:id_student' element={<TChatPage />} />
+
+          {/* Auto-navigate to NotFound if an error occurs in /counseling/chat */}
+        {counselingChatError && (
+          <Route
+            path='/teacher/counseling/chat'
+            element={<Navigate to='/notfound' />}
+          />
+        )}
+        
+        <Route path='/teacher/counseling/chat' element={<TChatPage />} />
+
 
           <Route path='*' element={<NotFound/>} />
         </Routes>

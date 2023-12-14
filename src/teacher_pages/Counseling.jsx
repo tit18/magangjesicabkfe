@@ -24,7 +24,7 @@ const TCounseling = () => {
             // Set the photo in the state
             const chatDataWithPhotos = response.data.data.map(item => ({
                 ...item,
-                photo: item.photo ? `${BASE_IMAGE_URL}/${item.photo}` : profileS,
+                photo_student: item.photo_student ? `${BASE_IMAGE_URL}/${item.photo_student}` : profileS,
             }));
 
             setChatSiswa(chatDataWithPhotos);
@@ -63,7 +63,7 @@ const TCounseling = () => {
                     </span>
                 </div>
                 <div className='w-24 h-32 border mr-2'>
-                    <img src={data.photo} alt="" width={100} className='h-full w-full object-cover' />
+                    <img src={data.photo_student} alt="" width={100} className='h-full w-full object-cover' />
                 </div>
                 <div className='flex flex-col w-32'>
                     <h2 className="text-xl font-bold mb-2 overflow-hidden">
@@ -72,8 +72,8 @@ const TCounseling = () => {
                     <p className="text-lg">{data.nis}</p>
                 </div>
                 <button
-                    onClick={() => navigate(`/teacher/counseling/${data.id_student}`, {
-                        state: { id_student: data.id_student, id_conseling: data.id_conseling, name: data.student_name, nis: data.nis, photo: data.photo },
+                    onClick={() => navigate(`/teacher/counseling/chat`, {
+                        state: { id_student: data.id_student, id_conseling: data.id_conseling, name: data.student_name, nis: data.nis, photo: data.photo_student },
                     })}
                     className='ml-10 mt-auto px-3 py-1 h-fit rounded-md bg-[#B72024] text-white'
                 >

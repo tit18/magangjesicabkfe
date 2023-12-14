@@ -42,8 +42,8 @@ const THistory = () => {
 
     const formatDate = (date) => {
         const momentDate = moment(date);
-        const formattedDate = momentDate.format('DD/MM/YYYY');
-        const formattedTime = momentDate.format('HH:mm:ss');
+        const formattedDate = momentDate.format('DD/MM');
+        const formattedTime = momentDate.format('HH:mm');
         return { formattedDate, formattedTime };
     };
 
@@ -68,10 +68,10 @@ const THistory = () => {
                         <th
                             key={column.id}
                             scope="col"
-                            className={`font-poppins text-left pl-4  sm:pr-0`}
+                            className={`font-poppins text-left pl-2  sm:pr-0`}
                             style={{ width: column.width }}
                         >
-                            <span className='whitespace-nowrap md:text-base xs:text-sm'>
+                            <span className='whitespace-nowrap md:text-base xs:text-sm font-poppins'>
                                 {column.name}
                             </span>
                         </th>
@@ -84,11 +84,11 @@ const THistory = () => {
     const renderTableRow = (data) => {
         return (
             <tr key={data.id_conseling} className='space-y-1'>
-                <td className="pl-4 font-poppins md:text-base xs:text-sm">{formatDate(data.date).formattedDate}</td>
-                <td className="pl-4 font-poppins md:text-base xs:text-sm">{formatDate(data.date).formattedTime}</td>
-                <td className="pl-4 font-poppins md:text-base xs:text-sm">{data.student_name}</td>
-                <td className="pl-4 font-poppins md:text-base xs:text-sm">{data.category}</td>
-                <td className="pl-4 font-poppins md:text-base xs:text-sm">
+                <td className="pl-2 font-poppins md:text-base xs:text-sm">{formatDate(data.date).formattedDate}</td>
+                <td className="pl-2 font-poppins md:text-base xs:text-sm">{formatDate(data.date).formattedTime}</td>
+                <td className="pl-2 font-poppins md:text-base xs:text-sm">{data.student_name}</td>
+                <td className="pl-2 font-poppins md:text-base xs:text-sm">{data.category}</td>
+                <td className="pl-2 font-poppins md:text-base xs:text-sm">
                     {data.isclosed === 1 ? (
                         <span className="text-[#C0392B]">Closed</span>
                     ) : data.aproval === 1 ? (
@@ -97,7 +97,7 @@ const THistory = () => {
                         <span className="text-yellow-500">Waiting</span>
                     }
                 </td>
-                <td className="px-4 flex items-center space-x-2">
+                <td className="px-2">
                     <button
                         className="xs:px-1 xs:py-1 sm:px-1 md:px-3 lg:px-5 py-0 bg-[#6495ED] text-white rounded font-poppins"
                         onClick={() => handleResultButtonClick(data)}
@@ -113,7 +113,7 @@ const THistory = () => {
 
     const renderTable = () => {
         return (
-            <div className="table-responsive max-w-full">
+            <div className="max-w-full">
                 <table className="table table-auto text-base sticky top-0 z-10 font-poppins">
                     {renderTableHeader()}
                     <tbody>{appointments.map((item) => renderTableRow(item))}</tbody>
@@ -156,13 +156,13 @@ const THistory = () => {
     return (
         <div className="w-full h-screen bg-[#F9F9F9] overflow-hidden font-poppins">
             <NavbarTeacher />
-            <div className="overflow-y flex flex-col pt-10 py-1 sm:px-14 md:px-32 lg:px-52 gap-4 font-poppins">
-                <div className="w-full h-fit bg-white drop-shadow-lg lg:px-20 md:px-14 sm:px-0 py-12 gap-4 flex flex-col font-poppins">
+            <div className="overflow-y flex flex-col pt-5 py-1 sm:px-14 md:px-32 lg:px-52 gap-4 font-poppins">
+                <div className="w-full h-fit bg-white drop-shadow-lg lg:px-44 md:px-30 sm:px-7 xs:px-2 py-12 gap-4 flex flex-col font-poppins">
                     <h1 className="text-xl font-bold text-center">Counseling History</h1>
                     <h1 className="text-base text-center">
                         Here your last counseing history, don’t forget to give review.
                     </h1>
-                    <div className="max-h-[400px] overflow-y-auto">
+                    <div className="max-h-[400px] overflow-y-auto pt-10">
                         {renderTable()}
                     </div>
                     <Modal

@@ -93,11 +93,11 @@ const TAppointment = () => {
 
     const renderTableHeader = () => {
         const columns = [
-            { id: 'date', name: 'Date', width: '120px', },
-            { id: 'student', name: 'Student', width: '150px' },
-            { id: 'action', name: 'Action', width: '80px' },
+            { id: 'date', name: 'Date', width: '50%' },
+            { id: 'student', name: 'Student', width: '50%' },
+            { id: 'action', name: 'Action', width: '50%' }, // Adjusted width for 'Action'
         ];
-
+    
         return (
             <thead className="">
                 <tr>
@@ -105,9 +105,12 @@ const TAppointment = () => {
                         <th
                             key={column.id}
                             scope="col"
-                            className={`min-w-[${column.width}] font-poppins text-left pl-4 lg:pr-20 sm:pr-0`}
+                            className={`font-poppins text-left pl-2  sm:pr-0`}
+                            style={{ width: column.width }}
                         >
-                            {column.name}
+                            <span className='whitespace-nowrap md:text-base xs:text-sm font-poppins'>
+                                {column.name}
+                            </span>
                         </th>
                     ))}
                 </tr>
@@ -118,11 +121,11 @@ const TAppointment = () => {
     const renderTableRow = (data) => {
         return (
             <tr key={data.id_conseling} className='space-y-1'>
-                <td className="pl-4 font-poppins">{formatDateOK(data.offline.meeting_date).formattedDate}</td>
-                <td className="pl-4 font-poppins">{data.student.student_name}</td>
-                <td className="px-4 flex items-center justify-center align-middle space-x-2">
-                    <button onClick={() => handleApprove(data.id_conseling)} className="sm:px-1 md:px-3 lg:px-5 py-1 sm:text-xs md:text-sm lg:text-base bg-[#339900] text-white rounded font-poppins">Approve</button>
-                    <button onClick={() => handleReject(data.id_conseling)} className="sm:px-1 md:px-3 lg:px-5 py-1 sm:text-xs md:text-sm lg:text-base bg-[#B72024] text-white rounded font-poppins">Reject</button>
+                <td className="pl-2 font-poppins md:text-base xs:text-sm">{formatDateOK(data.offline.meeting_date).formattedDate}</td>
+                <td className="pl-2 font-poppins md:text-base xs:text-sm">{data.student.student_name}</td>
+                <td className="px-2 flex items-center justify-center align-middle space-x-2">
+                    <button onClick={() => handleApprove(data.id_conseling)} className="xs:px-1 xs:py-1 sm:px-1 md:px-3 lg:px-5 py-0 xs:text-xs md:text-sm lg:text-base bg-[#339900] text-white rounded font-poppins">Approve</button>
+                    <button onClick={() => handleReject(data.id_conseling)} className="xs:px-1 xs:py-1 sm:px-1 md:px-3 lg:px-5 py-0 xs:text-xs md:text-sm lg:text-base bg-[#B72024] text-white rounded font-poppins">Reject</button>
                 </td>
             </tr>
         );
@@ -130,18 +133,10 @@ const TAppointment = () => {
 
     const renderTable = () => {
         return (
-            <table className="max-w-[800px] table-auto text-base sticky top-0 z-10 font-poppins">
+            <table className="max-w-full table-auto text-base sticky top-0 z-10 font-poppins">
                 {renderTableHeader()}
                 <tbody>
-                    {appointments && appointments.length > 0 ? (
-                        appointments.map((item) => renderTableRow(item))
-                    ) : (
-                        <tr>
-                            <td colSpan="4" className="pl-4 font-poppins text-center">
-                                No appointments available.
-                            </td>
-                        </tr>
-                    )}
+                    {appointments.map((item) => renderTableRow(item))}
                 </tbody>
             </table>
         );
@@ -177,14 +172,14 @@ const TAppointment = () => {
     return (
         <div className="w-full h-screen bg-[#F9F9F9] overflow-y-auto font-poppins">
             <NavbarTeacher />
-            <div className="overflow-x-auto flex flex-col items-center justify-center pt-10 sm:px-14 md:px-32 lg:px-60 gap-4 font-poppins">
-                <div className="w-full h-fit bg-white drop-shadow-lg py-12 gap-4 flex flex-col items-center justify-center">
+            <div className="overflow-y flex flex-col pt-5 py-1 sm:px-14 md:px-32 lg:px-52 gap-4 font-poppins">
+                <div className="w-full h-fit bg-white drop-shadow-lg lg:px-44 md:px-30 sm:px-7 xs:px-2 py-12 gap-4 flex flex-col font-poppins">
                     <ToastContainer />
-                    <h1 className="text-xl font-bold">Appointment Request</h1>
+                    <h1 className="text-xl font-bold text-center">Appointment Request</h1>
                     <h1 className="text-base text-center">
                         The following data is a list of students who have requested appointments for offline counseling.
                     </h1>
-                    <div className="max-h-[200px] overflow-y-auto">
+                    <div className="max-h-[200px] overflow-y-auto pt-10">
                         {renderTable()}
                     </div>
                 </div>

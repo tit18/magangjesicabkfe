@@ -85,10 +85,10 @@ const AppointmentsTable = () => {
 
     const renderTableHeader = () => {
         const columns = [
-            { id: 'date', name: 'Date', width: '25%' },
-            { id: 'time', name: 'Time', width: '25%' },
+            { id: 'date', name: 'Date', width: '40%' },
+            { id: 'time', name: 'Time', width: '30%' },
             { id: 'student', name: 'Student', width: '30%' },
-            { id: 'action', name: 'Action', width: '20%' },
+            { id: 'action', name: 'Action', width: '40%' },
         ];
 
         return (
@@ -98,10 +98,12 @@ const AppointmentsTable = () => {
                         <th
                             key={column.id}
                             scope="col"
-                            className={`font-poppins text-left pl-4 lg:pr-20 sm:pr-0`}
+                            className={`font-poppins text-left pl-2  sm:pr-0`}
                             style={{ width: column.width }}
                         >
-                            {column.name}
+                            <span className='whitespace-nowrap md:text-base xs:text-sm font-poppins'>
+                                {column.name}
+                            </span>
                         </th>
                     ))}
                 </tr>
@@ -112,15 +114,15 @@ const AppointmentsTable = () => {
     const renderTableRow = (data) => {
         return (
             <tr key={data.id_conseling} className='space-y-1'>
-                <td className="pl-4 font-poppins">{formatDate(data.offline.meeting_date).formattedDate}</td>
-                <td className="pl-4 font-poppins">{formatDate(data.offline.meeting_date).formattedTime}</td>
-                <td className="pl-4 font-poppins">{data.student.student_name}</td>
-                <td className="px-4 flex items-center space-x-2">
+                <td className="pl-2 font-poppins md:text-base xs:text-sm">{formatDate(data.offline.meeting_date).formattedDate}</td>
+                <td className="pl-2 font-poppins md:text-base xs:text-sm">{formatDate(data.offline.meeting_date).formattedTime}</td>
+                <td className="pl-2 font-poppins md:text-base xs:text-sm">{data.student.student_name}</td>
+                <td className="px-2 flex items-center space-x-2">
                     <button
-                        className="sm:px-1 md:px-3 lg:px-5 sm:py-0 lg:py-1 bg-[#6495ED] text-white rounded font-poppins"
+                        className="xs:px-1 xs:py-1 sm:px-1 md:px-3 lg:px-5 py-0 bg-[#6495ED] text-white rounded font-poppins"
                         onClick={() => handleResultButtonClick(data)}
                     >
-                        <h1 className='sm:text-xs md:text-sm lg:text-base'>
+                        <h1 className='xs:text-xs md:text-sm lg:text-base'>
                             Result
                         </h1>
                     </button>
@@ -131,8 +133,8 @@ const AppointmentsTable = () => {
 
     const renderTable = () => {
         return (
-            <div className="table-responsive max-w-full overflow-x-auto">
-                <table className="table text-base sticky top-0 z-10 font-poppins">
+            <div className="max-w-full">
+                <table className="table table-auto text-base sticky top-0 z-10 font-poppins justify-between">
                     {renderTableHeader()}
                     <tbody>{appointments.map((item) => renderTableRow(item))}</tbody>
                 </table>
@@ -168,13 +170,12 @@ const AppointmentsTable = () => {
 
 
     return (
-        <div className="w-full h-fit bg-white drop-shadow-lg py-12 gap-4 flex flex-col items-center justify-center font-poppins">
-            <ToastContainer />
-            <h1 className="text-xl font-bold">Counseling Data</h1>
+        <div className="w-full h-fit bg-white drop-shadow-lg lg:px-44 md:px-30 sm:px-7 xs:px-2 py-12 gap-4 flex flex-col font-poppins">
+            <h1 className="text-xl font-bold text-center">Counseling Data</h1>
             <h1 className="text-base text-center">
                 The following data is a list of students who have requested appointments for offline counseling.
             </h1>
-            <div className="max-h-[200px] overflow-y-auto">
+            <div className="max-h-[200px] overflow-y-auto pt-5">
                 {renderTable()}
             </div>
             <Modal
