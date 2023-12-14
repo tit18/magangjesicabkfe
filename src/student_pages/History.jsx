@@ -111,6 +111,7 @@ const SHistory = () => {
             { id: 'time', name: 'Time', width: '150px' },
             { id: 'teacher', name: 'Teacher', width: '120px' },
             { id: 'category', name: 'category', width: '120px' },
+            { id: 'rating', name: 'rating', width: '120px' },
             { id: 'status', name: 'Status', width: '120px' },
             { id: 'action', name: 'Action', width: '80px' },
         ];
@@ -139,6 +140,7 @@ const SHistory = () => {
                 <td className="pl-4 font-poppins">{formatDate(data.date).formattedTime}</td>
                 <td className="pl-4 font-poppins">{data.teacher_name}</td>
                 <td className="pl-4 font-poppins">{data.category}</td>
+                <td className="pl-4 font-poppins">{data.rating || "-"}</td>
                 <td className="pl-4 font-poppins">{data.isclosed === 1 ? 'Closed' : 'Approved'}</td>
                 <td className="px-4 flex items-center space-x-2">
                     <button

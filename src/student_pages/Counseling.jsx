@@ -94,6 +94,7 @@ const SCounseling = () => {
             if(response.data.status === true){
                 toast.success('Add New Counseling Success')
                 fetchSession()
+                navigate(0)
             } else {
                 
                 toast.error(response.data.message)
@@ -222,7 +223,7 @@ const SCounseling = () => {
 
                                 <div className='mt-auto space-x-2 pt-2 flex'>
                                     <button className='px-4 py-1 bg-[#C0392B] text-white rounded' onClick={closeModal}>Close</button>
-                                    <button className='px-4 py-1 bg-[#27AE60] text-white rounded' onClick={closeModal} type='submit'>Save</button>
+                                    <button className='px-4 py-1 bg-[#27AE60] text-white rounded'  type='submit'>Save</button>
                                 </div>
 
                             </form>
