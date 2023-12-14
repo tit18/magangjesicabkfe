@@ -1,6 +1,6 @@
 // ChatPage.js
 import React, { useState, useEffect, useRef } from 'react';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate, Navigate } from 'react-router-dom';
 import Modal from 'react-modal';
 import NavbarTeacher from '../components/General/NavbarTeacher';
 import send from '../components/icon/send-icon.svg';
@@ -19,6 +19,8 @@ const TChatPage = () => {
     const [chatStudent, setChatStudent] = useState([]);
     const [isModalOpen, setIsModalOpen] = useState(false);
     const messagesEndRef = useRef(null);
+
+
 
     useEffect(() => {
         const fetchchatstudent = async () => {
@@ -52,6 +54,10 @@ const TChatPage = () => {
         // Clean up interval on component unmount
         return () => clearInterval(intervalId);
     }, [state, state?.id_conseling]);  // Use optional chaining to avoid errors if state is null or undefined
+
+    if (!state) {
+        return <Navigate to="/teacher/counseling" state={{ from: location }} replace />
+    }
 
     const handleSubmit = async (e) => {
         e.preventDefault();
