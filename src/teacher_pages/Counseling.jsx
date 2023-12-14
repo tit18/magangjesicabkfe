@@ -84,10 +84,10 @@ const TCounseling = () => {
     }
 
     return (
-        <div className="w-full h-full bg-[#F9F9F9] overflow-hidden font-poppins">
+        <div className="w-full min-h-screen bg-[#F9F9F9] overflow-hidden font-poppins">
             <NavbarTeacher />
             <div className="overflow-x-auto overflow-y flex flex-col items-center justify-center pt-10 gap-4 font-poppins">
-                <div className="w-full h-fit bg-[#F9F9F9] shadow-lg py-1 gap-4 flex flex-col items-center justify-center">
+                <div className="w-full bg-[#F9F9F9] shadow-lg py-1 gap-4 flex flex-col items-center justify-center">
                     <h1 className="text-3xl font-bold font-poppins text-center">CURHApps Online Counseling</h1>
                     <p className="text-base font-poppins text-center">
                         Here is a list of students waiting for online counseling; please respond as soon as possible.
