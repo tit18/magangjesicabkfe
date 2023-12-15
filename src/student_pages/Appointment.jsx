@@ -41,7 +41,7 @@ const SAppointment = () => {
     //const tokeen = sessionStorage.getItem('tokeen')
 
     const [formData, setFormData] = useState({
-        id_student: Number(idStudent),
+        id_student: Number(nis),
         student_name: studentname,
         id_teacher: teachers.id_teacher,
         meeting_date: '',
@@ -119,7 +119,7 @@ const SAppointment = () => {
                         <form className="space-y-3" onSubmit={handleSubmit}>
                             <div>
                                 <label htmlFor="id_student" className="text-[#B72024] font-sans">
-                                    Student ID
+                                    Student NIS
                                 </label>
                                 <input
                                     value={formData.id_student}

@@ -166,7 +166,7 @@ const SCounseling = () => {
                 <img src={iconAdd} alt="Add" style={{ fill: 'green' }} width={50} />
             </button>
             <div className="text-center mt-4 text-xs font-normal text-gray-500 font-Poppins">
-                © {new Date().getFullYear()} Copyright CURHApps All Rights Reserved.
+                {/* © {new Date().getFullYear()} Copyright CURHApps All Rights Reserved. */}
             </div>
             <Modal
                         isOpen={isModalOpen}

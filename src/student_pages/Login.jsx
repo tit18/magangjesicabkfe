@@ -69,7 +69,7 @@ export default function SLogin() {
             <div className="w-full max-w-lg p-6  h-fit bg-white rounded-2xl shadow-md pb-20">
                 <img src={icon} alt="Telkom Schools Logo" className="mx-auto w-[50px] h-[50px]" />
                 <div className="block mb-3 text-center text-black text-base font-medium font-poppins ">SMK TELKOM MALANG</div>
-                <div className="block mb-2 text-center text-black text-base font-medium font-poppins ">CURHApps student</div>
+                <div className="block mb-2 text-center text-black text-base font-medium font-poppins ">CURHApps Student</div>
                 <form className="space-y-6" onSubmit={handleLogin}>
                     <div>
                         <label htmlFor="nis" className="block mb-2 text-[#B72024] font-sans">

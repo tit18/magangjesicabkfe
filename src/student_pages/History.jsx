@@ -114,8 +114,8 @@ const SHistory = () => {
             { id: 'date', name: 'Date', width: '20%' },
             { id: 'time', name: 'Time', width: '20%' },
             { id: 'teacher', name: 'Teacher', width: '20%' },
-            { id: 'category', name: 'category', width: '20%' },
-            { id: 'rating', name: 'rating', width: '20%' },
+            { id: 'category', name: 'Category', width: '20%' },
+            { id: 'rating', name: 'Rating', width: '20%' },
             { id: 'status', name: 'Status', width: '20%' },
             { id: 'action', name: 'Action', width: '20%' },
         ];
