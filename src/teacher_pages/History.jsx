@@ -87,14 +87,20 @@ const THistory = () => {
                 <td className="pl-2 font-poppins md:text-base xs:text-sm">{formatDate(data.date).formattedDate}</td>
                 <td className="pl-2 font-poppins md:text-base xs:text-sm">{formatDate(data.date).formattedTime}</td>
                 <td className="pl-2 font-poppins md:text-base xs:text-sm">{data.student_name}</td>
-                <td className="pl-2 font-poppins md:text-base xs:text-sm">{data.category}</td>
+                <td className="pl-2 font-poppins md:text-base xs:text-sm">
+                    {data.category === "online" ? (
+                        <span className="inline-flex items-center rounded-md bg-green-50 px-2 py-1 text-xs font-medium text-green-700 ring-1 ring-inset ring-green-600/20">online</span>
+                    ) :
+                        <span className="inline-flex items-center rounded-md bg-blue-50 px-2 py-1 text-xs font-medium text-blue-700 ring-1 ring-inset ring-blue-700/10">offline</span>
+                    }
+                </td>
                 <td className="pl-2 font-poppins md:text-base xs:text-sm">
                     {data.isclosed === 1 ? (
-                        <span className="text-[#C0392B]">Closed</span>
+                        <span className="inline-flex items-center rounded-md bg-red-50 px-2 py-1 text-xs font-medium text-red-700 ring-1 ring-inset ring-red-600/10">Closed</span>
                     ) : data.aproval === 1 ? (
-                        <span className="text-[#27AE60]">Approved</span>
+                        <span className="inline-flex items-center rounded-md bg-green-50 px-2 py-1 text-xs font-medium text-green-700 ring-1 ring-inset ring-green-600/20">Approved</span>
                     ) :
-                        <span className="text-yellow-500">Waiting</span>
+                        <span className="inline-flex items-center rounded-md bg-yellow-50 px-2 py-1 text-xs font-medium text-yellow-800 ring-1 ring-inset ring-yellow-600/20">Waiting</span>
                     }
                 </td>
                 <td className="px-2">

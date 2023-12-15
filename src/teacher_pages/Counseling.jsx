@@ -100,8 +100,8 @@ const TCounseling = () => {
                                 chatSiswa.map((item) => cardStudent(item))
                             ) : (
                                 <tr>
-                                    <td colSpan="4" className="pl-4 font-poppins text-center">
-                                        No appointments available.
+                                    <td colSpan="4" className="pl-4 font-poppins border border-1 text-center">
+                                        No Counseling Available.
                                     </td>
                                 </tr>
                             )}

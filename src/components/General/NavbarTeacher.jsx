@@ -74,7 +74,7 @@ const Navbar = () => {
                                 className={`block h-6 w-6 ${isNavOpen ? "hidden" : "block"}`}
                                 fill="none"
                                 viewBox="0 0 24 24"
-                                stroke-width="1.5"
+                                strokeWidth="1.5"
                                 stroke="currentColor"
                                 aria-hidden="true"
                             >
@@ -84,7 +84,7 @@ const Navbar = () => {
                                 className={`hidden h-6 w-6 ${isNavOpen ? "block" : "hidden"}`}
                                 fill="none"
                                 viewBox="0 0 24 24"
-                                stroke-width="1.5"
+                                strokeWidth="1.5"
                                 stroke="currentColor"
                                 aria-hidden="true"
                             >
