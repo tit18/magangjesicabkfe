@@ -133,11 +133,19 @@ const AppointmentsTable = () => {
 
     const renderTable = () => {
         return (
-            <div className="max-w-full">
-                <table className="table table-auto text-base sticky top-0 z-10 font-poppins justify-between">
-                    {renderTableHeader()}
-                    <tbody>{appointments.map((item) => renderTableRow(item))}</tbody>
-                </table>
+            <div>
+                {appointments && appointments.length > 0 ? (
+                    <table className="max-w-full table-auto text-base sticky top-0 z-10 font-poppins">
+                        {renderTableHeader()}
+                        <tbody>
+                            {appointments.map((item) => renderTableRow(item))}
+                        </tbody>
+                    </table>
+                ) : (
+                    <div className="text-center w-full bg-blue-100 py-3 rounded-lg ring-1 ring-inset ring-blue-600/20">
+                        <span className='font-semibold text-blue-600'>No Offline Counseling Available</span>
+                    </div>
+                )}
             </div>
         );
     };

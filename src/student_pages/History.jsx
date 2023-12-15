@@ -113,9 +113,9 @@ const SHistory = () => {
         const columns = [
             { id: 'date', name: 'Date', width: '20%' },
             { id: 'time', name: 'Time', width: '20%' },
-            { id: 'teacher', name: 'Teacher', width: '20%x' },
+            { id: 'teacher', name: 'Teacher', width: '20%' },
             { id: 'category', name: 'category', width: '20%' },
-            { id: 'rating', name: 'rating', width: '5%' },
+            { id: 'rating', name: 'rating', width: '20%' },
             { id: 'status', name: 'Status', width: '20%' },
             { id: 'action', name: 'Action', width: '20%' },
         ];
@@ -127,7 +127,7 @@ const SHistory = () => {
                         <th
                             key={column.id}
                             scope="col"
-                            className={`min-w-[${column.width}] font-poppins text-left pl-4 lg:pr-20 sm:pr-0`}
+                            className={`min-w-[${column.width}] font-poppins text-left pl-2 lg:pr-20 sm:pr-0`}
                         >
                             {column.name}
                         </th>

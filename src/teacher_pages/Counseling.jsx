@@ -94,17 +94,13 @@ const TCounseling = () => {
                     </p>
                     {loading && <p className="text-center">Loading...</p>}
                     {error && <p className="text-center">Error: {error.message}</p>}
-                    {!loading && !error && (
+                    {chatSiswa && chatSiswa.length > 0 ? (
                         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-10 pt-10">
-                            {chatSiswa && chatSiswa.length > 0 ? (
-                                chatSiswa.map((item) => cardStudent(item))
-                            ) : (
-                                <tr>
-                                    <td colSpan="4" className="pl-4 font-poppins border border-1 text-center">
-                                        No Counseling Available.
-                                    </td>
-                                </tr>
-                            )}
+                            {chatSiswa.map((item) => cardStudent(item))}
+                        </div>
+                    ) : (
+                        <div className="text-center w-7/12 bg-green-100 py-3 rounded-lg ring-1 ring-inset ring-green-600/20">
+                            <span className='font-semibold text-green-600'>No Counseling Available</span>
                         </div>
                     )}
                 </div>

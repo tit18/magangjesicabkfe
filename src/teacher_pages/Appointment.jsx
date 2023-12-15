@@ -97,7 +97,7 @@ const TAppointment = () => {
             { id: 'student', name: 'Student', width: '50%' },
             { id: 'action', name: 'Action', width: '50%' }, // Adjusted width for 'Action'
         ];
-    
+
         return (
             <thead className="">
                 <tr>
@@ -133,14 +133,23 @@ const TAppointment = () => {
 
     const renderTable = () => {
         return (
-            <table className="max-w-full table-auto text-base sticky top-0 z-10 font-poppins">
-                {renderTableHeader()}
-                <tbody>
-                    {appointments.map((item) => renderTableRow(item))}
-                </tbody>
-            </table>
+            <div>
+                {appointments && appointments.length > 0 ? (
+                    <table className="max-w-full table-auto text-base sticky top-0 z-10 font-poppins">
+                        {renderTableHeader()}
+                        <tbody>
+                            {appointments.map((item) => renderTableRow(item))}
+                        </tbody>
+                    </table>
+                ) : (
+                    <div className="text-center w-full bg-green-100 py-3 rounded-lg ring-1 ring-inset ring-green-600/20">
+                        <span className='font-semibold text-green-600'>No Appointment Available</span>
+                    </div>
+                )}
+            </div>
         );
     };
+    
 
 
     useEffect(() => {
